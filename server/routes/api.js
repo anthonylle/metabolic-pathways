@@ -20,11 +20,11 @@ const mainDB = 'MEAN'
 const mongoURI = 'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m';
 const mainDB = 'heroku_1lnxd10m';
 
-router.use(bodyParser.json());
+//router.use(bodyParser.json());
 
 // Connect
 const connection = function(closure) {
-  return MongoClient.connect(mongoURI, function(err, db) {//'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m', function(err, db) {
+  return MongoClient.connect(mongoURI, function(err, db) {
     if (err) return console.log(err);
     const dbo = db.db(mainDB);
     closure(dbo);
@@ -79,7 +79,7 @@ const storage = new GridFsStorage({
         if (err) {
           return reject(err);
         }
-        const filename = buf.toString('hex') + path.extname(file.originalname);
+        const filename = file.originalname;//buf.toString('hex') + path.extname(file.originalname);
         const fileInfo = {
           filename: filename,
           bucketName: 'uploads'
@@ -92,13 +92,11 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage });
 
-
 // @route POST upload
 // @description Uploads file to DB
 router.post('/upload', upload.single('file'), (req, res) => {
   res.json({file: req.file});
 });
-
 
 // @route GET /files
 // @description display all files in json
@@ -114,9 +112,6 @@ router.get('/files', (req, res) => {
     return res.json(files);
   });
 });
-
-
-
 
 // Export this module
 module.exports = router;

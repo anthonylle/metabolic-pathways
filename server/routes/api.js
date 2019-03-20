@@ -10,14 +10,23 @@ const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 
-const mongoURI = 'mongodb://localhost:27017/MEAN';//'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m';
+/*
+const mongoURI = 'mongodb://localhost:27017/MEAN';//
+const mainDB = 'MEAN'
+*/
+
+// connection from mongodb console
+//    mongo ds137291.mlab.com:37291/heroku_1lnxd10m -u heroku_1lnxd10m -p h16ioa5tul5q9ofvae2onnb00
+const mongoURI = 'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m';
+const mainDB = 'heroku_1lnxd10m';
+
 router.use(bodyParser.json());
 
 // Connect
 const connection = function(closure) {
   return MongoClient.connect(mongoURI, function(err, db) {//'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m', function(err, db) {
     if (err) return console.log(err);
-    const dbo = db.db('MEAN');
+    const dbo = db.db(mainDB);
     closure(dbo);
   });
 };
@@ -86,7 +95,7 @@ const upload = multer({ storage });
 
 // @route POST upload
 // @description Uploads file to DB
-router.post('/upload', upload.single('files'), (req, res) => {
+router.post('/upload', upload.single('file'), (req, res) => {
   res.json({file: req.file});
 });
 

@@ -8,6 +8,8 @@ const routes: Routes = [
   {path: '', component: LandingpageComponent},
   {path: 'homepage', component: HomepageComponent},
   {path: 'adminbase', component: AdminbaseComponent},
+  {path: 'login', component: LandingpageComponent},
+  {path: 'signup', component: LandingpageComponent},
   {path: '**', pathMatch: 'full', redirectTo: ''}
 ];
 

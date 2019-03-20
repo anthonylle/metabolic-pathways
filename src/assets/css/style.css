@@ -83,6 +83,18 @@ h4 {
 	padding-bottom: 2%;
 }
 
+.bg-img-section2 {
+	background: linear-gradient(rgba(0, 0, 0, .60), rgba(0, 0, 0, .55)), url('../images/fractal.gif') no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	margin: 0;
+	min-height: 95vh;
+	padding-top: 1%;
+	padding-bottom: 0%;
+}
+
 .no-img-section {
 	min-height: 100vh;
 	background-color: transparent;

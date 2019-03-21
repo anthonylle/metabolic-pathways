@@ -17,8 +17,10 @@ const mainDB = 'MEAN'
 
 // connection from mongodb console
 //    mongo ds137291.mlab.com:37291/heroku_1lnxd10m -u heroku_1lnxd10m -p h16ioa5tul5q9ofvae2onnb00
+
 const mongoURI = 'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m';
 const mainDB = 'heroku_1lnxd10m';
+
 
 //router.use(bodyParser.json());
 

@@ -22,7 +22,7 @@ app.use('/api', api);
 
 // Send all other request to the Angular app
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './test.html'));//"./test.html"));//
+  res.sendFile(path.join(__dirname, 'dist/metabolic-pathways/index.html'));//"./test.html"));//
 });
 
 // Initialize the server

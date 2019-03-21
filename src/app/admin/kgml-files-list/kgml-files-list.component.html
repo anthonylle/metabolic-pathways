@@ -1,0 +1,18 @@
+<!--table>
+  <thead>
+    <th scope="col">File</th>
+    <th scope="col">Timestamp</th>
+    <th scope="col">Content type</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let file of files">
+      <td>{{file.filename}}</td>
+      <td>{{file.uploadDate}}</td>
+      <td>{{file.contentType}}</td>
+    </tr>
+
+  </tbody>
+</table-->
+<ul *ngFor="let file of files">
+  <li>File name: {{file.filename}}</li>
+</ul>

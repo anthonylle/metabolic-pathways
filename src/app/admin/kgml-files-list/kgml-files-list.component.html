@@ -13,6 +13,45 @@
 
   </tbody>
 </table-->
-<ul *ngFor="let file of files">
-  <li>File name: {{file.filename}}</li>
-</ul>
+
+<header>
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#top-nav">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#home">Pathways</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<body class="mainPanel">
+
+  <ul class="myList" *ngFor="let file of files">
+    <li class="alert alert-success">File name: {{file.filename}} | Uploaded: {{file.uploadDate}}</li>
+  </ul>
+
+  <span class="btn btn-default btn-file myButton"> Upload KGML File
+    <input data-error="The pathway is required."
+           required
+           class="form-control"
+           type="file"
+           ng-model="pathway1"
+           ngf-select
+           ngf-pattern="'text/xml'"
+           accept="text/xml"
+           ngf-max-size="20MB">
+  </span>
+  <form>
+    <div class="form-group">
+      <label for="exampleFormControlFile1">Example file input</label>
+      <input type="file" class="form-control-file" id="exampleFormControlFile1">
+    </div>
+  </form>
+
+</body>
+

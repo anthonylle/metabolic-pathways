@@ -16,7 +16,7 @@ export class HomepageComponent implements OnInit {
     //effects.js
     $(document).ready(function() {
       $(".navbar a").on('click', function(event) {
-        if (this.hash !== "") {
+        /*if (this.hash !== "") {
           event.preventDefault();
           var hash = this.hash;
           $('html, body').animate({
@@ -24,7 +24,7 @@ export class HomepageComponent implements OnInit {
           }, 900, function() {
             window.location.hash = hash;
           });
-        }
+        }*/
       });
     
       $(window).scroll(function() {

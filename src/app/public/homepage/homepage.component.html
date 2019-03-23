@@ -25,17 +25,8 @@
 										<h4>Pathway 1 <span class="h6" style="color:grey;">(KEGG KGML - .xml file)</span></h4>
 										<div class="input-group">
 											<span class="input-group-btn">
-												<span class="btn btn-default btn-file">
-													Browse.. <input
-													data-error="The pathway is required."
-													required
-													class="form-control"
-													type="file"
-													ng-model="pathway1"
-													ngf-select
-													ngf-pattern="'text/xml'"
-													accept="text/xml"
-													ngf-max-size="20MB">
+												<span class="btn btn-default btn-file">Browse.. 
+													<input type="file" (change)="onArchivoSeleccionado($event)">
 												</span>
 											</span>
 											<input type="text" class="form-control pathway-name" readonly>
@@ -89,3 +80,20 @@
 			<p>&copy; Metabolic Pathways {{anio}}</p>
 		</div>
 	</footer>
+	<script>
+			jQuery(function($) {
+				$('#form_addjts').submit(function(){
+					writeToFile({
+						id: $(this).find('.id').val(), 
+						content: $(this).find('.content').val()
+					});
+					return false;
+				}); 
+				function writeToFile(data){
+					var fso = new ActiveXObject("Scripting.FileSystemObject");
+					var fh = fso.OpenTextFile("D:\\data.txt", 8);
+					fh.WriteLine(data.id + ',' + data.content);
+					fh.Close(); 
+				} 
+			}); 
+		</script>

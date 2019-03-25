@@ -10,28 +10,26 @@ const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 
+/*
 const mongoURI = 'mongodb://localhost:27017/MEAN';//
 const mainDB = 'MEAN'
+*/
 
 // connection from mongodb console
 //    mongo ds137291.mlab.com:37291/heroku_1lnxd10m -u heroku_1lnxd10m -p h16ioa5tul5q9ofvae2onnb00
-
-/*
 const mongoURI = 'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m';
 const mainDB = 'heroku_1lnxd10m';
-*/
-
 
 //router.use(bodyParser.json());
 
 // Connect
-const connection = function(closure) {
+/*const connection = function(closure) {
   return MongoClient.connect(mongoURI, function(err, db) {
     if (err) return console.log(err);
     const dbo = db.db(mainDB);
     closure(dbo);
   });
-};
+};*/
 
 // Error handling
 const sendError = (err, res) => {
@@ -48,7 +46,7 @@ let response = {
 };
 
 // Get users
-router.get('/users', (req, res) => {
+/*router.get('/users', (req, res) => {
   connection((dbo) => {
     dbo.collection('users')
       .find()
@@ -61,7 +59,7 @@ router.get('/users', (req, res) => {
         sendError(err, res);
       });
   });
-});
+});*/
 
 // just another connection using the mongoose controller
 // TODO check if this collapses while trying to access the DB by using both MongoClient and mongoose
@@ -94,6 +92,15 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage });
 
+router.get('/users', (req, res) =>{
+  conn.db.collection('users', function (err, collection) {
+    collection.find({}).toArray(function(err, data){
+      response.data = data;
+      res.json(response);
+    })
+  });
+});
+
 // @route POST upload
 // @description Uploads file to DB
 router.post('/upload', upload.single('file'), (req, res) => {
@@ -111,9 +118,28 @@ router.get('/files', (req, res) => {
       });
     }
     // Files exists
-    return res.json(files);
+    response.data = files;
+    return res.json(response);//response);//files);
   });
 });
+
+// @route DELETE //file
+router.delete('/delete/:filename', (req, res) =>{
+  const filename = req.params.filename;
+  conn.db.collection('files', function(err, collection) {
+    if (err){
+      res.send(err);
+    }else{
+      collection.deleteOne({filename: filename}).toArray(function(err, data){
+        if (err)
+          res.send(err);
+        else
+          res.send(data);
+      });
+    }
+  });
+});
+
 
 // Export this module
 module.exports = router;

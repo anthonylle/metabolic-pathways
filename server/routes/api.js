@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const path = require('path');
 const crypto = require('crypto');
@@ -9,27 +8,18 @@ const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
+const spawn = require("child_process").spawn;
 
-/*
+
 const mongoURI = 'mongodb://localhost:27017/MEAN';//
 const mainDB = 'MEAN'
-*/
 
 // connection from mongodb console
 //    mongo ds137291.mlab.com:37291/heroku_1lnxd10m -u heroku_1lnxd10m -p h16ioa5tul5q9ofvae2onnb00
-const mongoURI = 'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m';
-const mainDB = 'heroku_1lnxd10m';
+// const mongoURI = 'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m';
+// const mainDB = 'heroku_1lnxd10m';
 
 //router.use(bodyParser.json());
-
-// Connect
-/*const connection = function(closure) {
-  return MongoClient.connect(mongoURI, function(err, db) {
-    if (err) return console.log(err);
-    const dbo = db.db(mainDB);
-    closure(dbo);
-  });
-};*/
 
 // Error handling
 const sendError = (err, res) => {
@@ -61,8 +51,6 @@ let response = {
   });
 });*/
 
-// just another connection using the mongoose controller
-// TODO check if this collapses while trying to access the DB by using both MongoClient and mongoose
 const conn = mongoose.createConnection(mongoURI);
 let gfs;
 
@@ -119,7 +107,7 @@ router.get('/files', (req, res) => {
     }
     // Files exists
     response.data = files;
-    return res.json(response);//response);//files);
+    return res.json(files);//response);//files);
   });
 });
 
@@ -140,6 +128,29 @@ router.delete('/delete/:filename', (req, res) =>{
   });
 });
 
+// function attached to
+const callPython = function(args){
+  return new Promise(function(success, nosuccess) {
+
+    const { spawn } = require('child_process');
+    const pyprog = spawn('python', args);
+
+    pyprog.stdout.on('data', function(data) {
+      success(data);
+    });
+
+    pyprog.stderr.on('data', (data) => {
+      nosuccess(data);
+    });
+  });
+};
+
+router.get('/python/', (req, res) => {
+  callPython(['./python/example.py']).then(fromCallBack => {
+    console.log(fromCallBack.toString());
+    res.end(fromCallBack);
+  });
+});
 
 // Export this module
 module.exports = router;

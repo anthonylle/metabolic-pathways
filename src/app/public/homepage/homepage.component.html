@@ -7,85 +7,93 @@
 		</div>
 	</nav>
 </header>
-<main>
+<main class="menuprincipal">
 	<div id="home" class="jumbotron intro bg-img-section">
 		<div class="container brand">
 			<h1>Metabolic Pathways</h1>
 		</div>
 	</div>
 	<div id="processing" class="container no-img-section">
-			<div class="row">
-				<form class="file-form" role="form" data-toggle="validator" ng-submit="process()">
-					<div>
-						<div class="row">
-							<div class="col-md-5">
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<h4>Pathway 1 <span class="h6" style="color:grey;">(KEGG KGML - .xml file)</span></h4>
-											<div class="input-group">
-												<span class="input-group-btn">
-													<span class="btn btn-default btn-file">
-														Browse.. <input
-																	data-error="The pathway is required."
-																	required
-																	class="form-control"
-																	type="file"
-																	ng-model="pathway1"
-																	ngf-select
-																	ngf-pattern="'text/xml'"
-																	accept="text/xml"
-																	ngf-max-size="20MB">
-													</span>
+		<div class="row">
+			<form class="file-form" role="form" data-toggle="validator" ng-submit="process()">
+				<div>
+					<div class="row">
+						<div class="col-md-5">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<h4>Pathway 1 <span class="h6" style="color:grey;">(KEGG KGML - .xml file)</span></h4>
+										<div class="input-group">
+											<span class="input-group-btn">
+												<span class="btn btn-default btn-file">Browse.. 
+													<input type="file" (change)="onArchivoSeleccionado($event)">
 												</span>
-												<input type="text" class="form-control pathway-name" readonly>
-											</div>
-											<div class="help-block with-errors"></div>
+											</span>
+											<input type="text" class="form-control pathway-name" readonly>
 										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<h4>Pathway 2 <span class="h6" style="color:grey;">(KEGG KGML - .xml file)</span></h4>
-											<div class="input-group">
-												<span class="input-group-btn">
-													<span class="btn btn-default btn-file">
-														Browse.. <input
-																	data-error="The pathway is required."
-																	required
-																	class="form-control"
-																	type="file"
-																	ng-model="pathway2"
-																	ngf-select
-																	ngf-pattern="'text/xml'"
-																	accept="text/xml"
-																	ngf-max-size="20MB">
-													</span>
-												</span>
-												<input type="text" class="form-control pathway-name" readonly>
-											</div>
-											<div class="help-block with-errors"></div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-6">
-										<input type="submit" class="btn btn-success" value="Process Pathways">
+										<div class="help-block with-errors"></div>
 									</div>
 								</div>
 							</div>
-							<br>
-							<div id="output" class="col-md-7"></div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<h4>Pathway 2 <span class="h6" style="color:grey;">(KEGG KGML - .xml file)</span></h4>
+										<div class="input-group">
+											<span class="input-group-btn">
+												<span class="btn btn-default btn-file">
+													Browse.. <input
+													data-error="The pathway is required."
+													required
+													class="form-control"
+													type="file"
+													ng-model="pathway2"
+													ngf-select
+													ngf-pattern="'text/xml'"
+													accept="text/xml"
+													ngf-max-size="20MB">
+												</span>
+											</span>
+											<input type="text" class="form-control pathway-name" readonly>
+										</div>
+										<div class="help-block with-errors"></div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<input type="submit" class="btn btn-success" value="Process Pathways">
+								</div>
+							</div>
 						</div>
+						<br>
+						<div id="output" class="col-md-7"></div>
 					</div>
-				</form>
-			</div>
+				</div>
+			</form>
 		</div>
+	</div>
 	</main>
-	<footer>
+	<footer class="menuprincipal">
 		<div class="container">
 			<hr>
 			<p>&copy; Metabolic Pathways {{anio}}</p>
 		</div>
 	</footer>
+	<script>
+			jQuery(function($) {
+				$('#form_addjts').submit(function(){
+					writeToFile({
+						id: $(this).find('.id').val(), 
+						content: $(this).find('.content').val()
+					});
+					return false;
+				}); 
+				function writeToFile(data){
+					var fso = new ActiveXObject("Scripting.FileSystemObject");
+					var fh = fso.OpenTextFile("D:\\data.txt", 8);
+					fh.WriteLine(data.id + ',' + data.content);
+					fh.Close(); 
+				} 
+			}); 
+		</script>

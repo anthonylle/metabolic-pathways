@@ -34,8 +34,8 @@ if __name__ == '__main__':
     # ELIMINAR VARIABLE 'ARGUMENTS', NO ES NECESARIA CON LA CONEXIÓN.
     # Change with the way it needs to be done for node
     # Third argument is algorithm selected
-    arguments = ["C:/Users/Bvarg/Downloads/ko00010.xml"
-                ,"C:/Users/Bvarg/Downloads/cit00710.xml"
+    arguments = ["ko00010.xml"
+                ,"hsa04911.xml"
                 ,'1']
 
     # Two pathways were given.

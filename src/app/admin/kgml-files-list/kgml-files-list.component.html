@@ -1,0 +1,99 @@
+<!--table>
+  <thead>
+    <th scope="col">File</th>
+    <th scope="col">Timestamp</th>
+    <th scope="col">Content type</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let file of files">
+      <td>{{file.filename}}</td>
+      <td>{{file.uploadDate}}</td>
+      <td>{{file.contentType}}</td>
+    </tr>
+
+  </tbody>
+</table-->
+
+<header>
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#top-nav">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#home">Pathways</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<body class="mainPanel">
+
+  <!-- Upload Button -->
+  <span class="btn btn-default btn-file myButton"> Upload KGML File
+    <input data-error="The pathway is required."
+           required
+           class="form-control"
+           type="file"
+           ng-model="pathway1"
+           ngf-select
+           ngf-pattern="'text/xml'"
+           accept="text/xml"
+           ngf-max-size="20MB">
+  </span>
+
+  <!-- Upload Button /-->
+
+  <div class="mat-elevation-z8">
+    <mat-table [dataSource]="filesData">
+
+      <ng-container matColumnDef="File Name">
+        <mat-header-cell *matHeaderCellDef>File Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.filename|json}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Upload Date">
+        <mat-header-cell *matHeaderCellDef>Upload Date</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.uploadDate|json}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Actions">
+        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button><mat-icon>edit</mat-icon></button>
+          <button mat-icon-button color="primary"><mat-icon>delete_outline</mat-icon></button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"> </mat-header-row>
+      <mat-row *matRowDef="let row, columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+
+  <!--ul class="myList" *ngFor="let file of files">
+    <li class="alert alert-success">File name: {{file.filename}} | Uploaded: {{file.uploadDate}}</li>
+  </ul>
+
+  <span class="btn btn-default btn-file myButton"> Upload KGML File
+    <input data-error="The pathway is required."
+           required
+           class="form-control"
+           type="file"
+           ng-model="pathway1"
+           ngf-select
+           ngf-pattern="'text/xml'"
+           accept="text/xml"
+           ngf-max-size="20MB">
+  </span -->
+
+
+  <!--  DONT for now -->
+  <!--form>
+    <div class="form-group">
+      <label for="exampleFormControlFile1">Example file input</label>
+      <input type="file" class="form-control-file" id="exampleFormControlFile1">
+    </div>
+  </form-->
+
+</body>
+

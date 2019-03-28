@@ -129,7 +129,7 @@ router.delete('/delete/:filename', (req, res) =>{
 });
 
 // function attached to
-const callPython = function(args){
+const callPython = function(args){ //['path', args...]
   return new Promise(function(success, nosuccess) {
 
     const { spawn } = require('child_process');

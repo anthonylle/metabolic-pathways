@@ -133,7 +133,7 @@ const callPython = function(args){
   return new Promise(function(success, nosuccess) {
 
     const { spawn } = require('child_process');
-    const pyprog = spawn('python', args);
+    const pyprog = spawn('python', args); //args [path]
 
     pyprog.stdout.on('data', function(data) {
       success(data);
@@ -146,9 +146,11 @@ const callPython = function(args){
 };
 
 router.get('/python/', (req, res) => {
-  callPython(['./python/example.py']).then(fromCallBack => {
+  callPython(['./python/NewMain.py', 'ko00010.xml', 'hsa00260.xml', '1']).then(fromCallBack => {
     console.log(fromCallBack.toString());
     res.end(fromCallBack);
+  }).catch(err => {
+    res.end(err);
   });
 });
 

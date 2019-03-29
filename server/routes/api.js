@@ -9,6 +9,7 @@ const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 const spawn = require("child_process").spawn;
+const fs = require("fs");
 
 
 //const mongoURI = 'mongodb://localhost:27017/MEAN';//
@@ -18,8 +19,6 @@ const spawn = require("child_process").spawn;
 //    mongo ds137291.mlab.com:37291/heroku_1lnxd10m -u heroku_1lnxd10m -p h16ioa5tul5q9ofvae2onnb00
  const mongoURI = 'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m';
  const mainDB = 'heroku_1lnxd10m';
-
-//router.use(bodyParser.json());
 
 // Error handling
 const sendError = (err, res) => {
@@ -35,21 +34,6 @@ let response = {
   message: null
 };
 
-// Get users
-/*router.get('/users', (req, res) => {
-  connection((dbo) => {
-    dbo.collection('users')
-      .find()
-      .toArray()
-      .then((users) => {
-        response.data = users;
-        res.json(response);
-      })
-      .catch((err) => {
-        sendError(err, res);
-      });
-  });
-});*/
 
 const conn = mongoose.createConnection(mongoURI);
 let gfs;
@@ -129,7 +113,7 @@ router.delete('/delete/:filename', (req, res) =>{
 });
 
 // function attached to
-const callPython = function(args){
+const callPython = function(args){ //['path', args...]
   return new Promise(function(success, nosuccess) {
 
     const { spawn } = require('child_process');
@@ -153,6 +137,44 @@ router.get('/python/', (req, res) => {
     res.end(err);
   });
 });
+
+
+
+// SET STORAGE
+const localStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'temp_uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+})
+
+const uploadLocal = multer({ storage: localStorage })
+
+router.post('/copyKGMLToTempUploads', uploadLocal.single('file'),(req,res, next) =>{
+
+  const file = req.file;
+  if (!file) {
+    const error = new Error('Please upload a file')
+    error.httpStatusCode = 400
+    return next(error)
+  }
+  res.send(file)
+  /*fs.writeFile('asynchronous.txt', file, (err) => {
+    if (err) throw err;
+    console.log('The file has been saved!');
+  });*/
+  //fs.createReadStream('./hsa05310.xml').pipe(fs.createWriteStream('./hsa05310VERSION2.xml'));
+
+  /*fs.copyFile('hsa05310.xml', 'temp_uploads/uploaded_file_now.xml', (err) =>{
+    if (err) res.send(err);
+    res.send({message: "File successfully copied to temp_uploads", filename: file});
+  });*/
+});
+
+
+
 
 // Export this module
 module.exports = router;

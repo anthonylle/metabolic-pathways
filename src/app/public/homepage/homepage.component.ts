@@ -61,7 +61,7 @@ export class HomepageComponent implements OnInit {
   }
 */
   postcargarxml1(){
-    this.service.uploadXMLFile('//localhost:3000/api/uploadpathway',this.pathway1).subscribe(
+    this.service.uploadXMLFile('//localhost:3000/api/copyKGMLToTempUploads',this.pathway1).subscribe(
       (data:any) => {
         console.log(data);
         this.pathway1final = data;
@@ -70,7 +70,7 @@ export class HomepageComponent implements OnInit {
   }
 
   postcargarxml2(){
-    this.service.uploadXMLFile('//localhost:3000/api/uploadpathway',this.pathway1).subscribe(
+    this.service.uploadXMLFile('//localhost:3000/api/copyKGMLToTempUploads',this.pathway1).subscribe(
       (data:any) => {
         console.log(data);
         this.pathway2final = data;

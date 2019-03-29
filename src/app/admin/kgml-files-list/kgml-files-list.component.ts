@@ -16,6 +16,7 @@ export class KgmlFilesListComponent implements OnInit {
   constructor(private service: KgmlFilesService) { }
 
   uploadedFile: any = null;
+  file: any;
   files: any = [];
   filesData: MatTableDataSource<any>;
   displayedColumns: string[] = ['File Name', 'Upload Date', 'Actions'];
@@ -33,6 +34,25 @@ export class KgmlFilesListComponent implements OnInit {
     this.uploadedFile = this.el.nativeElement.files[0];
     console.log(this.uploadedFile);
     console.log(this.service.uploadKGMLFileToDB('http://localhost:3000/api/upload', this.uploadedFile));
+  }
+
+  postcargarxml(){
+    this.service.uploadKGMLFileToDB('//localhost:3000/api/upload',this.file).subscribe(
+      (data:any) => {
+        console.log(data);
+      }
+    )
+  }
+
+  public onArchivoSeleccionado($event: { target: { files: any[]; }; }) {
+    
+    for (let i = 0; i < $event.target.files.length; i++) {
+      this.file = $event.target.files[i];
+      console.log(this.file.name);
+    }
+    this.postcargarxml();
+    //var FileSaver = require('file-saver');
+    //FileSaver.saveAs(pathway, "pathway.xml");
   }
 
 

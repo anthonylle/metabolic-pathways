@@ -3,7 +3,9 @@ const bodyParser = require('body-parser');
 const path =require('path');
 const http = require('http');
 const app = express();
-//raruto
+const fileUpload = require("express-fileupload");
+
+
 // API file for interacting with MongoDB
 const api = require('./server/routes/api');
 
@@ -12,6 +14,7 @@ const server = http.createServer(app);
 
 // Parsers
 app.use(bodyParser.json());
+app.use(fileUpload());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // Angular DIST output folder

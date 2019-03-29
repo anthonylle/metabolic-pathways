@@ -9,6 +9,7 @@ const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 const spawn = require("child_process").spawn;
+const fs = require("fs");
 
 
 //const mongoURI = 'mongodb://localhost:27017/MEAN';//
@@ -138,6 +139,39 @@ router.get('/python/', (req, res) => {
 });
 
 
+
+// SET STORAGE
+const localStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'temp_uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+})
+
+const uploadLocal = multer({ storage: localStorage })
+
+router.post('/copyKGMLToTempUploads', uploadLocal.single('file'),(req,res, next) =>{
+
+  const file = req.file;
+  if (!file) {
+    const error = new Error('Please upload a file')
+    error.httpStatusCode = 400
+    return next(error)
+  }
+  res.send(file)
+  /*fs.writeFile('asynchronous.txt', file, (err) => {
+    if (err) throw err;
+    console.log('The file has been saved!');
+  });*/
+  //fs.createReadStream('./hsa05310.xml').pipe(fs.createWriteStream('./hsa05310VERSION2.xml'));
+
+  /*fs.copyFile('hsa05310.xml', 'temp_uploads/uploaded_file_now.xml', (err) =>{
+    if (err) res.send(err);
+    res.send({message: "File successfully copied to temp_uploads", filename: file});
+  });*/
+});
 
 
 

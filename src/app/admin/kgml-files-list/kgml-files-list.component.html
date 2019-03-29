@@ -33,15 +33,7 @@
 
   <!-- Upload Button -->
   <span class="btn btn-default btn-file myButton"> Upload KGML File
-    <input data-error="The pathway is required."
-           required
-           class="form-control"
-           type="file"
-           ng-model="pathway1"
-           ngf-select
-           ngf-pattern="'text/xml'"
-           accept="text/xml"
-           ngf-max-size="20MB">
+      <input type="file" (change)="onArchivoSeleccionado($event)">
   </span>
 
   <!-- Upload Button /-->

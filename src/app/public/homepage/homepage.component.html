@@ -29,7 +29,7 @@
 													<input type="file" (change)="onArchivoSeleccionado($event)">
 												</span>
 											</span>
-											<input type="text" class="form-control pathway-name" readonly>
+											<input value={{nombrepathway1}} type="text" class="form-control pathway-name" readonly>
 										</div>
 										<div class="help-block with-errors"></div>
 									</div>
@@ -41,20 +41,11 @@
 										<h4>Pathway 2 <span class="h6" style="color:grey;">(KEGG KGML - .xml file)</span></h4>
 										<div class="input-group">
 											<span class="input-group-btn">
-												<span class="btn btn-default btn-file">
-													Browse.. <input
-													data-error="The pathway is required."
-													required
-													class="form-control"
-													type="file"
-													ng-model="pathway2"
-													ngf-select
-													ngf-pattern="'text/xml'"
-													accept="text/xml"
-													ngf-max-size="20MB">
+												<span class="btn btn-default btn-file">Browse..
+													<input type="file" (change)="onArchivoSeleccionado2($event)">
 												</span>
 											</span>
-											<input type="text" class="form-control pathway-name" readonly>
+											<input value={{nombrepathway2}} type="text" class="form-control pathway-name" readonly>
 										</div>
 										<div class="help-block with-errors"></div>
 									</div>

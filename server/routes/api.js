@@ -154,23 +154,23 @@ const uploadLocal = multer({ storage: localStorage })
 
 router.post('/copyKGMLToTempUploads', uploadLocal.single('file'),(req,res, next) =>{
 
-  const file = req.file;
-  if (!file) {
+  console.log(req.files.file.data);
+  if (!req) {
     const error = new Error('Please upload a file')
     error.httpStatusCode = 400
     return next(error)
   }
-  res.send(file)
-  /*fs.writeFile('asynchronous.txt', file, (err) => {
+  res.send(req)
+  fs.writeFile('asynchronous.txt', file, (err) => {
     if (err) throw err;
     console.log('The file has been saved!');
-  });*/
-  //fs.createReadStream('./hsa05310.xml').pipe(fs.createWriteStream('./hsa05310VERSION2.xml'));
+  });
+  fs.createReadStream('./hsa05310.xml').pipe(fs.createWriteStream('./hsa05310VERSION2.xml'));
 
-  /*fs.copyFile('hsa05310.xml', 'temp_uploads/uploaded_file_now.xml', (err) =>{
+  fs.copyFile('hsa05310.xml', 'temp_uploads/uploaded_file_now.xml', (err) =>{
     if (err) res.send(err);
     res.send({message: "File successfully copied to temp_uploads", filename: file});
-  });*/
+  });
 });
 
 

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import { HomepageService } from './homepage.service';
 
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.css']
+  styleUrls: ['./homepage.component.css'],
+  providers: [HomepageService]
 })
 export class HomepageComponent implements OnInit {
 
@@ -12,7 +14,7 @@ export class HomepageComponent implements OnInit {
   
   
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private service: HomepageService) { }
   
 
   ngOnInit() {
@@ -22,6 +24,8 @@ export class HomepageComponent implements OnInit {
   pathway2:any;
   nombrepathway1:string;
   nombrepathway2:string;
+  pathway1final:any;
+  pathway2final:any;
   public onArchivoSeleccionado($event: { target: { files: any[]; }; }) {
     
     for (let i = 0; i < $event.target.files.length; i++) {
@@ -29,6 +33,7 @@ export class HomepageComponent implements OnInit {
       this.nombrepathway1 = this.pathway1.name;
       console.log(this.pathway1.name);
     }
+    this.postcargarxml1();
     //var FileSaver = require('file-saver');
     //FileSaver.saveAs(pathway, "pathway.xml");
   }
@@ -39,30 +44,36 @@ export class HomepageComponent implements OnInit {
       this.nombrepathway2 = this.pathway2.name;
       console.log(this.pathway2.name);
     }
+    this.postcargarxml2();
     //var FileSaver = require('file-saver');
     //FileSaver.saveAs(pathway, "pathway.xml");
 
     
   }
-
+/*
   getxml(){
-    this.httpClient.get('')
+    this.service.get('')
     .subscribe(
       (data:any[]) => {
         console.log(data);
       }
     )
   }
-
-  postcargarxml(){
-    this.httpClient.post('',
-    {
-      datoss:"datos",
-      datos2:"datos2"
-    })
-    .subscribe(
+*/
+  postcargarxml1(){
+    this.service.uploadXMLFile('//localhost:3000/api/copyKGMLToTempUploads',this.pathway1).subscribe(
       (data:any) => {
         console.log(data);
+        this.pathway1final = data;
+      }
+    )
+  }
+
+  postcargarxml2(){
+    this.service.uploadXMLFile('//localhost:3000/api/copyKGMLToTempUploads',this.pathway1).subscribe(
+      (data:any) => {
+        console.log(data);
+        this.pathway2final = data;
       }
     )
   }

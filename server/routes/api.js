@@ -138,41 +138,30 @@ router.get('/python/', (req, res) => {
   });
 });
 
-
-
 // SET STORAGE
 const localStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'temp_uploads')
+    cb(null, 'temp_uploads/')
   },
   filename: function (req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now())
   }
-})
+});
 
 const uploadLocal = multer({ storage: localStorage })
 
 router.post('/copyKGMLToTempUploads', uploadLocal.single('file'),(req,res, next) =>{
-
-  console.log(req.files.file.data);
+  const buffer = Buffer.from(req.files.file.data).toString();
+  const filename = req.files.file.name.replace('.xml', '') + '-'+ Date.now() + '.xml';
   if (!req) {
     const error = new Error('Please upload a file')
     error.httpStatusCode = 400
     return next(error)
   }
-  res.send(req)
-  fs.writeFile('asynchronous.txt', file, (err) => {
-    if (err) throw err;
-    console.log('The file has been saved!');
-  });
-  fs.createReadStream('./hsa05310.xml').pipe(fs.createWriteStream('./hsa05310VERSION2.xml'));
-
-  fs.copyFile('hsa05310.xml', 'temp_uploads/uploaded_file_now.xml', (err) =>{
-    if (err) res.send(err);
-    res.send({message: "File successfully copied to temp_uploads", filename: file});
-  });
+  const wStream = fs.createWriteStream('temp_uploads/'+filename);
+  wStream.write(buffer);
+  wStream.end();
 });
-
 
 
 

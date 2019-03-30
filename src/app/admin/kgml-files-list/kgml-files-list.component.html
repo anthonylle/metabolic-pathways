@@ -17,15 +17,14 @@
 <body class="mainPanel">
 
   <!-- Upload Button -->
-  <span class="btn btn-default btn-file myButton"> Upload KGML File
+  <span class="btn btn-default btn-file myButton"> Upload File
     <input data-error="The pathway is required."
            #fileInput
-           (change)="fileUpload()"
+           (change)="onArchivoSeleccionado($event)"
 
            class="form-control"
            type="file"
            accept="text/xml">
-      <input type="file" (change)="onArchivoSeleccionado($event)">
   </span>
 
   <!-- Upload Button /-->

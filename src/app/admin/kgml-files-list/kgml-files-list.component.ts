@@ -57,10 +57,5 @@ export class KgmlFilesListComponent implements OnInit {
 
 
 
-  @HostListener("click")onClick(){
-    console.log("User Click using Host Listener")
-  }
-
-
 
 }

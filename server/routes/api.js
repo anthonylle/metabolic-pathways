@@ -12,15 +12,15 @@ const spawn = require("child_process").spawn;
 const fs = require("fs");
 
 
+/*
 const mongoURI = 'mongodb://localhost:27017/MEAN';//
 const mainDB = 'MEAN'
+*/
 
 // connection from mongodb console
 //    mongo ds137291.mlab.com:37291/heroku_1lnxd10m -u heroku_1lnxd10m -p h16ioa5tul5q9ofvae2onnb00
-/*
 const mongoURI = 'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m';
 const mainDB = 'heroku_1lnxd10m';
-*/
 
 // Error handling
 const sendError = (err, res) => {
@@ -156,9 +156,9 @@ router.post('/copyKGMLToTempUploads', uploadLocal.single('file'),(req,res, next)
   const buffer = Buffer.from(req.files.file.data).toString();
   const filename = req.files.file.name.replace('.xml', '') + '-'+ Date.now() + '.xml';
   if (!req) {
-    const error = new Error('Please upload a file')
-    error.httpStatusCode = 400
-    return next(error)
+    const error = new Error('Please upload a file');
+    error.httpStatusCode = 400;
+    return next(error);
   }
   const wStream = fs.createWriteStream('temp_uploads/'+filename);
   wStream.write(buffer);

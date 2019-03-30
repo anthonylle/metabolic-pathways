@@ -24,8 +24,8 @@ export class HomepageComponent implements OnInit {
   pathway2:any;
   nombrepathway1:string;
   nombrepathway2:string;
-  pathway1final:any;
-  pathway2final:any;
+  pathway1final:string;
+  pathway2final:string;
   public onArchivoSeleccionado($event: { target: { files: any[]; }; }) {
     
     for (let i = 0; i < $event.target.files.length; i++) {
@@ -63,17 +63,27 @@ export class HomepageComponent implements OnInit {
   postcargarxml1(){
     this.service.uploadXMLFile('//localhost:3000/api/copyKGMLToTempUploads',this.pathway1).subscribe(
       (data:any) => {
-        console.log(data);
-        this.pathway1final = data;
+        var key;
+        for (key in data.body) {
+          if (data.body.hasOwnProperty(key)) {
+            this.pathway1final = data.body[key];
+          }
+        } 
+        console.log(this.pathway1final);
       }
     )
   }
 
   postcargarxml2(){
-    this.service.uploadXMLFile('//localhost:3000/api/copyKGMLToTempUploads',this.pathway1).subscribe(
+    this.service.uploadXMLFile('//localhost:3000/api/copyKGMLToTempUploads',this.pathway2).subscribe(
       (data:any) => {
-        console.log(data);
-        this.pathway2final = data;
+        var key;
+        for (key in data.body) {
+          if (data.body.hasOwnProperty(key)) {
+            this.pathway2final = data.body[key];
+          }
+        } 
+        console.log(this.pathway2final);
       }
     )
   }

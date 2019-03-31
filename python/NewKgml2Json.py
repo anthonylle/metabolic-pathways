@@ -1,4 +1,3 @@
-import json
 from Bio.KEGG.KGML.KGML_parser import read
 
 class SimpleKGML:
@@ -23,8 +22,8 @@ class SimpleKGML:
     def getCompoundsGraph(self):
         return self.compoundsGraph
 
-    def getWithCentralNodeAsString(self):
-        starGraph = self.compoundsGraph
-        starGraph["*"] = [_ for _ in self.compoundsGraph]
+    def getCentralNodeGraph(self):
+        centralNodeGraph = self.compoundsGraph
+        centralNodeGraph["*"] = [_ for _ in self.compoundsGraph]
 
-        return starGraph
+        return centralNodeGraph

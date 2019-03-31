@@ -5,8 +5,8 @@ from AlgorithmsFunctions import *
 algorithmTypes = {
     "C1": createOneCompoundGraph,
     "C2": createTwoCompoundGraphs,
-    "S1": createOneStarGraph,
-    "S2": createTwoStarGraphs,
+    "S1": createOneCentralNodeGraph,
+    "S2": createTwoCentralNodeGraphs,
     "A1T": alg1Transformation2DtoVector,
     "A1D": alg2DifferentiationByPairs,
     "A2T1": alg1_1GraphTraversal_AnyNodeToAnyNode,
@@ -22,41 +22,14 @@ if __name__ == '__main__':
     # Used to get path to temp_uploads folder.
     tempUploadsFolderPath = os.getcwd().replace('\\', '/') + "/temp_uploads/"
     imagesFolderPath = os.getcwd().replace('\\', '/') + "/images/"
-    print(imagesFolderPath)
+
     # Get the function needed to complete the request.
     functionToCall = algorithmTypes.get(sys.argv[3])
 
+    # Check if request is valid.
     if functionToCall != None:
         print(functionToCall(imagesFolderPath, tempUploadsFolderPath, sys.argv[1], sys.argv[2]))
     else:
-        print("Error, request unknown.")
+        print("ERROR: request unknown.")
 
-    input()
-    #print("Arguments given: ", sys.argv)
-    #staticPath = "C:/Users/Daniel/Documents/Git/MetabolicPathwasGitHub/metabolic-pathways/temp_uploads/"
-    #sys.argv = ['0',"ko00010.xml","hsa00260.xml",'1']
-    #sys.argv[1] = 'cit00710.xml'
-    #sys.argv[2] = 'hsa00260.xml'
-    if sys.argv[3] == '1':
-        simpleKGMLStart1 = SimpleKGML(staticPath + sys.argv[1])
-        simpleKGML1 = SimpleKGML(staticPath + sys.argv[1])
-        pathwayCompoundsGraph1 = simpleKGML1.getCompoundsGraph()
-
-        simpleKGMLStart2 = SimpleKGML(staticPath + sys.argv[2])
-        simpleKGML2 = SimpleKGML(staticPath + sys.argv[2])
-        pathwayCompoundsGraph2 = simpleKGML2.getCompoundsGraph()
-
-        try:
-            metabolic_pathways_HTML_alg1(staticPath + sys.argv[1],
-                                        staticPath + sys.argv[2],
-                                        pathwayCompoundsGraph1,
-                                        pathwayCompoundsGraph2)
-
-            print(pathwayCompoundsGraph1)
-            print(pathwayCompoundsGraph2)
-        except Exception as e: print(e)
-
-    else:
-            print("Error, request unknown.")
-
-    sys.stdout.flush()
+    #sys.stdout.flush()

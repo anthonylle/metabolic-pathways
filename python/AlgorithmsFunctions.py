@@ -1,25 +1,33 @@
 from NewKgml2Json import SimpleKGML
 from AuxiliaryFunctions import *
 
-def createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, EmptyString):
+def createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, EmptyString = None):
     simpleKGMLStart1 = SimpleKGML(tempUploadsFolderPath + XMLFileName1)
     simpleKGML1 = SimpleKGML(tempUploadsFolderPath + XMLFileName1)
     pathwayCompoundsGraph1 = simpleKGML1.getCompoundsGraph()
-
     try:
         generateGraph(imagesFolderPath, XMLFileName1.replace(".xml", ""), pathwayCompoundsGraph1)
     except Exception as e: print(e)
-
     return pathwayCompoundsGraph1
 
 def createTwoCompoundGraphs(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2):
-    return "Ok"
+    pathwayCompoundsGraph1 = createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1)
+    pathwayCompoundsGraph2 = createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName2)
+    return str(pathwayCompoundsGraph1) + str(pathwayCompoundsGraph2)
 
-def createOneStarGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, EmptyString):
-    return "Ok"
+def createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, EmptyString = None):
+    simpleKGMLStart1 = SimpleKGML(tempUploadsFolderPath + XMLFileName1)
+    simpleKGML1 = SimpleKGML(tempUploadsFolderPath + XMLFileName1)
+    centralNodeGraph1 = simpleKGML1.getCentralNodeGraph()
+    try:
+        generateGraph(imagesFolderPath, XMLFileName1.replace(".xml", ""), centralNodeGraph1)
+    except Exception as e: print(e)
+    return centralNodeGraph1
 
-def createTwoStarGraphs(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2):
-    return "Ok"
+def createTwoCentralNodeGraphs(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2):
+    centralNodeGraph1 = createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1)
+    centralNodeGraph2 = createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName2)
+    return str(centralNodeGraph1) + str(centralNodeGraph2)
 
 def alg1Transformation2DtoVector(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2):
     return "Ok"

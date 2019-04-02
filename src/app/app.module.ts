@@ -7,8 +7,17 @@ import { HomepageComponent } from './public/homepage/homepage.component';
 import { LandingpageComponent } from './public/landingpage/landingpage.component';
 import { AdminbaseComponent } from './public/adminbase/adminbase.component';
 import { KgmlDataTableComponent } from './admin/kgml-data-table/kgml-data-table.component';
-import {MatTableModule, MatPaginatorModule, MatSortModule, MatIconModule, MatButtonModule} from '@angular/material';
+import {
+  MatTableModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatIconModule,
+  MatButtonModule,
+  MatFormFieldModule, MatInputModule
+} from '@angular/material';
 import { KgmlFilesListComponent } from './admin/kgml-files-list/kgml-files-list.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -27,7 +36,12 @@ import { KgmlFilesListComponent } from './admin/kgml-files-list/kgml-files-list.
     MatPaginatorModule,
     MatSortModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSortModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,8 +1,8 @@
-<header>
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<header class="container-fluid">
+	<nav class="navbar navbar-inverse" role="navigation">
 		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand">Pathways</a>
+			<div class="navbar-header pathway-logo">
+        <a class="navbar-brand">Pathways</a>
 			</div>
 		</div>
 	</nav>
@@ -27,9 +27,9 @@
 										<h4>Pathway 1 <span class="h6" style="color:grey;">(KEGG KGML - .xml file)</span></h4>
 										<div class="input-group">
 											<span class="input-group-btn">
-												<span class="btn btn-default btn-file">Browse.. 
+												<button type="button" class="btn btn-primary btn-file">Browse..
 													<input type="file" (change)="onArchivoSeleccionado($event)">
-												</span>
+												</button>
 											</span>
 											<input value={{nombrepathway1}} type="text" class="form-control pathway-name" readonly>
 										</div>

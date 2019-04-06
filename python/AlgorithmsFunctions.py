@@ -3,7 +3,7 @@ from Kgml2Json import SimpleKGML
 from AuxiliaryFunctions import *
 
 # Code: C1
-def createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2 = None):
+def createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1):
     output = {}
     simpleKGMLStart1 = SimpleKGML(tempUploadsFolderPath + XMLFileName1)
     simpleKGML1 = SimpleKGML(tempUploadsFolderPath + XMLFileName1)
@@ -23,7 +23,7 @@ def createTwoCompoundGraphs(imagesFolderPath, tempUploadsFolderPath, XMLFileName
     return output
 
 # Code: S1
-def createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, EmptyString = None):
+def createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1):
     output = {}
     simpleKGMLStart1 = SimpleKGML(tempUploadsFolderPath + XMLFileName1)
     simpleKGML1 = SimpleKGML(tempUploadsFolderPath + XMLFileName1)
@@ -47,14 +47,62 @@ def alg1Transformation2DtoVector(imagesFolderPath, tempUploadsFolderPath, pathwa
     return "Ok"
 
 # Code: A1T1
-# Input example: '{'C00084': ['C00033', ...], ... , 'C00033': ['C00024']}',
-#                '{'C00065': ['C00740', ...], ... , 'C00631': ['C00197']}'
 def alg1_1GraphTraversal_AnyNodeToAnyNode(imagesFolderPath, tempUploadsFolderPath, pathwayGraph1, pathwayGraph2):
-    return json.dumps(alg1_1GraphTraversal_AnyNodeToAnyNode_Algorithm(pathwayGraph1, pathwayGraph2))
+    output = {}
+    graph1 = to_graph_from_dict(pathwayGraph1)
+    graph2 = to_graph_from_dict(pathwayGraph2)
+    bft1 = graph1.breadth_first_traversal()
+    bft2 = graph2.breadth_first_traversal()
+    dft1 = graph1.depth_first_traversal()
+    dft2 = graph2.depth_first_traversal()
+    addToDictionary(bft1)
+    addToDictionary(bft2)
+    addToDictionary(dft1)
+    addToDictionary(dft2)
+
+    output["BFT1"] = renamedPath(bft1)
+    output["BFT2"] = renamedPath(bft2)
+    output["DFT1"] = renamedPath(dft1)
+    output["DFT2"] = renamedPath(dft2)
+    output["Global BFT"] = needleman_wunsch(renamedPath(bft1), renamedPath(bft2))
+    output["Global DFT"] = needleman_wunsch(renamedPath(dft1), renamedPath(dft2))
+    output["Local BFT"] = local_alignment(renamedPath(bft1), renamedPath(bft2))
+    output["Local DFT"] = local_alignment(renamedPath(dft1), renamedPath(dft2))
+    output["SemiLocal BFT"] = semiglobal_alignment(renamedPath(bft1), renamedPath(bft2))
+    output["SemiLocal DFT"] = semiglobal_alignment(renamedPath(dft1), renamedPath(dft2))
+    output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
+    output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
+
+    return output
 
 # Code: A1T2
-def alg1_2GraphTraversal_GivenNodeToAnyNode(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2):
-    return "Ok"
+def alg1_2GraphTraversal_GivenNodeToAnyNode(imagesFolderPath, tempUploadsFolderPath, pathwayGraph1, pathwayGraph2, startNodeGraph1, startNodeGraph2):
+    output = {}
+    graph1 = to_graph_from_dict(pathwayGraph1)
+    graph2 = to_graph_from_dict(pathwayGraph2)
+    bft1 = graph1.breadth_first_traversal()
+    bft2 = graph2.breadth_first_traversal()
+    dft1 = graph1.depth_first_traversal()
+    dft2 = graph2.depth_first_traversal()
+    addToDictionary(bft1)
+    addToDictionary(bft2)
+    addToDictionary(dft1)
+    addToDictionary(dft2)
+
+    output["BFT1"] = renamedPath(bft1)
+    output["BFT2"] = renamedPath(bft2)
+    output["DFT1"] = renamedPath(dft1)
+    output["DFT2"] = renamedPath(dft2)
+    output["Global BFT"] = needleman_wunsch(renamedPath(bft1), renamedPath(bft2))
+    output["Global DFT"] = needleman_wunsch(renamedPath(dft1), renamedPath(dft2))
+    output["Local BFT"] = local_alignment(renamedPath(bft1), renamedPath(bft2))
+    output["Local DFT"] = local_alignment(renamedPath(dft1), renamedPath(dft2))
+    output["SemiLocal BFT"] = semiglobal_alignment(renamedPath(bft1), renamedPath(bft2))
+    output["SemiLocal DFT"] = semiglobal_alignment(renamedPath(dft1), renamedPath(dft2))
+    output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
+    output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
+
+    return output
 
 # Code: A1T3
 def alg1_3GraphTraversal_GivenNodeToGivenNode(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2):

@@ -1,16 +1,16 @@
-<header class="container-fluid">
-	<nav class="navbar navbar-inverse" role="navigation">
-		<div class="container">
-			<div class="navbar-header pathway-logo">
-        <a class="navbar-brand">Pathways</a>
-			</div>
-		</div>
-	</nav>
+<header>
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand pathway-logo">Pathways</a>
+      </div>
+    </div>
+  </nav>
 </header>
 <main class="menuprincipal">
 	<div id="home" class="jumbotron intro bg-img-section">
 		<div class="container brand">
-			<h1>Metabolic Pathways</h1>
+			<h1 class="pathway-logo">Metabolic Pathways</h1>
 		</div>
 	</div>
 	<div id="processing" class="container no-img-section">
@@ -27,9 +27,9 @@
 										<h4>Pathway 1 <span class="h6" style="color:grey;">(KEGG KGML - .xml file)</span></h4>
 										<div class="input-group">
 											<span class="input-group-btn">
-												<button type="button" class="btn btn-primary btn-file">Browse..
+												<span type="button" class="btn btn-default btn-file">Browse..
 													<input type="file" (change)="onArchivoSeleccionado($event)">
-												</button>
+												</span>
 											</span>
 											<input value={{nombrepathway1}} type="text" class="form-control pathway-name" readonly>
 										</div>

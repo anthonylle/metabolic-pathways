@@ -1,37 +1,46 @@
+import json
 from Kgml2Json import SimpleKGML
 from AuxiliaryFunctions import *
 
 # Code: C1
-def createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, EmptyString = None):
+def createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2 = None):
+    output = {}
     simpleKGMLStart1 = SimpleKGML(tempUploadsFolderPath + XMLFileName1)
     simpleKGML1 = SimpleKGML(tempUploadsFolderPath + XMLFileName1)
     pathwayCompoundsGraph1 = simpleKGML1.getCompoundsGraph()
     try:
         generateGraph(imagesFolderPath, XMLFileName1.replace(".xml", ""), pathwayCompoundsGraph1)
+        output["Compound Graph 1"] = pathwayCompoundsGraph1
     except Exception as e: print(e)
-    return pathwayCompoundsGraph1
+
+    return output
 
 # Code: C2
 def createTwoCompoundGraphs(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2):
-    pathwayCompoundsGraph1 = createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1)
-    pathwayCompoundsGraph2 = createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName2)
-    return str(pathwayCompoundsGraph1) + str(pathwayCompoundsGraph2)
+    output = {}
+    output["Compound Graph 1"] = createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1)["Compound Graph 1"]
+    output["Compound Graph 2"] = createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName2)["Compound Graph 1"]
+    return output
 
 # Code: S1
 def createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, EmptyString = None):
+    output = {}
     simpleKGMLStart1 = SimpleKGML(tempUploadsFolderPath + XMLFileName1)
     simpleKGML1 = SimpleKGML(tempUploadsFolderPath + XMLFileName1)
     centralNodeGraph1 = simpleKGML1.getCentralNodeGraph()
     try:
         generateGraph(imagesFolderPath, XMLFileName1.replace(".xml", ""), centralNodeGraph1)
+        output["Central Node Graph 1"] = centralNodeGraph1
     except Exception as e: print(e)
-    return centralNodeGraph1
+
+    return output
 
 # Code: S2
 def createTwoCentralNodeGraphs(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2):
-    centralNodeGraph1 = createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1)
-    centralNodeGraph2 = createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName2)
-    return str(centralNodeGraph1) + str(centralNodeGraph2)
+    output = {}
+    output["Central Node Graph 1"] = createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1)["Central Node Graph 1"]
+    output["Central Node Graph 2"] = createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName2)["Central Node Graph 1"]
+    return output
 
 # Code: A1T
 def alg1Transformation2DtoVector(imagesFolderPath, tempUploadsFolderPath, pathwayGraph1, pathwayGraph2):
@@ -40,11 +49,8 @@ def alg1Transformation2DtoVector(imagesFolderPath, tempUploadsFolderPath, pathwa
 # Code: A1T1
 # Input example: '{'C00084': ['C00033', ...], ... , 'C00033': ['C00024']}',
 #                '{'C00065': ['C00740', ...], ... , 'C00631': ['C00197']}'
-def alg1_1GraphTraversal_AnyNodeToAnyNode(pathwayGraph1, pathwayGraph2, imagesFolderPath, tempUploadsFolderPath):
-    # Temporal
-    pathwayGraph1 = "{'C00084': ['C00033', 'C00033', 'C00033'], 'C00024': ['C00033', 'C16255', 'C00022'], 'C05125': ['C00084', 'C00068', 'C16255'], 'C00469': ['C00084', 'C00084', 'C00084', 'C00084', 'C00084', 'C00084'], 'C00068': ['C05125', 'C05125'], 'C00022': ['C05125', 'C05125', 'C00024'], 'C15972': ['C00068', 'C16255'], 'C15973': ['C16255', 'C15972'], 'C00186': ['C00022'], 'C00074': ['C00022'], 'C00631': ['C00074', 'C00197', 'C00197'], 'C00118': ['C00236', 'C00111', 'C00236', 'C00197', 'C00197', 'C00197'], 'C05378': ['C00111', 'C00118', 'C05345'], 'C05345': ['C05378', 'C05378', 'C05378'], 'C00031': ['C00668'], 'C00668': ['C05345', 'C01172', 'C01172', 'C00267'], 'C00103': ['C00668', 'C00267'], 'C01172': ['C05345'], 'C00221': ['C01172', 'C01172', 'C01172', 'C01172'], 'C00267': ['C00221', 'C00668', 'C00668', 'C00668', 'C00668'], 'C00197': ['C00236'], 'C06186': ['C06187'], 'C01451': ['C06188'], 'C06187': ['C01172'], 'C06188': ['C01172'], 'C00036': ['C00074', 'C00074'], 'C01159': ['C00197', 'C00631'], 'C00236': ['C01159'], 'C00033': ['C00024']}"
-    pathwayGraph2 = "{'C00065': ['C00740', 'C00037', 'C00168', 'C02291', 'C00022', 'C00022', 'C00168', 'C00097'], 'C00114': ['C00576'], 'C00576': ['C00719'], 'C00719': ['C01026'], 'C00581': ['C00300'], 'C00197': ['C03232'], 'C01026': ['C00213'], 'C02291': ['C00097'], 'C00037': ['C00581', 'C00065', 'C00048', 'C03508', 'C00011', 'C01242', 'C00430', 'C00213', 'C00048'], 'C01005': ['C03232', 'C00065'], 'C00213': ['C00037', 'C00037'], 'C00143': ['C00065'], 'C00188': ['C00109'], 'C02051': ['C00011', 'C01242'], 'C01888': ['C00546', 'C00546'], 'C00258': ['C00168', 'C00631'], 'C00101': ['C00014', 'C00143', 'C02972'], 'C01242': ['C00014', 'C00143', 'C02972'], 'C02972': ['C02051'], 'C00631': ['C00197']}"
-    return alg1_1GraphTraversal_AnyNodeToAnyNode_Algorithm(pathwayGraph1, pathwayGraph2)
+def alg1_1GraphTraversal_AnyNodeToAnyNode(imagesFolderPath, tempUploadsFolderPath, pathwayGraph1, pathwayGraph2):
+    return json.dumps(alg1_1GraphTraversal_AnyNodeToAnyNode_Algorithm(pathwayGraph1, pathwayGraph2))
 
 # Code: A1T2
 def alg1_2GraphTraversal_GivenNodeToAnyNode(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2):

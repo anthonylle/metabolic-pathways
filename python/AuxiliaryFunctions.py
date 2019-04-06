@@ -2,7 +2,6 @@ import base64
 import sys
 import os
 import string
-import json
 from graphviz import Digraph
 from local_alignment import local_alignment
 from global_alignment import needleman_wunsch
@@ -99,7 +98,7 @@ def alg1_1GraphTraversal_AnyNodeToAnyNode_Algorithm(pathwayGraph1, pathwayGraph2
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
-    return json.dumps(output)
+    return output
 
 # Algorithm 1
 def metabolic_pathways_HTML_alg1(xmlPath1, xmlPath2, pathway0, pathway1):

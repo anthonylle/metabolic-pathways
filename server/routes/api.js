@@ -146,7 +146,7 @@ const callPython = function(args){
 };
 
 router.get('/python/', (req, res) => {
-    callPython(['./python/Main.py', 'ko00010.xml', 'hsa00260.xml', 'A1T1']).then(fromCallBack => {
+    callPython(['./python/Main.py', 'ko00010.xml', 'hsa00260.xml', 'S2']).then(fromCallBack => {
     console.log(fromCallBack.toString());
     res.end(fromCallBack);
   }).catch(err => {

@@ -168,14 +168,18 @@ class Graph:
         return dict
 
 def to_graph_from_dict(dict):
-    dict = eval(dict)
+    if isinstance(dict, str):
+        dict = eval(dict)
     graph = Graph()
     for node1 in dict:
         graph.add_value(node1)
-        edges = dict.get(node1)
+        edges = dict[node1]
         for node2 in edges:
             graph.add_edge(node1, node2)
     return graph
+
+D = {"A":["B","C","E"], "B":["F"], "C":["K"], "D":["H"], "E":["D","G"], "F":["E"], "G":["I","K","J"],"H":["G"], "I":["H"],"K":["J"]}
+G = to_graph_from_dict(D)
 
 def print_paths(paths):
     for p in paths:

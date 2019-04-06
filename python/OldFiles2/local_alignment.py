@@ -25,7 +25,9 @@ def traceback(sequence1, sequence2):
     alignments = []
     alignmentA = ""
     alignmentB = ""
-    
+
+    print(matrix)
+
     argmax = np.where(matrix == np.matrix(matrix).max())
     i = argmax[0][0]
     j = argmax[1][0]

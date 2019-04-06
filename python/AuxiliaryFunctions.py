@@ -2,11 +2,12 @@ import base64
 import sys
 import os
 import string
+import json
 from graphviz import Digraph
-from OldFiles.local_alignment import local_alignment
-from OldFiles.global_alignment import needleman_wunsch
-from OldFiles.semiglobal_alignment import semiglobal_alignment
-from OldFiles.graph import *
+from local_alignment import local_alignment
+from global_alignment import needleman_wunsch
+from semiglobal_alignment import semiglobal_alignment
+from graph import *
 
 # Global variables
 level = -1
@@ -40,7 +41,7 @@ def addToDictionary(path):
             letter += 1
 
 def showDictionary():
-    inv_dictionary = {v: k for k, v in dictionary.iteritems()}
+    inv_dictionary = {v: k for k, v in dictionary.items()}
     sorted_dict = sorted(inv_dictionary.items(), key = operator.itemgetter(0))
     for tuple in sorted_dict:
         print(str(tuple[0]) + "->" + str(tuple[1]))
@@ -51,13 +52,31 @@ def renamedPath(path):
         renamed.append(dictionary[node])
     return renamed
 
+def identify_equality(graph0, graph1, detail):
+    equality = False
+    for node in graph0.get_nodes():
+        for edge in node.get_edges():
+            value1 = node.get_value()
+            value2 = edge.get_value()
+            if value1 != '*':
+                if graph1.exists_edge(str(value1), str(value2)):
+                    equality = True
+
+def identify_differences(graph0, graph1, detail):
+    differences = False
+    for node in graph0.get_nodes():
+        for edge in node.get_edges():
+            value1 = node.get_value()
+            value2 = edge.get_value()
+            if value1 != '*':
+                if not graph1.exists_edge(str(value1), str(value2)):
+                    differences = True
+
 # Taken from original files
 def alg1_1GraphTraversal_AnyNodeToAnyNode_Algorithm(pathwayGraph1, pathwayGraph2):
-    #g1 = generateGraph(pathwayGraph1)
-    #g2 = generateGraph(pathwayGraph2)
+    output = {}
     graph1 = to_graph_from_dict(pathwayGraph1)
     graph2 = to_graph_from_dict(pathwayGraph2)
-
     bft1 = graph1.breadth_first_traversal()
     bft2 = graph2.breadth_first_traversal()
     dft1 = graph1.depth_first_traversal()
@@ -67,19 +86,20 @@ def alg1_1GraphTraversal_AnyNodeToAnyNode_Algorithm(pathwayGraph1, pathwayGraph2
     addToDictionary(dft1)
     addToDictionary(dft2)
 
-    # Low Detail Output
-    globNeed = [needleman_wunsch(renamedPath(bft1), renamedPath(bft2)), needleman_wunsch(renamedPath(dft1), renamedPath(dft2))]
-    localAlignment = [local_alignment(renamedPath(bft1), renamedPath(bft2)), local_alignment(renamedPath(dft1), renamedPath(dft2))]
-    semiLocalAlignment = [semiglobal_alignment(renamedPath(bft1), renamedPath(bft2)), semiglobal_alignment(renamedPath(dft1), renamedPath(dft2))]
+    output["BFT1"] = renamedPath(bft1)
+    output["BFT2"] = renamedPath(bft2)
+    output["DFT1"] = renamedPath(dft1)
+    output["DFT2"] = renamedPath(dft2)
+    output["Global BFT"] = needleman_wunsch(renamedPath(bft1), renamedPath(bft2))
+    output["Global DFT"] = needleman_wunsch(renamedPath(dft1), renamedPath(dft2))
+    output["Local BFT"] = local_alignment(renamedPath(bft1), renamedPath(bft2))
+    output["Local DFT"] = local_alignment(renamedPath(dft1), renamedPath(dft2))
+    output["SemiLocal BFT"] = semiglobal_alignment(renamedPath(bft1), renamedPath(bft2))
+    output["SemiLocal DFT"] = semiglobal_alignment(renamedPath(dft1), renamedPath(dft2))
+    output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
+    output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
-    show_dictionary()
-    identify_equality(graph1, graph2, LOW)
-    identify_differences(graph1, graph2, FULL)
-    identify_differences(graph2, graph1, FULL)
-
-    result = str(show_dictionary()) + str(identify_equality(graph1, graph2, LOW)) + str(identify_differences(graph1, graph2, FULL)) + str(identify_differences(graph2, graph1, FULL))
-
-    return result
+    return json.dumps(output)
 
 # Algorithm 1
 def metabolic_pathways_HTML_alg1(xmlPath1, xmlPath2, pathway0, pathway1):

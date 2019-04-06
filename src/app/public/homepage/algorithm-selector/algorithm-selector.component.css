@@ -1,0 +1,65 @@
+body {
+  background-color:#fff;
+  margin: 0;
+  padding:0;
+  font-family: Tahoma;
+}
+h2 {
+  text-align:center;
+}
+#filter-bar {
+  width: 100%;
+  margin:0;
+  padding:0;
+  height:36px;
+  display:inline-flex;}
+#wrapper-filter {
+  background-color:#eee;
+  width: 570px;
+  height:auto;
+  margin:30px auto;
+  border-radius: 30px;
+  box-sizing: border-box;}
+#filter-bar li {
+  width: 190px;
+  background-color: transparent;
+  text-align: center;
+  list-style-type: none;
+  z-index:10;
+  cursor: pointer;
+  font-family: Open Sans, sans-serif;
+  font-weight: 100;
+  font-size: 15px;
+  line-height:36px;
+}
+.pill {
+  position: absolute;
+  width:190px;
+  height: 38px;
+  background-color: #333333;
+  border-radius: 30px;
+  color: #444;
+  z-index:10;
+  border: 5px solid #fff;
+  box-sizing: border-box;
+}
+.filter-option {
+  transition: color 500ms;
+}
+#filter-bar.option-1 .pill {
+  margin-left: 0px;
+  transition: margin-left 200ms ease;
+}
+#filter-bar.option-2 .pill {
+  margin-left: 187px;
+  transition: margin-left 200ms ease;
+}
+#filter-bar.option-3 .pill {
+  margin-left: 380px;
+  transition: margin-left 200ms ease;
+}
+
+.option-1.active, .option-2.active, .option-3.active {
+  color:#fff;
+  transition: color 200ms;
+}

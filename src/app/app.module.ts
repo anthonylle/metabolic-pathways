@@ -18,6 +18,7 @@ import {
 import { KgmlFilesListComponent } from './admin/kgml-files-list/kgml-files-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from "@angular/forms";
+import { AlgorithmSelectorComponent } from './public/homepage/algorithm-selector/algorithm-selector.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { FormsModule } from "@angular/forms";
     LandingpageComponent,
     AdminbaseComponent,
     KgmlDataTableComponent,
-    KgmlFilesListComponent
+    KgmlFilesListComponent,
+    AlgorithmSelectorComponent
   ],
   imports: [
     BrowserModule,

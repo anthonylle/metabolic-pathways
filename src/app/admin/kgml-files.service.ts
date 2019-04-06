@@ -12,6 +12,7 @@ export class KgmlFilesService {
 
   getAllKGMLFiles(){
     return this.http.get('http://localhost:3000/api/files').pipe(map((files) => {
+      console.log("9");
       return files;
     }));
   }
@@ -28,7 +29,6 @@ export class KgmlFilesService {
     };
 
     const req = new HttpRequest('POST', url, formData, options);
-
     return this.http.request(req);
   }
 

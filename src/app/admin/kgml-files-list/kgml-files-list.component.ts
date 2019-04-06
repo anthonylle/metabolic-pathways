@@ -24,6 +24,7 @@ export class KgmlFilesListComponent implements OnInit {
 
   ngOnInit() {
     this.service.getAllKGMLFiles().subscribe(files => {
+      console.log("2");
       this.files = files;
       this.filesData = new MatTableDataSource<any>(files as
       {_id: string, length: number, chunkSize: number, uploadDate: string, filename: string, md5: string, contentType: string}[]);

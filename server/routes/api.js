@@ -13,12 +13,15 @@ const mongoURI = 'mongodb://localhost:27017/MEAN';//
 const mainDB = 'MEAN'
 */
 
+
 // connection from mongodb console
 //    mongo ds137291.mlab.com:37291/heroku_1lnxd10m -u heroku_1lnxd10m -p h16ioa5tul5q9ofvae2onnb00
 
 
 const mongoURI = 'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m';
 const mainDB = 'heroku_1lnxd10m';
+
+
 
 // Error handling
 const sendError = (err, res) => {
@@ -129,7 +132,16 @@ const callPython = function(args){ //['path', args...]
 };
 
 router.get('/python/', (req, res) => {
-  callPython(['./python/NewMain.py', 'ko00010.xml', 'hsa00260.xml', '1']).then(fromCallBack => {
+  callPython(['./python/NewMain.py', req.params.file1, req.params.file2, req.params.filetipo]).then(fromCallBack => {
+    console.log(fromCallBack.toString());
+    res.end(fromCallBack);
+  }).catch(err => {
+    res.end(err);
+  });
+});
+
+router.post('/python', (req, res) => {
+  callPython(['./python/NewMain.py', req.body.file1, req.body.file2, req.body.tipo]).then(fromCallBack => {
     console.log(fromCallBack.toString());
     res.end(fromCallBack);
   }).catch(err => {
@@ -151,13 +163,13 @@ const uploadLocal = multer({ storage: localStorage })
 
 router.post('/copyKGMLToTempUploads', uploadLocal.single('file'),(req,res, next) =>{
   const buffer = Buffer.from(req.files.file.data).toString();
-  const filename = req.files.file.name.replace('.xml', '') + '-'+ Date.now() + '.xml';
+  const filename = req.files.file.name.replace('.xml', '') + '-'+ Date.now();
   if (!req) {
     const error = new Error('Please upload a file');
     error.httpStatusCode = 400;
     return next(error);
   }
-  const wStream = fs.createWriteStream('temp_uploads/'+filename);
+  const wStream = fs.createWriteStream('temp_uploads/'+filename+ '.xml');
   wStream.write(buffer);
   wStream.end();
 

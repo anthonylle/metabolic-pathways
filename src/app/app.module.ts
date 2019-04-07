@@ -19,6 +19,7 @@ import { KgmlFilesListComponent } from './admin/kgml-files-list/kgml-files-list.
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from "@angular/forms";
 import { AlgorithmSelectorComponent } from './public/homepage/algorithm-selector/algorithm-selector.component';
+import { AlignmentValuesTableComponent } from './public/homepage/alignment-values-table/alignment-values-table.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AlgorithmSelectorComponent } from './public/homepage/algorithm-selector
     AdminbaseComponent,
     KgmlDataTableComponent,
     KgmlFilesListComponent,
-    AlgorithmSelectorComponent
+    AlgorithmSelectorComponent,
+    AlignmentValuesTableComponent
   ],
   imports: [
     BrowserModule,

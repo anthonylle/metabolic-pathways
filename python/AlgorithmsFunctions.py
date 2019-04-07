@@ -63,11 +63,11 @@ def getGraphPathsIndexes(pathwayGraph, startNodeGraph, endNodeGraph, maximumCycl
     return output
 
 # Code: A1T
-def alg1Transformation2DtoVector(imagesFolderPath, tempUploadsFolderPath, pathwayGraph1, pathwayGraph2):
+def alg1Transformation2DtoVector(pathwayGraph1, pathwayGraph2):
     return "Ok"
 
 # Code: A1T1
-def alg1_1GraphTraversal_AnyNodeToAnyNode(imagesFolderPath, tempUploadsFolderPath, pathwayGraph1, pathwayGraph2):
+def alg1_1GraphTraversal_AnyNodeToAnyNode(pathwayGraph1, pathwayGraph2):
     output = {"Algorithm": "A1T1"}
     graph1 = to_graph_from_dict(pathwayGraph1)
     graph2 = to_graph_from_dict(pathwayGraph2)
@@ -96,7 +96,7 @@ def alg1_1GraphTraversal_AnyNodeToAnyNode(imagesFolderPath, tempUploadsFolderPat
     return output
 
 # Code: A1T2
-def alg1_2GraphTraversal_GivenNodeToAnyNode(imagesFolderPath, tempUploadsFolderPath, pathwayGraph1, pathwayGraph2, startNodeGraph1, startNodeGraph2):
+def alg1_2GraphTraversal_GivenNodeToAnyNode(pathwayGraph1, pathwayGraph2, startNodeGraph1, startNodeGraph2):
     output = {"Algorithm": "A1T2"}
     graph1 = to_graph_from_dict(pathwayGraph1)
     graph2 = to_graph_from_dict(pathwayGraph2)
@@ -125,7 +125,7 @@ def alg1_2GraphTraversal_GivenNodeToAnyNode(imagesFolderPath, tempUploadsFolderP
     return output
 
 # Code: A1T3
-def alg1_3GraphTraversal_GivenNodeToGivenNode(imagesFolderPath, tempUploadsFolderPath, pathwayGraph1, pathwayGraph2, startNodeGraph1, startNodeGraph2, endNodeGraph1, endNodeGraph2):
+def alg1_3GraphTraversal_GivenNodeToGivenNode(pathwayGraph1, pathwayGraph2, startNodeGraph1, startNodeGraph2, endNodeGraph1, endNodeGraph2):
     output = {"Algorithm": "A1T3"}
     graph1 = to_graph_from_dict(pathwayGraph1)
     graph2 = to_graph_from_dict(pathwayGraph2)
@@ -154,7 +154,7 @@ def alg1_3GraphTraversal_GivenNodeToGivenNode(imagesFolderPath, tempUploadsFolde
     return output
 
 # Code: A1T4
-def alg1_4EvalPossiblePaths_GivenNodeToGivenNode(imagesFolderPath, tempUploadsFolderPath, pathwayGraph1, pathwayGraph2, selectedPath1, selectedPath2):
+def alg1_4EvalPossiblePaths_GivenNodeToGivenNode(pathwayGraph1, pathwayGraph2, selectedPath1, selectedPath2):
     output = {"Algorithm": "A1T4"}
     graph1 = to_graph_from_dict(pathwayGraph1)
     graph2 = to_graph_from_dict(pathwayGraph2)
@@ -184,7 +184,7 @@ def alg1_4EvalPossiblePaths_GivenNodeToGivenNode(imagesFolderPath, tempUploadsFo
     return output
 
 # Code: A1T5
-def alg1_5GraphTraversal_AnyNodeToGivenNode(imagesFolderPath, tempUploadsFolderPath, pathwayGraph1, pathwayGraph2, endNodeGraph1, endNodeGraph2):
+def alg1_5GraphTraversal_AnyNodeToGivenNode(pathwayGraph1, pathwayGraph2, endNodeGraph1, endNodeGraph2):
     output = {"Algorithm": "A1T5"}
     graph1 = to_graph_from_dict(pathwayGraph1)
     graph2 = to_graph_from_dict(pathwayGraph2)
@@ -213,9 +213,9 @@ def alg1_5GraphTraversal_AnyNodeToGivenNode(imagesFolderPath, tempUploadsFolderP
     return output
 
 # Code: A2
-def alg2DifferentiationByPairs(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2):
+def alg2DifferentiationByPairs():
     return "Ok"
 
 # Code: A3
-def alg3_NameTBD(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2):
+def alg3_NameTBD():
     return "Ok"

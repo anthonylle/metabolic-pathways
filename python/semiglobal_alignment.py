@@ -20,13 +20,13 @@ def max_number_semiglobal():
     num_max_row = max(global_alignment.matrix[amount_rows])
     last_numb_col = []
     i = 0
-        
+
     while amount_rows >= 0:
         amount_rows = amount_rows + -1
         row = global_alignment.matrix[i]
         i = i + 1
         last_numb_col += [row[-1]]
-              
+
     col_max = max(last_numb_col)
     num_max = max(col_max, num_max_row)
     return num_max
@@ -40,7 +40,7 @@ def traceback(sequence1, sequence2):
     j = len(sequence1)-1
 
     max_number = max_number_semiglobal()
-    
+
 
     try:
         j = global_alignment.matrix[len(global_alignment.matrix)-1].index(max_number)
@@ -54,25 +54,25 @@ def traceback(sequence1, sequence2):
             i += 1
 
     while(i>0 or j>0):
-        if(i>0 and j>0 and global_alignment.matrix[i][j] == global_alignment.matrix[i-1][j-1] + 
+        if(i>0 and j>0 and global_alignment.matrix[i][j] == global_alignment.matrix[i-1][j-1] +
         global_alignment.getScore(sequence1, sequence2, i, j)):
             alignmentA = sequence1[j] + alignmentA
             alignmentB = sequence2[i] + alignmentB
             global_alignment.matrix[i][j] = 'D'+str(global_alignment.matrix[i][j])
-            
+
             i = i-1
             j = j-1
         elif((i>0 and global_alignment.matrix[i][j] == global_alignment.matrix[i-1][j] + global_alignment.GAP) or j==0):
             alignmentA = "--" + alignmentA
             alignmentB = sequence2[i] + alignmentB
             global_alignment.matrix[i][j] = "A" + str(global_alignment.matrix[i][j])
-            
+
             i = i-1
         elif((j>0 and global_alignment.matrix[i][j] == global_alignment.matrix[i][j-1] + global_alignment.GAP) or i==0):
             alignmentA = sequence1[j] + alignmentA
             alignmentB = "--" + alignmentB
             global_alignment.matrix[i][j] = "I"+str(global_alignment.matrix[i][j])
-            
+
             j = j-1
 
     alignments.append(alignmentA)
@@ -81,7 +81,8 @@ def traceback(sequence1, sequence2):
     return alignments
 
 # EJECUTA EL ALGORITMO COMPLETO
-def semiglobal_alignment(sequence1, sequence2):
+def semiglobal_alignment(sequence1, sequence2, newMatch, newMismatch, newGap):
+	global_alignment.setValues(newMatch, newMismatch, newGap)
 	global_alignment.clean_matrix()
 	global_alignment.init_matrix(sequence1, sequence2) # INICIALIZA LA MATRIZ DE PUNTAJES CON CEROS
 	fill_first_values() # LLENA LA PRIMER FILA Y LA PRIMERA COLUMNA

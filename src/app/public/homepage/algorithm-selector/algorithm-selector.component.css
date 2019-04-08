@@ -17,7 +17,7 @@ h2 {
   background-color:#eee;
   width: 320px;
   height:auto;
-  margin:30px 30px 30px 0px;/*auto;*/
+  margin:30px 30px 30px 30px;/*auto;*/
   border-radius: 30px;
   box-sizing: border-box;
 
@@ -67,5 +67,5 @@ h2 {
 }
 
 .algorithm-selector{
-  width: 320px;
+  width: 400px;
 }

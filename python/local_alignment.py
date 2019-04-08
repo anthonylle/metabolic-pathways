@@ -2,21 +2,26 @@ import global_alignment
 import numpy as np
 
 def fill_matrix(sequence1, sequence2):
-     sequence1 = global_alignment.insert_gap(sequence1, 0)
-     sequence2 = global_alignment.insert_gap(sequence2, 0)
+    sequence1 = global_alignment.insert_gap(sequence1, 0)
+    sequence2 = global_alignment.insert_gap(sequence2, 0)
 
-    #  print(sequence1)
-    #  print(sequence2)
-
-     num_rows = len(global_alignment.matrix)
-     for i in range(1,num_rows):
-         num_cols = len(global_alignment.matrix[i])
-         for j in range(1, num_cols):
-             up = global_alignment.matrix[i-1][j] + global_alignment.GAP
-             left = global_alignment.matrix[i][j-1] + global_alignment.GAP
-             diagonal = global_alignment.matrix[i-1][j-1] + global_alignment.getScore(sequence1, sequence2, i, j)
-
-             global_alignment.matrix[i][j] = max(up, left, diagonal, 0)
+    num_rows = len(global_alignment.matrix)
+    #print("num_rows - " + str(num_rows))
+    for i in range(1,num_rows):
+    #print("i - " + str(i))
+        num_cols = len(global_alignment.matrix[i])
+    #     print("num_cols - " + str(num_cols))
+        for j in range(1, num_cols):
+    #         print("j - " + str(j))
+            up = global_alignment.matrix[i-1][j] + global_alignment.GAP
+    #         print("up done")
+            left = global_alignment.matrix[i][j-1] + global_alignment.GAP
+    #         print("left done")
+            diagonal = global_alignment.matrix[i-1][j-1] + global_alignment.getScore(sequence1, sequence2, i, j)
+    #         print("diagonal done")
+            global_alignment.matrix[i][j] = max(up, left, diagonal, 0)
+    #         print("global_alignment done")
+    #     print("for j done")
 
 # CONSTRUYE EL ALINEAMIENTO OPTIMO CON LOS PUNTAJES DE LA MATRIZ
 def traceback(sequence1, sequence2):
@@ -35,7 +40,7 @@ def traceback(sequence1, sequence2):
             global_alignment.matrix[i][j] = 'D'+str(global_alignment.matrix[i][j]) #CAMINO
             i = i-1
             j = j-1
-        elif(i>0 and global_alignment.matrix[i][j] == global_alignment.matrix[i-1][j] + GAP):
+        elif(i>0 and global_alignment.matrix[i][j] == global_alignment.matrix[i-1][j] + global_alignment.GAP):
             alignmentA = "--" + alignmentA
             alignmentB = sequence2[i] + alignmentB
             global_alignment.matrix[i][j] = "A" + str(global_alignment.matrix[i][j]) #CAMINO
@@ -53,10 +58,11 @@ def traceback(sequence1, sequence2):
     return alignments
 
 # EJECUTA EL ALGORITMO COMPLETO
-def local_alignment(sequence1, sequence2):
-	global_alignment.clean_matrix()
-	global_alignment.init_matrix(sequence1, sequence2) # INICIALIZA LA MATRIZ DE PUNTAJES CON CEROS
-	fill_matrix(sequence1, sequence2) # CALCULA TODOS LOS PUNTAJES
-	alignments = traceback(["--"]+sequence1,["--"]+sequence2) # OBTIENE EL ALINEAMIENTO OPTIMO
-	alignments.append(global_alignment.alignmentScore(alignments[0], alignments[1]))
-	return alignments
+def local_alignment(sequence1, sequence2, newMatch, newMismatch, newGap):
+    global_alignment.setValues(newMatch, newMismatch, newGap)
+    global_alignment.clean_matrix()
+    global_alignment.init_matrix(sequence1, sequence2) # INICIALIZA LA MATRIZ DE PUNTAJES CON CEROS
+    fill_matrix(sequence1, sequence2) # CALCULA TODOS LOS PUNTAJES
+    alignments = traceback(["--"]+sequence1,["--"]+sequence2) # OBTIENE EL ALINEAMIENTO OPTIMO
+    alignments.append(global_alignment.alignmentScore(alignments[0], alignments[1]))
+    return alignments

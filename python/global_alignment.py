@@ -1,4 +1,8 @@
 # VARIABLES GLOBALES
+global MISMATCH
+global MATCH
+global GAP
+
 MISMATCH = -1
 MATCH = 1
 GAP = -2
@@ -8,28 +12,16 @@ matrix = []
 def clean_matrix():
 	global matrix
 	matrix = []
-	
+
 # MODIFICA LOS VALORES DE MATCH, MISMATCH Y GAP SI EL USUARIO LO SOLICITA
 def setValues(new_match, new_mismatch, new_gap):
 	global MISMATCH
 	global MATCH
 	global GAP
-	
-	if(new_mismatch != ""):
-		MISMATCH = int(new_mismatch)
-	else:
-		MISMATCH = -1
-		
-	if(new_match != ""):
-		MATCH = int(new_match)
-	else:
-		MATCH = 1
-	
-	if(new_gap != ""):
-		GAP = int(new_gap)
-	else:
-		GAP = -2
-		
+
+	MISMATCH = int(new_mismatch)
+	MATCH = int(new_match)
+	GAP = int(new_gap)
 
 # INICIALIZA LA MATRIZ DE PUNTAJES CON CEROS
 def init_matrix(sequence1, sequence2):
@@ -90,11 +82,11 @@ def add_sequences(sequence1, sequence2):
 
 	first_row = list(sequence1)
 	first_row.insert(0, " ")
-	matrix.insert(0, first_row)	
-		
+	matrix.insert(0, first_row)
+
 	for row in range(1, len(matrix)):
 		matrix[row].insert(0, sequence2[row-1])
-		
+
 # CONSTRUYE EL ALINEAMIENTO OPTIMO CON LOS PUNTAJES DE LA MATRIZ
 def traceback(sequence1, sequence2):
 	alignments = []
@@ -118,7 +110,7 @@ def traceback(sequence1, sequence2):
 		else:
 			alignmentA = sequence1[j] + alignmentA
 			alignmentB = "--" + alignmentB
-			matrix[i][j] = "I"+str(matrix[i][j])  
+			matrix[i][j] = "I"+str(matrix[i][j])
 			j = j-1
 
 	alignments.append(alignmentA)
@@ -141,12 +133,13 @@ def alignmentScore(alignmentA, alignmentB):
 	return score
 
 # EJECUTA EL ALGORITMO COMPLETO
-def needleman_wunsch(sequence1, sequence2):
+def needleman_wunsch(sequence1, sequence2, newMatch, newMismatch, newGap):
+	setValues(newMatch, newMismatch, newGap)
 	clean_matrix()
 	init_matrix(sequence1, sequence2) # INICIALIZA LA MATRIZ DE PUNTAJES CON CEROS
 	fill_first_values() # LLENA LA PRIMER FILA Y LA PRIMERA COLUMNA
 	fill_matrix(sequence1, sequence2) # CALCULA TODOS LOS PUNTAJES
 
-	alignments = traceback(["--"]+sequence1,["--"]+sequence2) # OBTIENE EL ALINEAMIENTO OPTIMO	
+	alignments = traceback(["--"]+sequence1,["--"]+sequence2) # OBTIENE EL ALINEAMIENTO OPTIMO
 	alignments.append(alignmentScore(alignments[0], alignments[1]))
 	return alignments

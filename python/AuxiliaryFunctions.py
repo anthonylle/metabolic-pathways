@@ -4,7 +4,7 @@ import os
 import string
 from graphviz import Digraph
 from local_alignment import local_alignment
-from global_alignment import needleman_wunsch
+from global_alignment import needleman_wunsch, setValues
 from semiglobal_alignment import semiglobal_alignment
 from graph import *
 
@@ -24,11 +24,6 @@ def generateGraph(imagesFolderPath, XMLFileName, pathwayCompoundsGraph):
         for v in pathwayCompoundsGraph[k]:
             g.edge(k, v)
     g.render(imagesFolderPath + XMLFileName)
-
-    # The following is used to include in the HTML, check later if it's necessary
-    #with open("g.png", "rb") as image_file:
-    #    encoded_string = base64.b64encode(image_file.read())
-    #return encoded_string
 
 def addToDictionary(path):
     for node in path:
@@ -70,12 +65,3 @@ def identify_differences(graph0, graph1, detail):
             if value1 != '*':
                 if not graph1.exists_edge(str(value1), str(value2)):
                     differences = True
-
-# Algorithm 1
-def metabolic_pathways_HTML_alg1(xmlPath1, xmlPath2, pathway0, pathway1):
-    # Gets file name for graph image.
-    fileName1 = xmlPath1[len(xmlPath1) - int(xmlPath1[::-1].find('/')): -4]
-    fileName2 = xmlPath2[len(xmlPath2) - int(xmlPath2[::-1].find('/')): -4]
-
-    g1 = generate_graph(fileName1, pathway0)
-    g2 = generate_graph(fileName2, pathway1)

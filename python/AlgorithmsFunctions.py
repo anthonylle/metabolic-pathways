@@ -62,9 +62,34 @@ def getGraphPathsIndexes(pathwayGraph, startNodeGraph, endNodeGraph, maximumCycl
         output["Graph paths"][n] = temporalPath
     return output
 
-# Code: A1T
-def alg1Transformation2DtoVector():
-    return "Ok"
+# Code: A1
+def alg1Transformation2DtoVector(pathwayGraph1, pathwayGraph2, newMatch, newMismatch, newGap):
+    output = {"Algorithm": "A1"}
+    graph1 = to_graph_from_dict(pathwayGraph1)
+    graph2 = to_graph_from_dict(pathwayGraph2)
+    bft1 = graph1.breadth_first_traversal()
+    bft2 = graph2.breadth_first_traversal()
+    dft1 = graph1.depth_first_traversal()
+    dft2 = graph2.depth_first_traversal()
+    addToDictionary(bft1)
+    addToDictionary(bft2)
+    addToDictionary(dft1)
+    addToDictionary(dft2)
+
+    output["BFT1"] = renamedPath(bft1)
+    output["BFT2"] = renamedPath(bft2)
+    output["DFT1"] = renamedPath(dft1)
+    output["DFT2"] = renamedPath(dft2)
+    output["Global BFT"] = needleman_wunsch(renamedPath(bft1), renamedPath(bft2), newMatch, newMismatch, newGap)
+    output["Global DFT"] = needleman_wunsch(renamedPath(dft1), renamedPath(dft2), newMatch, newMismatch, newGap)
+    output["Local BFT"] = local_alignment(renamedPath(bft1), renamedPath(bft2), newMatch, newMismatch, newGap)
+    output["Local DFT"] = local_alignment(renamedPath(dft1), renamedPath(dft2), newMatch, newMismatch, newGap)
+    output["SemiLocal BFT"] = semiglobal_alignment(renamedPath(bft1), renamedPath(bft2), newMatch, newMismatch, newGap)
+    output["SemiLocal DFT"] = semiglobal_alignment(renamedPath(dft1), renamedPath(dft2), newMatch, newMismatch, newGap)
+    output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
+    output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
+
+    return output
 
 # Code: A1T1
 def alg1_1GraphTraversal_AnyNodeToAnyNode(pathwayGraph1, pathwayGraph2, newMatch, newMismatch, newGap):

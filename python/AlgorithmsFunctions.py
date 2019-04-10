@@ -1,5 +1,5 @@
 import json
-from Kgml2Json import SimpleKGML
+from kgml2Json import SimpleKGML
 from AuxiliaryFunctions import *
 
 # Code: C1

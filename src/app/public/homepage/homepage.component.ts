@@ -15,27 +15,30 @@ export class HomepageComponent implements OnInit {
   anio: number = new Date().getFullYear();
 
   constructor(private service: HomepageService) { }
-  
 
-  ngOnInit() {
-    
-  }
-  pathway1:any;
-  pathway2:any;
+  pathway1:File;
+  pathway2:File;
   nombrepathway1:string;
   nombrepathway2:string;
-  pathway1final:string = "ko00010";
-  pathway2final:string = "ko00010";
+  pathway1final:string; //= "ko00010";
+  pathway2final:string; //= "ko00010";
   imagenpathway1:any =  "../../../assets/images/blanco.png";
   imagenpathway2:any =  "../../../assets/images/blanco.png";
-  public onArchivoSeleccionado($event: { target: { files: any[]; }; }) {
+
+  ngOnInit() {
+    this.pathway1final = "";
+    this.pathway2final = "";
+  }
+  
+  public onArchivoSeleccionado(event: { target: { files: any[]; }; }) {
     
-    for (let i = 0; i < $event.target.files.length; i++) {
-      this.pathway1 = $event.target.files[i];
-      this.nombrepathway1 = this.pathway1.name;
-      console.log(this.pathway1.name);
-    }
+    this.pathway1 = event.target.files[0];
+    this.nombrepathway1 = this.pathway1.name;
+    //console.log("El nombre del archivo 1 es: "+this.nombrepathway1);
+    console.log("pathway1: ");
+    console.log(this.pathway1);
     this.postcargarxml1();
+    console.log("soin i love you");
     //var FileSaver = require('file-saver');
     //FileSaver.saveAs(pathway, "pathway.xml");
   }
@@ -65,16 +68,23 @@ export class HomepageComponent implements OnInit {
   postcargarxml1(){
     this.service.uploadXMLFile('//localhost:3000/api/copyKGMLToTempUploads',this.pathway1).subscribe(
       (data:any) => {
-        console.log("3");
-        var key;
-        for (key in data.body) {
-          if (data.body.hasOwnProperty(key)) {
-            this.pathway1final = data.body[key];
-          }
-        } 
-        console.log("nombre: "+ this.pathway1final);
-        this.llamarapython();
-        this.cargarimagen1();
+        if(data.body){
+          var key;
+          console.log("data");
+          console.log(data);
+          for (key in data.body) {
+            if (data.body.hasOwnProperty(key)) {
+              console.log("pathwayfinal: "+  data.body[key]);
+              this.pathway1final = data.body[key];
+            }
+          } 
+          console.log("nombre: "+ this.pathway1final);
+          this.llamarapython1();
+          //this.cargarimagen1();
+
+        }else{
+          //console.log("paginita");
+        }
       }
     )
   }
@@ -89,21 +99,30 @@ export class HomepageComponent implements OnInit {
           }
         } 
         console.log(this.pathway2final);
-        this.cargarimagen2();
+        this.llamarapython2();
+        //this.cargarimagen2();
       }
     )
   }
 
-  cargarimagen1(){
-    this.imagenpathway1 =  require("../../../../images/"+this.pathway1final+".png");
-  }
+  //cargarimagen1(){
+  //  this.imagenpathway1 =  require("../../../../images/"+this.pathway1final+".png");
+  //}
   
-  cargarimagen2(){
-    this.imagenpathway2 =  require("../../../../images/ko00010.png");
-  }
+  //cargarimagen2(){
+  //  this.imagenpathway2 =  require("../../../../images/ko00010.png");
+  //}
 
-  llamarapython(){
-    this.service.llamarpython('//localhost:3000/api/python/',this.pathway1final+'.xml','','S2').subscribe(
+  llamarapython1(){
+    this.service.llamarpython('//localhost:3000/api/python',this.pathway1final+'.xml','S1').subscribe(
+      (data:any) => {
+        console.log("datosmagicos");
+        console.log(data);
+      }
+    )
+  }
+  llamarapython2(){
+    this.service.llamarpython('//localhost:3000/api/python',this.pathway2final+'.xml','S1').subscribe(
       (data:any) => {
         console.log(data);
       }

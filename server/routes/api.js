@@ -8,18 +8,17 @@ const Grid = require('gridfs-stream');
 const fs = require("fs");
 
 
-/*
+
 const mongoURI = 'mongodb://localhost:27017/MEAN';//
 const mainDB = 'MEAN'
-*/
 
 
 // connection from mongodb console
 //    mongo ds137291.mlab.com:37291/heroku_1lnxd10m -u heroku_1lnxd10m -p h16ioa5tul5q9ofvae2onnb00
 
 
-const mongoURI = 'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m';
-const mainDB = 'heroku_1lnxd10m';
+//const mongoURI = 'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m';
+//const mainDB = 'heroku_1lnxd10m';
 
 
 
@@ -131,7 +130,7 @@ const callPython = function(args){ //['path', args...]
   });
 };
 
-router.get('/python/', (req, res) => {
+router.get('/python', (req, res) => {
     callPython(['./python/Main.py', "{'C00084': ['C00033', 'C00033', 'C00033'], 'C00024': ['C00033', 'C16255', 'C00022'], 'C05125': ['C00084', 'C00068', 'C16255'], 'C00469': ['C00084', 'C00084', 'C00084', 'C00084', 'C00084', 'C00084'], 'C00068': ['C05125', 'C05125'], 'C00022': ['C05125', 'C05125', 'C00024'], 'C15972': ['C00068', 'C16255'], 'C15973': ['C16255', 'C15972'], 'C00186': ['C00022'], 'C00074': ['C00022'], 'C00631': ['C00074', 'C00197', 'C00197'], 'C00118': ['C00236', 'C00111', 'C00236', 'C00197', 'C00197', 'C00197'], 'C05378': ['C00111', 'C00118', 'C05345'], 'C05345': ['C05378', 'C05378', 'C05378'], 'C00031': ['C00668'], 'C00668': ['C05345', 'C01172', 'C01172', 'C00267'], 'C00103': ['C00668', 'C00267'], 'C01172': ['C05345'], 'C00221': ['C01172', 'C01172', 'C01172', 'C01172'], 'C00267': ['C00221', 'C00668', 'C00668', 'C00668', 'C00668'], 'C00197': ['C00236'], 'C06186': ['C06187'], 'C01451': ['C06188'], 'C06187': ['C01172'], 'C06188': ['C01172'], 'C00036': ['C00074', 'C00074'], 'C01159': ['C00197', 'C00631'], 'C00236': ['C01159'], 'C00033': ['C00024']}", "{'C00065': ['C00740', 'C00037', 'C00168', 'C02291', 'C00022', 'C00022', 'C00168', 'C00097'], 'C00114': ['C00576'], 'C00576': ['C00719'], 'C00719': ['C01026'], 'C00581': ['C00300'], 'C00197': ['C03232'], 'C01026': ['C00213'], 'C02291': ['C00097'], 'C00037': ['C00581', 'C00065', 'C00048', 'C03508', 'C00011', 'C01242', 'C00430', 'C00213', 'C00048'], 'C01005': ['C03232', 'C00065'], 'C00213': ['C00037', 'C00037'], 'C00143': ['C00065'], 'C00188': ['C00109'], 'C02051': ['C00011', 'C01242'], 'C01888': ['C00546', 'C00546'], 'C00258': ['C00168', 'C00631'], 'C00101': ['C00014', 'C00143', 'C02972'], 'C01242': ['C00014', 'C00143', 'C02972'], 'C02972': ['C02051'], 'C00631': ['C00197']}", 2, 3, 'A1T4']).then(fromCallBack => {
     console.log(fromCallBack.toString());
     res.end(fromCallBack);
@@ -141,7 +140,8 @@ router.get('/python/', (req, res) => {
 });
 
 router.post('/python', (req, res) => {
-  callPython(['./python/NewMain.py', req.body.file1, req.body.file2, req.body.tipo]).then(fromCallBack => {
+  console.log(req.body);
+  callPython(['./python/Main.py', req.body.file, req.body.tipo]).then(fromCallBack => {
     console.log(fromCallBack.toString());
     res.end(fromCallBack);
   }).catch(err => {
@@ -172,7 +172,7 @@ router.post('/copyKGMLToTempUploads', uploadLocal.single('file'),(req,res, next)
   const wStream = fs.createWriteStream('temp_uploads/'+filename+ '.xml');
   wStream.write(buffer);
   wStream.end();
-
+  console.log("raruto ");
   res.send({filename});
 });
 

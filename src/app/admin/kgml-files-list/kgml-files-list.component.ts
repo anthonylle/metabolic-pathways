@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { KgmlFilesService } from '../kgml-files.service';
+import { KgmlFilesService } from './kgml-files.service';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 
 @Component({

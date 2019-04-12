@@ -15,6 +15,6 @@
   background-color: #454545;
 }
 
-.nodes-selector{
-  visibility: visible;
+#Nodes-Parameter-View {
+  visibility: hidden;
 }

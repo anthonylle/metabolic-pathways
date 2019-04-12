@@ -25,6 +25,7 @@ export class HomepageComponent implements OnInit {
   imagenpathway1:any =  "../../../assets/images/blanco.png";
   imagenpathway2:any =  "../../../assets/images/blanco.png";
 
+
   ngOnInit() {
     this.pathway1final = "";
     this.pathway2final = "";

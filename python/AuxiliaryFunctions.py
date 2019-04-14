@@ -46,22 +46,28 @@ def renamedPath(path):
         renamed.append(dictionary[node])
     return renamed
 
-def identify_equality(graph0, graph1, detail):
+def identify_equality(graph1, graph2, detail):
+    outputList = []
     equality = False
-    for node in graph0.get_nodes():
+    for node in graph1.get_nodes():
         for edge in node.get_edges():
             value1 = node.get_value()
             value2 = edge.get_value()
             if value1 != '*':
-                if graph1.exists_edge(str(value1), str(value2)):
+                if graph2.exists_edge(str(value1), str(value2)):
                     equality = True
+                    outputList.append(str(value1) + " -> " + str(value2))
+    return outputList
 
-def identify_differences(graph0, graph1, detail):
+def identify_differences(graph1, graph2, detail):
+    outputList = []
     differences = False
-    for node in graph0.get_nodes():
+    for node in graph1.get_nodes():
         for edge in node.get_edges():
             value1 = node.get_value()
             value2 = edge.get_value()
             if value1 != '*':
-                if not graph1.exists_edge(str(value1), str(value2)):
+                if not graph2.exists_edge(str(value1), str(value2)):
                     differences = True
+                    outputList.append(str(value1) + " -> " + str(value2))
+    return outputList

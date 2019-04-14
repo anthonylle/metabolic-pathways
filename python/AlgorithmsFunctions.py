@@ -238,8 +238,15 @@ def alg1_5GraphTraversal_AnyNodeToGivenNode(pathwayGraph1, pathwayGraph2, endNod
     return output
 
 # Code: A2
-def alg2DifferentiationByPairs():
-    return "Ok"
+def alg2_DifferentiationByPairs(pathwayGraph1, pathwayGraph2):
+    output = {"Algorithm": "A2"}
+    graph1 = to_graph_from_dict(pathwayGraph1)
+    graph2 = to_graph_from_dict(pathwayGraph2)
+
+    output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
+    output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
+
+    return output
 
 # Code: A3
 def alg3_NameTBD():

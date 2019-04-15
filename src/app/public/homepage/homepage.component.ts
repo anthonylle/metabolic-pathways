@@ -31,16 +31,21 @@ export class HomepageComponent implements OnInit {
   var matchvalue = (<HTMLInputElement>document.getElementById("mismatchValue")).value;
   var matchvalue = (<HTMLInputElement>document.getElementById("gapValue")).value;
   */
- 
+  /*
+  obtener el algortimo a utilizar
+  var matchvalue = (<HTMLInputElement>document.getElementById("final-algorithm-selector")).value;
+  */
   ngOnInit() {
     this.pathway1final = "ko00010";
     this.pathway2final = "ko00010";
   }
   
   public onArchivoSeleccionado(event: { target: { files: any[]; }; }) {
-    this.pathway1 = event.target.files[0];
-    this.nombrepathway1 = this.pathway1.name;
-    this.postcargarxml1();
+    var matchvalue = (<HTMLInputElement>document.getElementById("final-algorithm-selector")).value;
+    console.log(matchvalue)
+    //this.pathway1 = event.target.files[0];
+    //this.nombrepathway1 = this.pathway1.name;
+    //this.postcargarxml1();
   }
   public onArchivoSeleccionado2(event: { target: { files: any[]; }; }) {
     

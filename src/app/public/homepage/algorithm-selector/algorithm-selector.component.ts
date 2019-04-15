@@ -32,18 +32,18 @@ export class AlgorithmSelectorComponent implements OnInit {
   changeAlgorithmView(currentView: string) {
     //alert(currentView);
     if(currentView === 'Original'){
-      this.options = [{value: 'Ori1', label:'2D to 1D Transformation'}, {value: 'Ori2', label:'Differentiation by pairs'}];
+      this.options = [{value: 'A1', label:'2D to 1D Transformation'}, {value: 'A2', label:'Differentiation by pairs'}];
       this.hideNodeParametersView();
     }else{
       if (currentView === 'Extended'){
-        this.options = [{value: '1.1', label: '1.1 - Starting at any node, Finishing at any node'},
-                        {value: '1.2', label: '1.2 - Starting at a given node, Finishing at any node'},
-                        {value: '1.3', label: '1.3 - Starting at a given node, Finishing at a given node'},
-                        {value: '1.4', label: '1.4 - Evaluation of all possible paths'},
-                        {value: '1.5', label: '1.5 - Starting at any node, Finishing at a given node'}];
+        this.options = [{value: 'A1T1', label: '1.1 - Starting at any node, Finishing at any node'},
+                        {value: 'A1T2', label: '1.2 - Starting at a given node, Finishing at any node'},
+                        {value: 'A1T3', label: '1.3 - Starting at a given node, Finishing at a given node'},
+                        {value: 'A1T4', label: '1.4 - Evaluation of all possible paths'},
+                        {value: 'A1T5', label: '1.5 - Starting at any node, Finishing at a given node'}];
         this.showNodeParametersView();
       }else{
-        this.options = [{value: '0', label: "Not available yet"}];
+        this.options = [{value: 'A3', label: "Not available yet"}];
         this.hideNodeParametersView();
       }
     }

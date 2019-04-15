@@ -41,11 +41,9 @@ export class HomepageComponent implements OnInit {
   }
   
   public onArchivoSeleccionado(event: { target: { files: any[]; }; }) {
-    var matchvalue = (<HTMLInputElement>document.getElementById("final-algorithm-selector")).value;
-    console.log(matchvalue)
-    //this.pathway1 = event.target.files[0];
-    //this.nombrepathway1 = this.pathway1.name;
-    //this.postcargarxml1();
+    this.pathway1 = event.target.files[0];
+    this.nombrepathway1 = this.pathway1.name;
+    this.postcargarxml1();
   }
   public onArchivoSeleccionado2(event: { target: { files: any[]; }; }) {
     

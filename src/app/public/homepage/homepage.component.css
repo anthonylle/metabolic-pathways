@@ -1,0 +1,20 @@
+
+.pathway-logo {
+  color: #ffffff;
+}
+
+.pathway-badge {
+  font-size: 30px;
+}
+
+.pathway-front {
+  margin: 100px auto;
+}
+
+.legacy-button {
+  background-color: #454545;
+}
+
+#Nodes-Parameter-View {
+  visibility: hidden;
+}

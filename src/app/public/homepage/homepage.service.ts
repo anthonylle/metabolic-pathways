@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpRequest, HttpEvent } from '@angular/common/http'
 import {map} from "rxjs/operators";
-import { Observable } from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +9,18 @@ import { Observable } from 'rxjs';
 export class HomepageService {
 
   constructor(private http: HttpClient) { }
+
+  private subject = new Subject<any>();
+
+
+  getCurrentAlgorithmType(): Observable<any>{
+    return this.subject.asObservable();
+  }
+
+  setCurrentAlgorithmType(type: string) {
+    this.subject.next({ text: type });
+  }
+
 
   uploadXMLFile(url: string, file: File):Observable<HttpEvent<any>>{
     let formData = new FormData();
@@ -22,7 +34,6 @@ export class HomepageService {
     };
 
     const req = new HttpRequest('POST', url, formData, options);
-    console.log("9");
     return this.http.request(req);
   }
 

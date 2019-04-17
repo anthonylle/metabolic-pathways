@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { HomepageService } from './homepage.service';
+import { Subscription } from 'rxjs';
 
 declare var require: any;
 
@@ -13,8 +14,12 @@ declare var require: any;
 export class HomepageComponent implements OnInit {
 
   anio: number = new Date().getFullYear();
-
-  constructor(private service: HomepageService) { }
+  subscription: Subscription;
+  currentAlgorithmTypeSelected: any;
+  constructor(private service: HomepageService) {
+    this.subscription = service.getCurrentAlgorithmType().subscribe(type =>
+    { this.currentAlgorithmTypeSelected = type.text; });
+  }
 
   pathway1:File;
   pathway2:File;
@@ -25,10 +30,34 @@ export class HomepageComponent implements OnInit {
   imagenpathway1:any =  "../../../assets/images/blanco.png";
   imagenpathway2:any =  "../../../assets/images/blanco.png";
 
+  pathwayGraph1: any;
+  pathwayGraph2: any;
+
+  isExtendedSelected: boolean;
 
   ngOnInit() {
     this.pathway1final = "";
     this.pathway2final = "";
+    this.isExtendedSelected = false;
+    this.currentAlgorithmTypeSelected = "Original";
+  }
+
+  checkAlgorithmType(){
+    alert("Current Algorithm Type: " + this.currentAlgorithmTypeSelected);
+  }
+
+  processPathways(){
+    switch(this.currentAlgorithmTypeSelected){
+      case "Original":
+        alert(this.currentAlgorithmTypeSelected);
+        break;
+      case "Extended":
+        alert(this.currentAlgorithmTypeSelected);
+        break;
+      case "Weighted":
+        alert(this.currentAlgorithmTypeSelected);
+        break;
+    }
   }
   
   public onArchivoSeleccionado(event: { target: { files: any[]; }; }) {
@@ -122,6 +151,7 @@ export class HomepageComponent implements OnInit {
       }
     )
   }
+
   llamarapython2(){
     this.service.llamarpython('//localhost:3000/api/python',this.pathway2final+'.xml','S1').subscribe(
       (data:any) => {

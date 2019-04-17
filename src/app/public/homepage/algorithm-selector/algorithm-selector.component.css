@@ -48,20 +48,20 @@ h2 {
 .filter-option {
   transition: color 500ms;
 }
-#filter-bar.option-1 .pill {
+#filter-bar.original .pill {
   margin-left: 0px;
   transition: margin-left 200ms ease;
 }
-#filter-bar.option-2 .pill {
+#filter-bar.extended .pill {
   margin-left: 100px;
   transition: margin-left 200ms ease;
 }
-#filter-bar.option-3 .pill {
+#filter-bar.weighted .pill {
   margin-left: 200px;
   transition: margin-left 200ms ease;
 }
 
-.option-1.active, .option-2.active, .option-3.active {
+.original.active, .extended.active, .weighted.active {
   color:#fff;
   transition: color 200ms;
 }

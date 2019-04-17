@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 import {FormBuilder, FormGroup} from "@angular/forms";
+import { HomepageService } from '../homepage.service';
 
 @Component({
   selector: 'app-algorithm-selector',
@@ -9,7 +10,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 })
 export class AlgorithmSelectorComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: HomepageService) {}
 
   options: any[];
   defaultValueOption: string;
@@ -47,6 +48,7 @@ export class AlgorithmSelectorComponent implements OnInit {
         this.hideNodeParametersView();
       }
     }
+    this.setCurrentAlgorithmTypeSelected(currentView);
   }
 
   displayCurrentValue(value: string){
@@ -65,6 +67,9 @@ export class AlgorithmSelectorComponent implements OnInit {
     //document.getElementById("Nodes-Parameter-View").style.transform = "visibility: hidden;";
   }
 
+  setCurrentAlgorithmTypeSelected(type: string){
+    this.service.setCurrentAlgorithmType(type);
+  }
 
 
 

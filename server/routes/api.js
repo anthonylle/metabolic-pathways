@@ -140,11 +140,10 @@ router.get('/python/', (req, res) => {
 });
 
 router.post('/python', (req, res) => {
-  console.log(req.body);
   callPython(['./python/Main.py', req.body.file, req.body.tipo]).then(fromCallBack => {
-    console.log(fromCallBack.toString());
     res.end(fromCallBack);
   }).catch(err => {
+    console.log("fallo");
     res.end(err);
   });
 });
@@ -172,7 +171,6 @@ router.post('/copyKGMLToTempUploads', uploadLocal.single('file'),(req,res, next)
   const wStream = fs.createWriteStream('temp_uploads/'+filename+ '.xml');
   wStream.write(buffer);
   wStream.end();
-  console.log("raruto ");
   res.send({filename});
 });
 

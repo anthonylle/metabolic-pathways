@@ -18,8 +18,6 @@
 			<form class="file-form" role="form" data-toggle="validator" ng-submit="process()">
 				<div>
 					<div class="row">
-							<img src={{imagenpathway1}} class="imagepathway">
-							<img src={{imagenpathway2}} class="imagepathway">
 						<div class="col-md-5">
 							<div class="row">
 								<div class="col-md-12">
@@ -53,75 +51,79 @@
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-md-6">
-									<input type="submit" class="btn btn-success" value="Process Pathways">
-								</div>
-							</div>
 						</div>
 						<br>
 						<div id="output" class="col-md-7"></div>
 					</div>
+						<img src={{imagenpathway1}} class="imagepathway">
+						<img src={{imagenpathway2}} class="imagepathway">
 				</div>
         <div class="container"> <!-- <app-algorithm-selector></app-algorithm-selector> -->
           <div class="row">
             <div class="col-md-5">
-              <app-alignment-values-table></app-alignment-values-table>
+              <app-alignment-values-table (getMatch)="getMatch(match)"></app-alignment-values-table>
             </div>
-            <div class="col-md-5">
-              <app-algorithm-selector></app-algorithm-selector>
-            </div>
-          </div>
-
-          <div class="row" id="Nodes-Parameter-View" ng-if="true">
-            <div class="col-md-4">
-              <h3 style="text-align: center;">Nodes Parameters</h3>
-              <div class="col-md-6 container-fluid">
-                <div class="pathway1-nodes">
-                  Pathway 1
-                  <br>
-                  Starting Node
-                  <br>
-                  <select class="form-control">
-                    <option>
-                      Static Option
-                    </option>
-                  </select>
-                  <br>
-                  Finishing Node
-                  <select class="form-control">
-                    <option>
-                      Static Option
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <!-- -->
-              <div class="col-md-6 container-fluid">
-                <div class="pathway2-nodes">
-                  Pathway 2
-                  <br>
-                  Starting Node
-                  <br>
-                  <select class="form-control">
-                    <option>
-                      Static Option
-                    </option>
-                  </select>
-                  <br>
-                  Finishing Node
-                  <select class="form-control">
-                    <option>
-                      Static Option
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-        </div> <!-- row 2 -->
-          <button (click)="checkAlgorithmType()"> CHECK ALGORITHM SELECTED</button>
-
-        </div>
+					</div>
+					<div class="row">
+						<div class="col-md-5">
+							<app-algorithm-selector></app-algorithm-selector>
+						</div>
+						<div class="row" id="Nodes-Parameter-View">
+								<div class="col-md-4">
+									<h3 style="text-align: center;">Nodes Parameters</h3>
+									<div class="col-md-6 container-fluid">
+										<div class="pathway1-nodes">
+											Pathway 1
+											<br>
+											Starting Node
+											<br>
+											<select class="form-control">
+												<option>
+													Static Option
+												</option>
+											</select>
+											<br>
+											Finishing Node
+											<select class="form-control">
+												<option>
+													Static Option
+												</option>
+											</select>
+										</div>
+									</div>
+									<!-- -->
+									<div class="col-md-6 container-fluid">
+										<div class="pathway2-nodes">
+											Pathway 2
+											<br>
+											Starting Node
+											<br>
+											<select class="form-control">
+												<option>
+													Static Option
+												</option>
+											</select>
+											<br>
+											Finishing Node
+											<select class="form-control">
+												<option>
+													Static Option
+												</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div> <!-- row 2 -->
+					</div>
+					<br>
+					<div class="col-md-5">
+						<div class="row">
+							<div class="col-md-6">
+								<input type="submit" class="btn btn-success" value="Process Pathways">
+							</div>
+						</div>
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -133,20 +135,3 @@
 			<p>&copy; Metabolic Pathways {{anio}}</p>
 		</div>
 	</footer>
-	<script>
-			jQuery(function($) {
-				$('#form_addjts').submit(function(){
-					writeToFile({
-						id: $(this).find('.id').val(), 
-						content: $(this).find('.content').val()
-					});
-					return false;
-				}); 
-				function writeToFile(data){
-					var fso = new ActiveXObject("Scripting.FileSystemObject");
-					var fh = fso.OpenTextFile("D:\\data.txt", 8);
-					fh.WriteLine(data.id + ',' + data.content);
-					fh.Close(); 
-				} 
-			}); 
-		</script>

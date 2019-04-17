@@ -5,7 +5,7 @@ imagesFolderPath = os.getcwd().replace('\\', '/') + "/images/"
 tempUploadsFolderPath = os.getcwd().replace('\\', '/') + "/temp_uploads/"
 
 if __name__ == '__main__':
-    requestCode = sys.argv[-1
+    requestCode = sys.argv[-1]
     try:
         if requestCode == "C1": print(createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, sys.argv[1]))
         elif requestCode == "C2": print(createTwoCompoundGraphs(imagesFolderPath, tempUploadsFolderPath, sys.argv[1], sys.argv[2]))

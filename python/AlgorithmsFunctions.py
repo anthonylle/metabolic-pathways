@@ -10,10 +10,10 @@ def createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1
     pathwayCompoundsGraph1 = simpleKGML1.getCompoundsGraph()
     try:
         generateGraph(imagesFolderPath, XMLFileName1.replace(".xml", ""), pathwayCompoundsGraph1)
-        output["Compound Graph 1"] = pathwayCompoundsGraph1
+        output["Graph1"] = pathwayCompoundsGraph1
     except Exception as e: print(e)
 
-    return output
+    return json.dumps(output)
 
 # Code: C2
 def createTwoCompoundGraphs(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2):

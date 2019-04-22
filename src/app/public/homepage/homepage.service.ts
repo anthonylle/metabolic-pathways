@@ -51,6 +51,9 @@ export class HomepageService {
 
     const req = new HttpRequest('POST', url, formData, options);
 
-    return this.http.request(req);
+    const data = this.http.request(req);
+    console.log("DATA FROM HOMEPAGE SERVICE (PYTHON): ");
+    console.log(data);
+    return data;
   }
 }

@@ -138,10 +138,55 @@ router.get('/python/', (req, res) => {
 });
 
 router.post('/python', (req, res) => {
-  callPython(['./python/Main.py', req.body.file, req.body.tipo]).then(fromCallBack => {
+  //const args = ['./python/Main.py', req.body.file, req.body.tipo];
+  const args = ['./python/Main.py'];
+  const algorithmCodes = ["A1", "A1T1", "A1T2", "A1T3", "A1T4", "A1T5"];//, "A2"];
+  if(algorithmCodes.includes(req.body.code)){
+    args.push(req.body.pathwayGraph1);
+    args.push(req.body.pathwayGraph2);
+    switch(req.body.code){
+      case "A1":
+        break;
+      case "A1T1":
+        break;
+      case "A1T2":
+        args.push(req.body.startNodeGraph1);
+        args.push(req.body.startNodeGraph2);
+        break;
+      case "A1T3":
+        args.push(req.body.startNodeGraph1);
+        args.push(req.body.startNodeGraph2);
+        args.push(req.body.endNodeGraph1);
+        args.push(req.body.endNodeGraph2);
+        break;
+      case "A1T4":
+        args.push(req.body.startNodeGraph1);
+        args.push(req.body.startNodeGraph2);
+        args.push(req.body.endNodeGraph1);
+        args.push(req.body.endNodeGraph2);
+        break;
+      case "A1T5":
+        args.push(req.body.endNodeGraph1);
+        args.push(req.body.endNodeGraph2);
+        break;
+      /*case "A2":
+        break;*/
+    }
+    args.push(req.body.match);
+    args.push(req.body.missmatch);
+    args.push(req.body.gap);
+  }
+  if(["C1"].includes(req.body.code))
+    args.push(req.body.filename);
+
+  args.push(req.body.code);
+  console.log("Args: ");
+  console.log(args);
+
+  callPython(args).then(fromCallBack => {
     res.end(fromCallBack);
   }).catch(err => {
-    console.log("fallo");
+    console.log("Fail response from Python");
     res.end(err);
   });
 });

@@ -7,19 +7,22 @@ import { HomepageComponent } from './public/homepage/homepage.component';
 import { LandingpageComponent } from './public/landingpage/landingpage.component';
 import { AdminbaseComponent } from './public/adminbase/adminbase.component';
 import { KgmlDataTableComponent } from './admin/kgml-data-table/kgml-data-table.component';
+import { KgmlFilesListComponent } from './admin/kgml-files-list/kgml-files-list.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from "@angular/forms";
+import { AlgorithmSelectorComponent } from './public/homepage/algorithm-selector/algorithm-selector.component';
+import { AlignmentValuesTableComponent } from './public/homepage/alignment-values-table/alignment-values-table.component';
 import {
   MatTableModule,
   MatPaginatorModule,
   MatSortModule,
   MatIconModule,
   MatButtonModule,
-  MatFormFieldModule, MatInputModule
+  MatFormFieldModule,
+  MatInputModule
 } from '@angular/material';
-import { KgmlFilesListComponent } from './admin/kgml-files-list/kgml-files-list.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from "@angular/forms";
-import { AlgorithmSelectorComponent } from './public/homepage/algorithm-selector/algorithm-selector.component';
-import { AlignmentValuesTableComponent } from './public/homepage/alignment-values-table/alignment-values-table.component';
+import { HomepageService } from './public/homepage/homepage.service';
+
 
 @NgModule({
   declarations: [
@@ -47,7 +50,7 @@ import { AlignmentValuesTableComponent } from './public/homepage/alignment-value
     MatInputModule,
     FormsModule
   ],
-  providers: [],
+  providers: [HomepageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

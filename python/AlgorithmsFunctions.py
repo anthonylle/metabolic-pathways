@@ -20,7 +20,7 @@ def createTwoCompoundGraphs(imagesFolderPath, tempUploadsFolderPath, XMLFileName
     output = {"Algorithm": "C2"}
     output["Compound Graph 1"] = createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1)["Compound Graph 1"]
     output["Compound Graph 2"] = createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName2)["Compound Graph 1"]
-    return output
+    return json.dumps(output)
 
 # Code: S1
 def createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1):
@@ -33,14 +33,14 @@ def createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileNa
         output["Central Node Graph 1"] = centralNodeGraph1
     except Exception as e: print(e)
 
-    return output
+    return json.dumps(output)
 
 # Code: S2
 def createTwoCentralNodeGraphs(imagesFolderPath, tempUploadsFolderPath, XMLFileName1, XMLFileName2):
     output = {"Algorithm": "S2"}
     output["Central Node Graph 1"] = createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1)["Central Node Graph 1"]
     output["Central Node Graph 2"] = createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName2)["Central Node Graph 1"]
-    return output
+    return json.dumps(output)
 
 # Code: NIndex
 def getGraphNodesIndexes(pathwayGraph):
@@ -48,7 +48,7 @@ def getGraphNodesIndexes(pathwayGraph):
     graph = to_graph_from_dict(pathwayGraph)
     for n, i in zip(range(len(graph.get_nodes())), graph.get_nodes()):
         output["Nodes indexes"][n] = i.get_value()
-    return output
+    return json.dumps(output)
 
 # Code: GPaths
 def getGraphPathsIndexes(pathwayGraph, startNodeGraph, endNodeGraph, maximumCycles):
@@ -60,7 +60,7 @@ def getGraphPathsIndexes(pathwayGraph, startNodeGraph, endNodeGraph, maximumCycl
         for node in i:
             temporalPath.append(node.get_value())
         output["Graph paths"][n] = temporalPath
-    return output
+    return json.dumps(output)
 
 # Code: A1
 def alg1Transformation2DtoVector(pathwayGraph1, pathwayGraph2, newMatch, newMismatch, newGap):
@@ -89,7 +89,7 @@ def alg1Transformation2DtoVector(pathwayGraph1, pathwayGraph2, newMatch, newMism
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
-    return output
+    return json.dumps(output)
 
 # Code: A1T1
 def alg1_1GraphTraversal_AnyNodeToAnyNode(pathwayGraph1, pathwayGraph2, newMatch, newMismatch, newGap):
@@ -118,7 +118,7 @@ def alg1_1GraphTraversal_AnyNodeToAnyNode(pathwayGraph1, pathwayGraph2, newMatch
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
-    return output
+    return json.dumps(output)
 
 # Code: A1T2
 def alg1_2GraphTraversal_GivenNodeToAnyNode(pathwayGraph1, pathwayGraph2, startNodeGraph1, startNodeGraph2, newMatch, newMismatch, newGap):
@@ -147,7 +147,7 @@ def alg1_2GraphTraversal_GivenNodeToAnyNode(pathwayGraph1, pathwayGraph2, startN
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
-    return output
+    return json.dumps(output)
 
 # Code: A1T3
 def alg1_3GraphTraversal_GivenNodeToGivenNode(pathwayGraph1, pathwayGraph2, startNodeGraph1, startNodeGraph2, endNodeGraph1, endNodeGraph2, newMatch, newMismatch, newGap):
@@ -176,7 +176,7 @@ def alg1_3GraphTraversal_GivenNodeToGivenNode(pathwayGraph1, pathwayGraph2, star
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
-    return output
+    return json.dumps(output)
 
 # Code: A1T4
 def alg1_4EvalPossiblePaths_GivenNodeToGivenNode(pathwayGraph1, pathwayGraph2, selectedPath1, selectedPath2, newMatch, newMismatch, newGap):
@@ -206,7 +206,7 @@ def alg1_4EvalPossiblePaths_GivenNodeToGivenNode(pathwayGraph1, pathwayGraph2, s
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
-    return output
+    return json.dumps(output)
 
 # Code: A1T5
 def alg1_5GraphTraversal_AnyNodeToGivenNode(pathwayGraph1, pathwayGraph2, endNodeGraph1, endNodeGraph2, newMatch, newMismatch, newGap):
@@ -235,7 +235,7 @@ def alg1_5GraphTraversal_AnyNodeToGivenNode(pathwayGraph1, pathwayGraph2, endNod
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
-    return output
+    return json.dumps(output)
 
 # Code: A2
 def alg2_DifferentiationByPairs(pathwayGraph1, pathwayGraph2):
@@ -246,7 +246,7 @@ def alg2_DifferentiationByPairs(pathwayGraph1, pathwayGraph2):
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
-    return output
+    return json.dumps(output)
 
 # Code: A3
 def alg3_NameTBD():

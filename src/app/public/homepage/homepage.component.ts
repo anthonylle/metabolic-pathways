@@ -20,8 +20,8 @@ export class HomepageComponent implements OnInit {
     { this.currentAlgorithmTypeSelected = type.text; });
   }
 
-  pathway1:File;
-  pathway2:File;
+  pathway1: File;
+  pathway2: File;
   nombrepathway1:string;
   nombrepathway2:string;
   pathway1final:string; //= "ko00010";
@@ -74,6 +74,8 @@ export class HomepageComponent implements OnInit {
     this.nombrepathway1 = this.pathway1.name;
     console.log("Post cargar xml1");
     this.postcargarxml1();
+    this.llamarapython1();
+    //this.cargarimagen1();
   }
   public onArchivoSeleccionado2(event: { target: { files: any[]; }; }) {
     
@@ -94,8 +96,8 @@ export class HomepageComponent implements OnInit {
             }
           }
           console.log("Llamar a Python 1");
-          this.llamarapython1();
-          this.cargarimagen1();
+          //this.llamarapython1();
+          //this.cargarimagen1();
 
         }
         else{
@@ -133,8 +135,8 @@ export class HomepageComponent implements OnInit {
       (data:any) => {
         res = data.Graph1;
         console.log('RESPONSE FOR data[Compound Graph 1]');
-        //console.log(res);
-        console.log('----------------------')
+        console.log(res);
+        console.log('--------------------');
         console.log(data);
       }
     )

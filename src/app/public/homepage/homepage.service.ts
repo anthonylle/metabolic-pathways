@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpRequest, HttpEvent } from '@angular/common/http'
-import {map} from "rxjs/operators";
+import { map } from "rxjs/operators";
 import {Observable, Subject} from 'rxjs';
 
 @Injectable({
@@ -34,16 +34,18 @@ export class HomepageService {
     };
 
     const req = new HttpRequest('POST', url, formData, options);
+    console.log("RETURN FROM UPLOADXMLFILE SERVICE");
     return this.http.request(req);
   }
 
-  llamarpython(url: string, file: string, tipo: string):Observable<HttpEvent<any>>{
+  llamarpython(url: string, file: string, type: string):Observable<HttpEvent<any>>{
     let formData = new FormData();
-    formData.append('file', file);
-    formData.append('tipo', tipo);
-    console.log(formData);
+    //formData.append('file', file);
+    //formData.append('tipo', tipo);
+    //console.log(formData);
 
-    let params = new HttpParams();
+    let params = new HttpParams().set('file', file);
+    params.append('type', type);
 
     const options = {
       params: params, reportProgress: true,

@@ -78,7 +78,7 @@ h4 {
 	-o-background-size: cover;
 	background-size: cover;
 	margin: 0;
-	min-height: 100vh;
+	min-height:60vh;
 	padding-top: 10%;
 	padding-bottom: 2%;
 }
@@ -229,3 +229,9 @@ h4 {
     cursor: inherit;
     display: block;
 }
+
+.imagepathway{
+	width: 198px; height: 198px;
+    border-radius: 2px;
+	padding: 2px;
+  }

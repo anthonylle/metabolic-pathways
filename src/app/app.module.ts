@@ -22,6 +22,7 @@ import {
   MatInputModule
 } from '@angular/material';
 import { HomepageService } from './public/homepage/homepage.service';
+import { PathwayImageViewComponent } from './public/homepage/pathway-image-view/pathway-image-view.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { HomepageService } from './public/homepage/homepage.service';
     KgmlDataTableComponent,
     KgmlFilesListComponent,
     AlgorithmSelectorComponent,
-    AlignmentValuesTableComponent
+    AlignmentValuesTableComponent,
+    PathwayImageViewComponent
   ],
   imports: [
     BrowserModule,

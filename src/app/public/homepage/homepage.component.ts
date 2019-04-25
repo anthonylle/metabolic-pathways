@@ -1,4 +1,4 @@
-declare function require(path: string);
+declare var require: any
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { HomepageService } from './homepage.service';
@@ -20,17 +20,19 @@ export class HomepageComponent implements OnInit {
     { this.currentAlgorithmTypeSelected = type.text; });
   }
 
+
   pathway1: File;
   pathway2: File;
   pathwayName1:string;
   pathwayName2:string;
   pathway1final:string; //= "ko00010";
   pathway2final:string; //= "ko00010";
-  imagenpathway1:String =  "../../../assets/images/negro.png";
-  imagenpathway2:String =  "../../../assets/images/negro.png";
 
   pathwayGraph1: any;
   pathwayGraph2: any;
+  //imagepathway1:string =  require("../../../../images/cit00710-1556089914716.png");
+  imagepathway1:string =  "../../../assets/images/negro.png";
+  imagepathway2:string =  "../../../assets/images/negro.png";
 
   isExtendedSelected: boolean;
 
@@ -79,18 +81,25 @@ export class HomepageComponent implements OnInit {
       console.log("Post cargar xml1");
       //this.copyXML1();
       this.fileUploaded(this.pathway1, this.service).then(filename => {
+        console.log("filename");
         console.log(filename);
         let args = {"code": "C1", "filename": filename + ".xml"};
         this.callPython(args, this.service).then(data => {
           console.log("RESULT FROM PYTHON NEW VERSION");
           console.log(data);
+          //this.loadimage(filename).then(respuesta =>{
+          //  console.log(respuesta);
+          //});
         });
         console.log("MUY AFUERA!");
       });
     }
+    //this.imagepathway1 =  require("../../../../images/cit00710-1556089914716.png");
   }
   public onSelectedFile2(fileInput: any) {
-
+    //this.loadimage(this.temp).then(respuesta =>{
+    //  console.log(respuesta);
+    //});
   }
 
   callPython  = function(args, providedService){
@@ -124,5 +133,11 @@ export class HomepageComponent implements OnInit {
     });
   };
 
+  loadimage = function(path){
+    return new Promise( (resolve, reject)=>{
+      this.imagepathway1 = require("../../../../images/ko00010-1556155215029.png");
+      resolve("si");
+    });
+  }
 
 }

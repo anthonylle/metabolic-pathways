@@ -12,6 +12,13 @@ export class HomepageService {
 
   private subject = new Subject<any>();
 
+  getCurrentAlgorithmCode(): Observable<any>{
+    return this.subject.asObservable();
+  }
+
+  setCurrentAlgorithmCode(code: string) {
+    this.subject.next({ text: code });
+  }
 
   getCurrentAlgorithmType(): Observable<any>{
     return this.subject.asObservable();

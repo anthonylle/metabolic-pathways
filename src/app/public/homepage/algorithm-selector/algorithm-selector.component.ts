@@ -30,6 +30,10 @@ export class AlgorithmSelectorComponent implements OnInit {
     this.currentOption = 'Original';
   }
 
+  checkCurrentValue(value){
+    alert(value);
+  }
+
   changeAlgorithmView(currentView: string) {
     //alert(currentView);
     if(currentView === 'Original'){

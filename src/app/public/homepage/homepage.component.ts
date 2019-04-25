@@ -15,6 +15,7 @@ export class HomepageComponent implements OnInit {
   anio: number = new Date().getFullYear();
   subscription: Subscription;
   currentAlgorithmTypeSelected: any;
+  currentAlgorithmCodeSelected: any;
   constructor(private service: HomepageService) {
     this.subscription = service.getCurrentAlgorithmType().subscribe(type =>
     { this.currentAlgorithmTypeSelected = type.text; });
@@ -31,7 +32,6 @@ export class HomepageComponent implements OnInit {
 
   pathwayGraph1: any;
   pathwayGraph2: any;
-
   isExtendedSelected: boolean;
 
   /*
@@ -50,6 +50,8 @@ export class HomepageComponent implements OnInit {
     this.pathway2final = "";
     this.isExtendedSelected = false;
     this.currentAlgorithmTypeSelected = "Original";
+    this.currentAlgorithmCodeSelected = "A1";
+    this.isExtendedSelected = this.currentAlgorithmTypeSelected == "Extended";
   }
 
   checkAlgorithmType(){
@@ -60,6 +62,8 @@ export class HomepageComponent implements OnInit {
     switch(this.currentAlgorithmTypeSelected){
       case "Original":
         alert(this.currentAlgorithmTypeSelected);
+        alert(document.getElementById('final-algorithm-selector'));
+        //alert(this.currentAlgorithmCodeSelected);
         break;
       case "Extended":
         alert(this.currentAlgorithmTypeSelected);
@@ -77,25 +81,38 @@ export class HomepageComponent implements OnInit {
       console.log("Pathway1 name:");
       console.log(this.pathwayName1);
       console.log("Post cargar xml1");
-      //this.copyXML1();
+      this.fileUploaded(this.pathway1, this.service).then(filename => {
+        console.log(filename);
+        let args = {"code": "C1", "filename": filename + ".xml"};
+        this.callPython(args, this.service).then(data => {
+          console.log("RESULT FROM PYTHON NEW VERSION");
+          console.log(data["Graph1"]);
+          this.pathwayGraph1 = data["Graph1"]
+        });
+      });
+    }
+  }
+  public onSelectedFile2(fileInput: any) {
+    if (fileInput.target.files && fileInput.target.files[0]) {
+      this.pathway2 = fileInput.target.files[0];
+      this.pathwayName2 = this.pathway2.name;
+      console.log("Pathway2 name:");
+      console.log(this.pathwayName2);
+      console.log("Post cargar xml2");
       this.fileUploaded(this.pathway1, this.service).then(filename => {
         console.log(filename);
         let args = {"code": "C1", "filename": filename + ".xml"};
         this.callPython(args, this.service).then(data => {
           console.log("RESULT FROM PYTHON NEW VERSION");
           console.log(data);
+          this.pathwayGraph2 = data["Graph1"]
         });
-        console.log("MUY AFUERA!");
       });
     }
-  }
-  public onSelectedFile2(fileInput: any) {
-
   }
 
   callPython  = function(args, providedService){
     return new Promise( (resolve, reject)=>{
-      //args.push({"url": "localhost:3000/api/python"}); //now url is within the service
       providedService.callPython(args).subscribe(
         (data)=>{
           if(data.body){

@@ -38,14 +38,21 @@ export class HomepageService {
     return this.http.request(req);
   }
 
-  llamarpython(url: string, file: string, type: string):Observable<HttpEvent<any>>{
+  callPython(args: object):Observable<HttpEvent<any>>{ //url: string, filename: string, code: string
+    let url = "//localhost:3000/api/python";
     let formData = new FormData();
-    //formData.append('file', file);
-    //formData.append('tipo', tipo);
-    //console.log(formData);
 
-    let params = new HttpParams().set('file', file);
-    params.append('type', type);
+    const algorithmCodes = ["A1", "A1T1", "A1T2", "A1T3", "A1T4", "A1T5"]; //TODO check for A2
+    if(algorithmCodes.includes(args['code'])){
+      //TODO implement the rest of the body params at this form data for the other codes
+    }
+    if(['C1'].includes(args['code'])){
+      formData.append('filename', args['filename']);
+      formData.append('code', args['code']);
+    }
+
+    let params = new HttpParams();//.set('filename', file);
+    //params.append('code', code);
 
     const options = {
       params: params, reportProgress: true,

@@ -26,10 +26,10 @@
 										<div class="input-group">
 											<span class="input-group-btn">
 												<span type="button" class="btn btn-default btn-file">Browse..
-													<input type="file" (change)="onArchivoSeleccionado($event)">
+													<input type="file" (change)="onSelectedFile($event)">
 												</span>
 											</span>
-											<input value={{nombrepathway1}} type="text" class="form-control pathway-name" readonly>
+											<input value={{pathwayName1}} type="text" class="form-control pathway-name" readonly>
 										</div>
 										<div class="help-block with-errors"></div>
 									</div>
@@ -42,10 +42,10 @@
 										<div class="input-group">
 											<span class="input-group-btn">
 												<span class="btn btn-default btn-file">Browse..
-													<input type="file" (change)="onArchivoSeleccionado2($event)">
+													<input type="file" (change)="onSelectedFile2($event)">
 												</span>
 											</span>
-											<input value={{nombrepathway2}} type="text" class="form-control pathway-name" readonly>
+											<input value={{pathwayName2}} type="text" class="form-control pathway-name" readonly>
 										</div>
 										<div class="help-block with-errors"></div>
 									</div>
@@ -61,7 +61,7 @@
         <div class="container"> <!-- <app-algorithm-selector></app-algorithm-selector> -->
           <div class="row">
             <div class="col-md-5">
-              <app-alignment-values-table (getMatch)="getMatch(match)"></app-alignment-values-table>
+              <app-alignment-values-table></app-alignment-values-table>
             </div>
 					</div>
 					<div class="row">

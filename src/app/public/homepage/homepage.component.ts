@@ -22,8 +22,8 @@ export class HomepageComponent implements OnInit {
 
   pathway1: File;
   pathway2: File;
-  nombrepathway1:string;
-  nombrepathway2:string;
+  pathwayName1:string;
+  pathwayName2:string;
   pathway1final:string; //= "ko00010";
   pathway2final:string; //= "ko00010";
   imagenpathway1:String =  "../../../assets/images/negro.png";
@@ -44,6 +44,7 @@ export class HomepageComponent implements OnInit {
   obtener el algortimo a utilizar
   var matchvalue = (<HTMLInputElement>document.getElementById("final-algorithm-selector")).value;
   */
+
   ngOnInit() {
     this.pathway1final = "";
     this.pathway2final = "";
@@ -69,96 +70,59 @@ export class HomepageComponent implements OnInit {
     }
   }
   
-  public onArchivoSeleccionado(event: { target: { files: any[]; }; }) {
-    this.pathway1 = event.target.files[0];
-    this.nombrepathway1 = this.pathway1.name;
-    console.log("Post cargar xml1");
-    this.postcargarxml1();
-    this.llamarapython1();
-    //this.cargarimagen1();
+  public onSelectedFile(fileInput: any) {
+    if (fileInput.target.files && fileInput.target.files[0]) {
+      this.pathway1 = fileInput.target.files[0];
+      this.pathwayName1 = this.pathway1.name;
+      console.log("Pathway1 name:");
+      console.log(this.pathwayName1);
+      console.log("Post cargar xml1");
+      //this.copyXML1();
+      this.fileUploaded(this.pathway1, this.service).then(filename => {
+        console.log(filename);
+        let args = {"code": "C1", "filename": filename + ".xml"};
+        this.callPython(args, this.service).then(data => {
+          console.log("RESULT FROM PYTHON NEW VERSION");
+          console.log(data);
+        });
+        console.log("MUY AFUERA!");
+      });
+    }
   }
-  public onArchivoSeleccionado2(event: { target: { files: any[]; }; }) {
-    
-    this.pathway2 = event.target.files[0];
-    this.nombrepathway2 = this.pathway2.name;
-    this.postcargarxml2();
+  public onSelectedFile2(fileInput: any) {
+
   }
-  postcargarxml1(){
-    this.service.uploadXMLFile('//localhost:3000/api/copyKGMLToTempUploads',this.pathway1).subscribe(
-      (data:any) => {
-        if(data.body){
-          var key;
-          console.log("postcargarxml1/data.body: ");
-          console.log(data.body);
-          for (key in data.body) {
-            if (data.body.hasOwnProperty(key)) {
-              this.pathway1final = data.body[key];
+
+  callPython  = function(args, providedService){
+    return new Promise( (resolve, reject)=>{
+      //args.push({"url": "localhost:3000/api/python"}); //now url is within the service
+      providedService.callPython(args).subscribe(
+        (data)=>{
+          if(data.body){
+            resolve(data.body);
+          }
+        }
+      );
+    });
+  };
+
+  fileUploaded = function(xmlFile, providedService){
+    return new Promise( (resolve, reject) => {
+      providedService.uploadXMLFile('//localhost:3000/api/copyKGMLToTempUploads',xmlFile).subscribe(
+          (data) => {
+            if(data.body){
+              var key;
+              for (key in data.body) {
+                if (data.body.hasOwnProperty(key)) {
+                  resolve(data.body[key]);
+                  //this.pathway1final = data.body[key];
+                }
+              }
             }
           }
-          console.log("Llamar a Python 1");
-          //this.llamarapython1();
-          //this.cargarimagen1();
+      );
+    });
+  };
 
-        }
-        else{
-          //console.log("paginita");
-        }
-      }
-    )
-  }
-
-  postcargarxml2(){
-    this.service.uploadXMLFile('//localhost:3000/api/copyKGMLToTempUploads',this.pathway2).subscribe(
-      (data:any) => {
-        if(data.body){
-          var key;
-          for (key in data.body) {
-            if (data.body.hasOwnProperty(key)) {
-              this.pathway2final = data.body[key];
-            }
-          } 
-          this.llamarapython2();
-          //this.cargarimagen2();
-        }
-        else{
-          //console.log("paginita");
-        }
-      }
-    )
-  }
-
-  llamarapython1(){
-    var res;
-    console.log("Going to call python with pathwayfinal1: ");
-    console.log(this.pathway1final);
-    this.service.llamarpython('//localhost:3000/api/python',this.pathway1final+'.xml','C1').subscribe(
-      (data:any) => {
-        res = data.Graph1;
-        console.log('RESPONSE FOR data[Compound Graph 1]');
-        console.log(res);
-        console.log('--------------------');
-        console.log(data);
-      }
-    )
-    return res;
-  }
-
-  llamarapython2(){
-    this.service.llamarpython('//localhost:3000/api/python',this.pathway2final+'.xml','C1').subscribe(
-      (data:any) => {
-        console.log(data);
-      }
-    )
-  }
-
-  cargarimagen1(){
-    var path = "../../../../images/cit00710-1554877253297.png";
-    console.log(path);
-    this.imagenpathway1 =  require(path);
-  }
-  
-  //cargarimagen2(){
-  //  this.imagenpathway2 =  require("../../../../images/ko00010.png");
-  //}
 
 }

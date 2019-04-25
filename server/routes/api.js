@@ -214,7 +214,9 @@ router.post('/copyKGMLToTempUploads', uploadLocal.single('file'),(req,res, next)
   const wStream = fs.createWriteStream('temp_uploads/'+filename+ '.xml');
   wStream.write(buffer);
   wStream.end();
-  res.send({filename});
+  response.data = filename;
+
+  res.send({filename});//(response);
 });
 
 

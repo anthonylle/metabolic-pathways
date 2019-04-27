@@ -89,6 +89,9 @@ def alg1Transformation2DtoVector(pathwayGraph1, pathwayGraph2, newMatch, newMism
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
+    #delete this
+    output["params"] = [pathwayGraph1, pathwayGraph2, newMatch, newMismatch, newGap]
+
     return json.dumps(output)
 
 # Code: A1T1

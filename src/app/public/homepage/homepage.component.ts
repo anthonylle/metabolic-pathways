@@ -14,15 +14,28 @@ import { matDrawerAnimations } from '@angular/material';
 })
 export class HomepageComponent implements OnInit {
 
+  subscriptionType: Subscription;
+  subscriptionCode: Subscription;
   anio: any;
   month: any;
   day: any;
-  subscription: Subscription;
   currentAlgorithmTypeSelected: any;
   currentAlgorithmCodeSelected: any;
+  currentAlgorithmExecutionResult: any[];
   constructor(private service: HomepageService) {
-    this.subscription = service.getCurrentAlgorithmType().subscribe(type =>
-    { this.currentAlgorithmTypeSelected = type.text; });
+    this.subscriptionType = service.getCurrentAlgorithmType().subscribe(type =>
+    {
+      console.log("RECEIVING FROM SERVICE TYPE");
+      console.log(type);
+      this.currentAlgorithmTypeSelected = type.text;
+
+    });
+    this.subscriptionCode = service.getCurrentAlgorithmCode().subscribe(code =>{
+      console.log("RECEIVING FROM SERVICE CODE");
+      console.log(code);
+      this.currentAlgorithmCodeSelected = code.code;
+      }
+    );
   }
 
 
@@ -79,15 +92,46 @@ export class HomepageComponent implements OnInit {
   processPathways(){
     switch(this.currentAlgorithmTypeSelected){
       case "Original":
-        alert(this.currentAlgorithmTypeSelected);
-        alert(document.getElementById('final-algorithm-selector'));
+        if(this.currentAlgorithmCodeSelected == 'A1'){
+          console.log("EXECUTING ALGORITHM A1");
+          const args = {"code": this.currentAlgorithmCodeSelected,
+                        "pathwayGraph1": this.pathwayGraph1,
+                        "pathwayGraph2": this.pathwayGraph2,
+                        "match": 1, //hard coded
+                        "missmatch": -1, //hard coded
+                        "gap": -2}; //hard coded
+          this.callPython(args, this.service).then(result =>{
+            console.log("RESULT FROM A1 ALGORITHM");
+            this.currentAlgorithmExecutionResult = [];
+            for (const key in result) {
+              if (result.hasOwnProperty(key)) {
+                this.currentAlgorithmExecutionResult.push({"key": key, "value": result[key]});
+              }
+            }
+            console.log(this.currentAlgorithmExecutionResult);
+            //this.currentAlgorithmExecutionResult = Array.of(JSON.stringify(result));
+
+          }).catch(error =>{
+            console.log("ERROR IN A1 ALGORITHM EXECUTION");
+          });
+        }else{
+          if(this.currentAlgorithmCodeSelected == 'A2'){
+            alert("A2 execution to be implemented");
+          }else{
+            alert("Unknown code");
+          }
+        }
+
+
         //alert(this.currentAlgorithmCodeSelected);
         break;
       case "Extended":
         alert(this.currentAlgorithmTypeSelected);
+        alert(this.currentAlgorithmCodeSelected);
         break;
       case "Weighted":
         alert(this.currentAlgorithmTypeSelected);
+        alert(this.currentAlgorithmCodeSelected);
         break;
     }
   }
@@ -98,16 +142,14 @@ export class HomepageComponent implements OnInit {
       this.pathwayName1 = this.pathway1.name;
       console.log("Pathway1 name:");
       console.log(this.pathwayName1);
-      console.log("Post cargar xml1");
-      let args
       this.fileUploaded(this.pathway1, this.service).then(filename => {
         console.log("filename");
         console.log(filename);
         args = {"code": "C1", "filename": filename + ".xml"};
         this.callPython(args, this.service).then(data => {
-          console.log("RESULT FROM PYTHON NEW VERSION");
+          console.log("RESULT FROM PYTHON");
           console.log(data["Graph1"]);
-          this.pathwayGraph1 = data["Graph1"];
+          this.pathwayGraph1 = JSON.stringify(data["Graph1"]);
         });
       });
     }
@@ -119,14 +161,13 @@ export class HomepageComponent implements OnInit {
       this.pathwayName2 = this.pathway2.name;
       console.log("Pathway2 name:");
       console.log(this.pathwayName2);
-      console.log("Post cargar xml2");
-      this.fileUploaded(this.pathway1, this.service).then(filename => {
+      this.fileUploaded(this.pathway2, this.service).then(filename => {
         console.log(filename);
         let args = {"code": "C1", "filename": filename + ".xml"};
         this.callPython(args, this.service).then(data => {
-          console.log("RESULT FROM PYTHON NEW VERSION");
-          console.log(data);
-          this.pathwayGraph2 = data["Graph1"]
+          console.log("RESULT FROM PYTHON");
+          console.log(data["Graph1"]);
+          this.pathwayGraph2 = JSON.stringify(data["Graph1"]);
         });
       });
     }

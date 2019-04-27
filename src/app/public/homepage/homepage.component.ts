@@ -1,4 +1,4 @@
-declare function require(path: string);
+declare var require: any
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { HomepageService } from './homepage.service';
@@ -25,17 +25,20 @@ export class HomepageComponent implements OnInit {
     { this.currentAlgorithmTypeSelected = type.text; });
   }
 
+
   pathway1: File;
   pathway2: File;
   pathwayName1:string;
   pathwayName2:string;
   pathway1final:string; //= "ko00010";
   pathway2final:string; //= "ko00010";
-  imagepathway1:any =  "../../../assets/images/negro.png";
-  imagepathway2:string =  "../../../assets/images/negro.png";
 
   pathwayGraph1: any;
   pathwayGraph2: any;
+  //imagepathway1:string =  require("../../../../images/cit00710-1556089914716.png");
+  imagepathway1:string =  "../../../assets/images/negro.png";
+  imagepathway2:string =  "../../../assets/images/negro.png";
+
   isExtendedSelected: boolean;
 
   /*
@@ -98,6 +101,7 @@ export class HomepageComponent implements OnInit {
       console.log("Post cargar xml1");
       let args
       this.fileUploaded(this.pathway1, this.service).then(filename => {
+        console.log("filename");
         console.log(filename);
         args = {"code": "C1", "filename": filename + ".xml"};
         this.callPython(args, this.service).then(data => {
@@ -126,6 +130,7 @@ export class HomepageComponent implements OnInit {
         });
       });
     }
+    //this.imagepathway1 =  require("../../../../images/cit00710-1556089914716.png");
   }
 
   callPython  = function(args, providedService){

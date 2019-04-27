@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { HomepageService } from './homepage.service';
 import { Subscription } from 'rxjs';
+import * as jsPDF from 'jspdf';
+import { matDrawerAnimations } from '@angular/material';
 
 @Component({
   selector: 'app-homepage',
@@ -12,7 +14,9 @@ import { Subscription } from 'rxjs';
 })
 export class HomepageComponent implements OnInit {
 
-  anio: number = new Date().getFullYear();
+  anio: any;
+  month: any;
+  day: any;
   subscription: Subscription;
   currentAlgorithmTypeSelected: any;
   currentAlgorithmCodeSelected: any;
@@ -27,8 +31,8 @@ export class HomepageComponent implements OnInit {
   pathwayName2:string;
   pathway1final:string; //= "ko00010";
   pathway2final:string; //= "ko00010";
-  imagenpathway1:String =  "../../../assets/images/negro.png";
-  imagenpathway2:String =  "../../../assets/images/negro.png";
+  imagepathway1:any =  "../../../assets/images/negro.png";
+  imagepathway2:string =  "../../../assets/images/negro.png";
 
   pathwayGraph1: any;
   pathwayGraph2: any;
@@ -52,6 +56,17 @@ export class HomepageComponent implements OnInit {
     this.currentAlgorithmTypeSelected = "Original";
     this.currentAlgorithmCodeSelected = "A1";
     this.isExtendedSelected = this.currentAlgorithmTypeSelected == "Extended";
+
+    this.anio = new Date().getFullYear();
+    this.month = new Date().getMonth() + 1;
+    this.day = new Date().getDate();
+    if(this.day<10){
+      this.day = '0' + this.day.toString();
+    }
+    if(this.month<10){
+      this.month = '0' + this.month.toString();
+    }
+
   }
 
   checkAlgorithmType(){
@@ -74,24 +89,26 @@ export class HomepageComponent implements OnInit {
     }
   }
   
-  public onSelectedFile(fileInput: any) {
+  async onSelectedFile(fileInput: any) {
     if (fileInput.target.files && fileInput.target.files[0]) {
       this.pathway1 = fileInput.target.files[0];
       this.pathwayName1 = this.pathway1.name;
       console.log("Pathway1 name:");
       console.log(this.pathwayName1);
       console.log("Post cargar xml1");
+      let args
       this.fileUploaded(this.pathway1, this.service).then(filename => {
         console.log(filename);
-        let args = {"code": "C1", "filename": filename + ".xml"};
+        args = {"code": "C1", "filename": filename + ".xml"};
         this.callPython(args, this.service).then(data => {
           console.log("RESULT FROM PYTHON NEW VERSION");
           console.log(data["Graph1"]);
-          this.pathwayGraph1 = data["Graph1"]
+          this.pathwayGraph1 = data["Graph1"];
         });
       });
     }
   }
+
   public onSelectedFile2(fileInput: any) {
     if (fileInput.target.files && fileInput.target.files[0]) {
       this.pathway2 = fileInput.target.files[0];
@@ -141,5 +158,51 @@ export class HomepageComponent implements OnInit {
     });
   };
 
+  async cargarimagen(){
+  }
 
+  downloadpdf(){
+    const doc = new jsPDF();
+
+    //logo del tec
+    var logo = new Image();
+    logo.src = "../../../assets/images/logo-tec.png";
+    doc.addImage(logo,"PNG",165, 0, 40, 20);
+
+    
+
+    //titulo
+    doc.text('Metabolic Pathways Comparison',60,30);
+    
+    //fecha
+    doc.text("Date: " + this.anio+"-"+this.month+"-"+this.day,10,50);
+
+    
+    //imagen estatica
+    var image = new Image();
+    var width;
+    var height;
+    image.onload = function() {
+      width = image.width;
+      height = image.height;
+      console.log(width);
+      console.log(height);
+      doc.addImage(image,"PNG",5, 100, width/10, height/10);
+      doc.save('Resultado.pdf');
+    };
+    image.src = require("../../../../images/cit00710-1556178748605.png");
+    console.log(width);
+    
+
+
+
+    
+
+
+
+
+
+
+    
+  }
 }

@@ -25,9 +25,13 @@ export class AlgorithmSelectorComponent implements OnInit {
       });
     });
 
-    this.options = [{value: 'Ori1', label:'2D to 1D Transformation'}, {value: 'Ori2', label:'Differentiation by pairs'}];
-    this.defaultValueOption = this.options[0];
+    this.options = [{value: 'A1', label:'2D to 1D Transformation'}, {value: 'A2', label:'Differentiation by pairs'}];
     this.currentOption = 'Original';
+    //this.service.setCurrentAlgorithmCode('A1');
+  }
+
+  checkCurrentValue(value){
+    alert(value);
   }
 
   changeAlgorithmView(currentView: string) {
@@ -48,11 +52,13 @@ export class AlgorithmSelectorComponent implements OnInit {
         this.hideNodeParametersView();
       }
     }
+    this.service.setCurrentAlgorithmCode(this.options[0]['value']); // for parent change
     this.setCurrentAlgorithmTypeSelected(currentView);
   }
 
   displayCurrentValue(value: string){
     //alert('Current value: ' + value);
+    this.service.setCurrentAlgorithmCode(value); // for child change
   }
 
   showNodeParametersView(){

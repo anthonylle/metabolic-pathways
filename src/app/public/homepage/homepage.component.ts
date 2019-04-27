@@ -1,4 +1,3 @@
-declare function require(path: string);
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { HomepageService } from './homepage.service';
@@ -13,17 +12,31 @@ import { Subscription } from 'rxjs';
 export class HomepageComponent implements OnInit {
 
   anio: number = new Date().getFullYear();
-  subscription: Subscription;
+  subscriptionType: Subscription;
+  subscriptionCode: Subscription;
   currentAlgorithmTypeSelected: any;
+  currentAlgorithmCodeSelected: any;
+  currentAlgorithmExecutionResult: any[];
   constructor(private service: HomepageService) {
-    this.subscription = service.getCurrentAlgorithmType().subscribe(type =>
-    { this.currentAlgorithmTypeSelected = type.text; });
+    this.subscriptionType = service.getCurrentAlgorithmType().subscribe(type =>
+    {
+      console.log("RECEIVING FROM SERVICE TYPE");
+      console.log(type);
+      this.currentAlgorithmTypeSelected = type.text;
+
+    });
+    this.subscriptionCode = service.getCurrentAlgorithmCode().subscribe(code =>{
+      console.log("RECEIVING FROM SERVICE CODE");
+      console.log(code);
+      this.currentAlgorithmCodeSelected = code.code;
+      }
+    );
   }
 
   pathway1: File;
   pathway2: File;
-  nombrepathway1:string;
-  nombrepathway2:string;
+  pathwayName1:string;
+  pathwayName2:string;
   pathway1final:string; //= "ko00010";
   pathway2final:string; //= "ko00010";
   imagenpathway1:String =  "../../../assets/images/negro.png";
@@ -31,7 +44,6 @@ export class HomepageComponent implements OnInit {
 
   pathwayGraph1: any;
   pathwayGraph2: any;
-
   isExtendedSelected: boolean;
 
   /*
@@ -44,11 +56,14 @@ export class HomepageComponent implements OnInit {
   obtener el algortimo a utilizar
   var matchvalue = (<HTMLInputElement>document.getElementById("final-algorithm-selector")).value;
   */
+
   ngOnInit() {
     this.pathway1final = "";
     this.pathway2final = "";
     this.isExtendedSelected = false;
     this.currentAlgorithmTypeSelected = "Original";
+    this.currentAlgorithmCodeSelected = "A1";
+    this.isExtendedSelected = this.currentAlgorithmTypeSelected == "Extended";
   }
 
   checkAlgorithmType(){
@@ -58,107 +73,114 @@ export class HomepageComponent implements OnInit {
   processPathways(){
     switch(this.currentAlgorithmTypeSelected){
       case "Original":
-        alert(this.currentAlgorithmTypeSelected);
+        if(this.currentAlgorithmCodeSelected == 'A1'){
+          console.log("EXECUTING ALGORITHM A1");
+          const args = {"code": this.currentAlgorithmCodeSelected,
+                        "pathwayGraph1": this.pathwayGraph1,
+                        "pathwayGraph2": this.pathwayGraph2,
+                        "match": 1, //hard coded
+                        "missmatch": -1, //hard coded
+                        "gap": -2}; //hard coded
+          this.callPython(args, this.service).then(result =>{
+            console.log("RESULT FROM A1 ALGORITHM");
+            this.currentAlgorithmExecutionResult = [];
+            for (const key in result) {
+              if (result.hasOwnProperty(key)) {
+                this.currentAlgorithmExecutionResult.push({"key": key, "value": result[key]});
+              }
+            }
+            console.log(this.currentAlgorithmExecutionResult);
+            //this.currentAlgorithmExecutionResult = Array.of(JSON.stringify(result));
+
+          }).catch(error =>{
+            console.log("ERROR IN A1 ALGORITHM EXECUTION");
+          });
+        }else{
+          if(this.currentAlgorithmCodeSelected == 'A2'){
+            alert("A2 execution to be implemented");
+          }else{
+            alert("Unknown code");
+          }
+        }
+
+
+        //alert(this.currentAlgorithmCodeSelected);
         break;
       case "Extended":
         alert(this.currentAlgorithmTypeSelected);
+        alert(this.currentAlgorithmCodeSelected);
         break;
       case "Weighted":
         alert(this.currentAlgorithmTypeSelected);
+        alert(this.currentAlgorithmCodeSelected);
         break;
     }
   }
   
-  public onArchivoSeleccionado(event: { target: { files: any[]; }; }) {
-    this.pathway1 = event.target.files[0];
-    this.nombrepathway1 = this.pathway1.name;
-    console.log("Post cargar xml1");
-    this.postcargarxml1();
-    this.llamarapython1();
-    //this.cargarimagen1();
+  public onSelectedFile(fileInput: any) {
+    if (fileInput.target.files && fileInput.target.files[0]) {
+      this.pathway1 = fileInput.target.files[0];
+      this.pathwayName1 = this.pathway1.name;
+      console.log("Pathway1 name:");
+      console.log(this.pathwayName1);
+      this.fileUploaded(this.pathway1, this.service).then(filename => {
+        console.log(filename);
+        let args = {"code": "C1", "filename": filename + ".xml"};
+        this.callPython(args, this.service).then(data => {
+          console.log("RESULT FROM PYTHON");
+          console.log(data["Graph1"]);
+          this.pathwayGraph1 = JSON.stringify(data["Graph1"]);
+        });
+      });
+    }
   }
-  public onArchivoSeleccionado2(event: { target: { files: any[]; }; }) {
-    
-    this.pathway2 = event.target.files[0];
-    this.nombrepathway2 = this.pathway2.name;
-    this.postcargarxml2();
+  public onSelectedFile2(fileInput: any) {
+    if (fileInput.target.files && fileInput.target.files[0]) {
+      this.pathway2 = fileInput.target.files[0];
+      this.pathwayName2 = this.pathway2.name;
+      console.log("Pathway2 name:");
+      console.log(this.pathwayName2);
+      this.fileUploaded(this.pathway2, this.service).then(filename => {
+        console.log(filename);
+        let args = {"code": "C1", "filename": filename + ".xml"};
+        this.callPython(args, this.service).then(data => {
+          console.log("RESULT FROM PYTHON");
+          console.log(data["Graph1"]);
+          this.pathwayGraph2 = JSON.stringify(data["Graph1"]);
+        });
+      });
+    }
   }
-  postcargarxml1(){
-    this.service.uploadXMLFile('//localhost:3000/api/copyKGMLToTempUploads',this.pathway1).subscribe(
-      (data:any) => {
-        if(data.body){
-          var key;
-          console.log("postcargarxml1/data.body: ");
-          console.log(data.body);
-          for (key in data.body) {
-            if (data.body.hasOwnProperty(key)) {
-              this.pathway1final = data.body[key];
+
+  callPython  = function(args, providedService){
+    return new Promise( (resolve, reject)=>{
+      providedService.callPython(args).subscribe(
+        (data)=>{
+          if(data.body){
+            resolve(data.body);
+          }
+        }
+      );
+    });
+  };
+
+  fileUploaded = function(xmlFile, providedService){
+    return new Promise( (resolve, reject) => {
+      providedService.uploadXMLFile('//localhost:3000/api/copyKGMLToTempUploads',xmlFile).subscribe(
+          (data) => {
+            if(data.body){
+              var key;
+              for (key in data.body) {
+                if (data.body.hasOwnProperty(key)) {
+                  resolve(data.body[key]);
+                  //this.pathway1final = data.body[key];
+                }
+              }
             }
           }
-          console.log("Llamar a Python 1");
-          //this.llamarapython1();
-          //this.cargarimagen1();
+      );
+    });
+  };
 
-        }
-        else{
-          //console.log("paginita");
-        }
-      }
-    )
-  }
-
-  postcargarxml2(){
-    this.service.uploadXMLFile('//localhost:3000/api/copyKGMLToTempUploads',this.pathway2).subscribe(
-      (data:any) => {
-        if(data.body){
-          var key;
-          for (key in data.body) {
-            if (data.body.hasOwnProperty(key)) {
-              this.pathway2final = data.body[key];
-            }
-          } 
-          this.llamarapython2();
-          //this.cargarimagen2();
-        }
-        else{
-          //console.log("paginita");
-        }
-      }
-    )
-  }
-
-  llamarapython1(){
-    var res;
-    console.log("Going to call python with pathwayfinal1: ");
-    console.log(this.pathway1final);
-    this.service.llamarpython('//localhost:3000/api/python',this.pathway1final+'.xml','C1').subscribe(
-      (data:any) => {
-        res = data.Graph1;
-        console.log('RESPONSE FOR data[Compound Graph 1]');
-        console.log(res);
-        console.log('--------------------');
-        console.log(data);
-      }
-    )
-    return res;
-  }
-
-  llamarapython2(){
-    this.service.llamarpython('//localhost:3000/api/python',this.pathway2final+'.xml','C1').subscribe(
-      (data:any) => {
-        console.log(data);
-      }
-    )
-  }
-
-  cargarimagen1(){
-    var path = "../../../../images/cit00710-1554877253297.png";
-    console.log(path);
-    this.imagenpathway1 =  require(path);
-  }
-  
-  //cargarimagen2(){
-  //  this.imagenpathway2 =  require("../../../../images/ko00010.png");
-  //}
 
 }

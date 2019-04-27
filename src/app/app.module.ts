@@ -22,6 +22,7 @@ import {
   MatInputModule
 } from '@angular/material';
 import { HomepageService } from './public/homepage/homepage.service';
+import { AlgorithmExecutionResultComponent } from './public/homepage/algorithm-execution-result/algorithm-execution-result.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { HomepageService } from './public/homepage/homepage.service';
     KgmlDataTableComponent,
     KgmlFilesListComponent,
     AlgorithmSelectorComponent,
-    AlignmentValuesTableComponent
+    AlignmentValuesTableComponent,
+    AlgorithmExecutionResultComponent
   ],
   imports: [
     BrowserModule,

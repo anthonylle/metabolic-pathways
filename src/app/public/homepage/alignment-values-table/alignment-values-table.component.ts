@@ -13,7 +13,7 @@ export class AlignmentValuesTableComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.matchvalue);
+
   }
 
 }

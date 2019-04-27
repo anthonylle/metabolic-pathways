@@ -10,22 +10,23 @@ export class HomepageService {
 
   constructor(private http: HttpClient) { }
 
-  private subject = new Subject<any>();
+  private typeSubject = new Subject<any>();
+  private codeSubject = new Subject<any>();
 
   getCurrentAlgorithmCode(): Observable<any>{
-    return this.subject.asObservable();
+    return this.codeSubject.asObservable();
   }
 
   setCurrentAlgorithmCode(code: string) {
-    this.subject.next({ text: code });
+    this.codeSubject.next({ code: code });
   }
 
   getCurrentAlgorithmType(): Observable<any>{
-    return this.subject.asObservable();
+    return this.typeSubject.asObservable();
   }
 
   setCurrentAlgorithmType(type: string) {
-    this.subject.next({ text: type });
+    this.typeSubject.next({ text: type });
   }
 
 
@@ -41,7 +42,6 @@ export class HomepageService {
     };
 
     const req = new HttpRequest('POST', url, formData, options);
-    console.log("RETURN FROM UPLOADXMLFILE SERVICE");
     return this.http.request(req);
   }
 
@@ -51,7 +51,20 @@ export class HomepageService {
 
     const algorithmCodes = ["A1", "A1T1", "A1T2", "A1T3", "A1T4", "A1T5"]; //TODO check for A2
     if(algorithmCodes.includes(args['code'])){
-      //TODO implement the rest of the body params at this form data for the other codes
+      console.log('FINAL CHECK BE4 EXEC A1 FOR PATHWAYS GRAPHS');
+      console.log(args['pathwayGraph1']);
+      console.log(args['pathwayGraph2']);
+      formData.append('pathwayGraph1', args['pathwayGraph1']);
+      formData.append('pathwayGraph2', args['pathwayGraph2']);
+      switch (args['code']) {
+        case 'A1':
+          formData.append('match', args['match']);
+          formData.append('missmatch', args['missmatch']);
+          formData.append('gap', args['gap']);
+          formData.append('code', args['code']);
+          break;
+          // TODO implement the rest of the algorithm codes
+      }
     }
     if(['C1'].includes(args['code'])){
       formData.append('filename', args['filename']);
@@ -68,7 +81,7 @@ export class HomepageService {
     const req = new HttpRequest('POST', url, formData, options);
 
     const data = this.http.request(req);
-    console.log("DATA FROM HOMEPAGE SERVICE (PYTHON): ");
+    console.log("HELLO FROM HOMEPAGE.SERVICE (PYTHON)");
     console.log(data);
     return data;
   }

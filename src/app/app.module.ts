@@ -35,7 +35,7 @@ import { AlgorithmExecutionResultComponent } from './public/homepage/algorithm-e
     KgmlDataTableComponent,
     KgmlFilesListComponent,
     AlgorithmSelectorComponent,
-    PathwayImageViewComponent
+    PathwayImageViewComponent,
     AlignmentValuesTableComponent,
     AlgorithmExecutionResultComponent
   ],

@@ -1,10 +1,11 @@
 declare var require: any
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { HomepageService } from './homepage.service';
 import { Subscription } from 'rxjs';
 import * as jsPDF from 'jspdf';
 import { matDrawerAnimations } from '@angular/material';
+import * as html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-homepage',
@@ -13,6 +14,8 @@ import { matDrawerAnimations } from '@angular/material';
   providers: [HomepageService]
 })
 export class HomepageComponent implements OnInit {
+
+  @ViewChild('content') content: ElementRef;
 
   subscriptionType: Subscription;
   subscriptionCode: Subscription;
@@ -145,7 +148,7 @@ export class HomepageComponent implements OnInit {
       this.fileUploaded(this.pathway1, this.service).then(filename => {
         console.log("filename");
         console.log(filename);
-        args = {"code": "C1", "filename": filename + ".xml"};
+        let args = {"code": "C1", "filename": filename + ".xml"};
         this.callPython(args, this.service).then(data => {
           console.log("RESULT FROM PYTHON");
           console.log(data["Graph1"]);
@@ -210,45 +213,52 @@ export class HomepageComponent implements OnInit {
   downloadpdf(){
     const doc = new jsPDF();
 
-    //logo del tec
-    var logo = new Image();
-    logo.src = "../../../assets/images/logo-tec.png";
-    doc.addImage(logo,"PNG",165, 0, 40, 20);
-
-    
-
-    //titulo
-    doc.text('Metabolic Pathways Comparison',60,30);
-    
-    //fecha
-    doc.text("Date: " + this.anio+"-"+this.month+"-"+this.day,10,50);
-
     
     //imagen estatica
     var image = new Image();
     var width;
     var height;
-    image.onload = function() {
-      width = image.width;
-      height = image.height;
-      console.log(width);
-      console.log(height);
-      doc.addImage(image,"PNG",5, 100, width/10, height/10);
-      doc.save('Resultado.pdf');
-    };
-    image.src = require("../../../../images/cit00710-1556178748605.png");
-    console.log(width);
+
+    html2canvas(document.querySelector('#content')).then(canvas => {
+      //logo del tec
+      var logo = new Image();
+      logo.src = "../../../assets/images/logo-tec.png";
+      doc.addImage(logo,"PNG",165, 0, 40, 20);
+
+      //titulo
+      doc.text('Metabolic Pathways Comparison',60,30);
+  
+      //fecha
+      doc.text("Date: " + this.anio+"-"+this.month+"-"+this.day,10,50);
+
+      image.onload = function() {
+      
+        width = image.width;
+        height = image.height;
+        console.log(width);
+        console.log(height);
+        doc.addImage(image,"PNG",5, 100, width/10, height/10);
+
+        doc.addPage();
+        doc.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
+
+        doc.save('Resultado.pdf');
+        
+      };
+      image.src = require("../../../../images/cit00710-1556178748605.png");
+      
+    });
     
-
-
-
-    
-
-
-
-
-
-
     
   }
+
+  print() {
+		const filename  = 'prueba.pdf';
+
+		html2canvas(document.querySelector('#content')).then(canvas => {
+			let pdf = new jsPDF('p', 'mm', 'a4');
+			pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 5, 100);
+			pdf.save(filename);
+		});
+	}
 }

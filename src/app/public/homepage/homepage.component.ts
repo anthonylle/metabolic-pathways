@@ -44,6 +44,9 @@ export class HomepageComponent implements OnInit {
 
   pathwayGraph1: any;
   pathwayGraph2: any;
+  pathwayNodes1: object;
+  pathwayNodes2: object;
+
   isExtendedSelected: boolean;
 
   /*
@@ -75,13 +78,13 @@ export class HomepageComponent implements OnInit {
       case "Original":
         if(this.currentAlgorithmCodeSelected == 'A1'){
           console.log("EXECUTING ALGORITHM A1");
-          const args = {"code": this.currentAlgorithmCodeSelected,
+          const originalArgs = {"code": this.currentAlgorithmCodeSelected,
                         "pathwayGraph1": this.pathwayGraph1,
                         "pathwayGraph2": this.pathwayGraph2,
                         "match": 1, //hard coded
                         "missmatch": -1, //hard coded
                         "gap": -2}; //hard coded
-          this.callPython(args, this.service).then(result =>{
+          this.callPython(originalArgs, this.service).then(result =>{
             console.log("RESULT FROM A1 ALGORITHM");
             this.currentAlgorithmExecutionResult = [];
             for (const key in result) {
@@ -97,22 +100,77 @@ export class HomepageComponent implements OnInit {
           });
         }else{
           if(this.currentAlgorithmCodeSelected == 'A2'){
-            alert("A2 execution to be implemented");
+            console.log("EXECUTING ALGORITHM A2");
+            const originalArgs = {"code": this.currentAlgorithmCodeSelected,
+                          "pathwayGraph1": this.pathwayGraph1,
+                          "pathwayGraph2": this.pathwayGraph2};
+            this.callPython(originalArgs, this.service).then(result =>{
+              console.log("RESULT FROM A2 ALGORITHM");
+              this.currentAlgorithmExecutionResult = [];
+              for (const key in result) {
+                if (result.hasOwnProperty(key)) {
+                  this.currentAlgorithmExecutionResult.push({"key": key, "value": result[key]});
+                }
+              }
+              console.log(this.currentAlgorithmExecutionResult);
+            }).catch(error =>{
+              console.log("ERROR IN A2 ALGORITHM EXECUTION");
+            });
           }else{
             alert("Unknown code");
           }
         }
-
-
-        //alert(this.currentAlgorithmCodeSelected);
         break;
       case "Extended":
-        alert(this.currentAlgorithmTypeSelected);
-        alert(this.currentAlgorithmCodeSelected);
+        const extendedArgs = {"code": this.currentAlgorithmCodeSelected,
+          "pathwayGraph1": this.pathwayGraph1,
+          "pathwayGraph2": this.pathwayGraph2,
+          "match": 1,
+          "missmatch": -1,
+          "gap": -2};
+        switch (this.currentAlgorithmCodeSelected) {
+          case 'A1T1':
+            break;
+          case 'A1T2':
+            extendedArgs['startNodeGraph1'] = 1; // hard coded
+            extendedArgs['startNodeGraph2'] = 1; // hard coded
+            break;
+          case 'A1T3':
+            extendedArgs['startNodeGraph1'] = 1; // hard coded
+            extendedArgs['startNodeGraph2'] = 1; // hard coded
+            extendedArgs['endNodeGraph1'] = 1; // hard coded
+            extendedArgs['endNodeGraph2'] = 1; // hard coded
+            break;
+          case 'A1T4':
+            extendedArgs['startNodeGraph1'] = 1; // hard coded
+            extendedArgs['startNodeGraph2'] = 1; // hard coded
+            extendedArgs['endNodeGraph1'] = 1; // hard coded
+            extendedArgs['endNodeGraph2'] = 1; // hard coded
+            break;
+          case 'A1T5':
+            extendedArgs['startNodeGraph1'] = 1; // hard coded
+            extendedArgs['startNodeGraph2'] = 1; // hard coded
+            extendedArgs['endNodeGraph1'] = 1; // hard coded
+            extendedArgs['endNodeGraph2'] = 1; // hard coded
+            break;
+        }
+        this.callPython(extendedArgs, this.service).then(result =>{
+          console.log("RESULT FROM EXTENDED ALGORITHM");
+          this.currentAlgorithmExecutionResult = [];
+          for (const key in result) {
+            if (result.hasOwnProperty(key)) {
+              this.currentAlgorithmExecutionResult.push({"key": key, "value": result[key]});
+            }
+          }
+          console.log(this.currentAlgorithmExecutionResult);
+          //this.currentAlgorithmExecutionResult = Array.of(JSON.stringify(result));
+
+        }).catch(error =>{
+          console.log("ERROR IN EXTENDED ALGORITHM EXECUTION");
+        });
         break;
       case "Weighted":
-        alert(this.currentAlgorithmTypeSelected);
-        alert(this.currentAlgorithmCodeSelected);
+        alert("Not supported yet");
         break;
     }
   }
@@ -128,8 +186,15 @@ export class HomepageComponent implements OnInit {
         let args = {"code": "C1", "filename": filename + ".xml"};
         this.callPython(args, this.service).then(data => {
           console.log("RESULT FROM PYTHON");
-          console.log(data["Graph1"]);
-          this.pathwayGraph1 = JSON.stringify(data["Graph1"]);
+          console.log(data["Compound Graph 1"]);
+          this.pathwayGraph1 = JSON.stringify(data["Compound Graph 1"]);  // TODO A1 & A2 work with diff parsed JSONs
+          console.log("Calling NIndex Now for this Graph1");
+          let indexArgs = {"code": "NIndex", "pathwayGraph": this.pathwayGraph1};
+          this.callPython(indexArgs, this.service).then( indexes =>{
+            console.log("Indexes for this pathway1 are");
+            console.log(indexes);
+
+          });
         });
       });
     }
@@ -145,12 +210,20 @@ export class HomepageComponent implements OnInit {
         let args = {"code": "C1", "filename": filename + ".xml"};
         this.callPython(args, this.service).then(data => {
           console.log("RESULT FROM PYTHON");
-          console.log(data["Graph1"]);
-          this.pathwayGraph2 = JSON.stringify(data["Graph1"]);
+          console.log(data["Compound Graph 1"]);
+          this.pathwayGraph2 = JSON.stringify(data["Compound Graph 1"]);
+          console.log("Calling NIndex Now for this Graph2");
+          let indexArgs = {"code": "NIndex", "pathwayGraph": this.pathwayGraph2};
+          this.callPython(indexArgs, this.service).then( indexes =>{
+            console.log("Indexes for this pathway2 are");
+            console.log(indexes);
+
+          });
         });
       });
     }
   }
+
 
   callPython  = function(args, providedService){
     return new Promise( (resolve, reject)=>{

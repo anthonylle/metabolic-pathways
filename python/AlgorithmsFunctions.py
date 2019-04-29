@@ -10,7 +10,7 @@ def createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1
     pathwayCompoundsGraph1 = simpleKGML1.getCompoundsGraph()
     try:
         generateGraph(imagesFolderPath, XMLFileName1.replace(".xml", ""), pathwayCompoundsGraph1)
-        output["Graph1"] = pathwayCompoundsGraph1
+        output["Compound Graph 1"] = pathwayCompoundsGraph1
     except Exception as e: print(e)
 
     return json.dumps(output)
@@ -90,7 +90,7 @@ def alg1Transformation2DtoVector(pathwayGraph1, pathwayGraph2, newMatch, newMism
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
     #delete this
-    output["params"] = [pathwayGraph1, pathwayGraph2, newMatch, newMismatch, newGap]
+    #output["params"] = [pathwayGraph1, pathwayGraph2, newMatch, newMismatch, newGap]
 
     return json.dumps(output)
 

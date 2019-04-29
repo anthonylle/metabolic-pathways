@@ -207,9 +207,6 @@ export class HomepageComponent implements OnInit {
     });
   };
 
-  async cargarimagen(){
-  }
-
   downloadpdf(){
     const doc = new jsPDF();
 
@@ -249,16 +246,5 @@ export class HomepageComponent implements OnInit {
       
     });
     
-    
   }
-
-  print() {
-		const filename  = 'prueba.pdf';
-
-		html2canvas(document.querySelector('#content')).then(canvas => {
-			let pdf = new jsPDF('p', 'mm', 'a4');
-			pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 5, 100);
-			pdf.save(filename);
-		});
-	}
 }

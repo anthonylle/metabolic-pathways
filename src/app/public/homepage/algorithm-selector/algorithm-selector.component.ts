@@ -13,7 +13,6 @@ export class AlgorithmSelectorComponent implements OnInit {
   constructor(private service: HomepageService) {}
 
   options: any[];
-  defaultValueOption: string;
   currentOption: string;
 
   ngOnInit() {
@@ -30,15 +29,10 @@ export class AlgorithmSelectorComponent implements OnInit {
     //this.service.setCurrentAlgorithmCode('A1');
   }
 
-  checkCurrentValue(value){
-    alert(value);
-  }
-
   changeAlgorithmView(currentView: string) {
     //alert(currentView);
     if(currentView === 'Original'){
       this.options = [{value: 'A1', label:'2D to 1D Transformation'}, {value: 'A2', label:'Differentiation by pairs'}];
-      this.hideNodeParametersView();
     }else{
       if (currentView === 'Extended'){
         this.options = [{value: 'A1T1', label: '1.1 - Starting at any node, Finishing at any node'},
@@ -46,10 +40,8 @@ export class AlgorithmSelectorComponent implements OnInit {
                         {value: 'A1T3', label: '1.3 - Starting at a given node, Finishing at a given node'},
                         {value: 'A1T4', label: '1.4 - Evaluation of all possible paths'},
                         {value: 'A1T5', label: '1.5 - Starting at any node, Finishing at a given node'}];
-        this.showNodeParametersView();
       }else{
         this.options = [{value: 'A3', label: "Not available yet"}];
-        this.hideNodeParametersView();
       }
     }
     this.service.setCurrentAlgorithmCode(this.options[0]['value']); // for parent change
@@ -61,7 +53,7 @@ export class AlgorithmSelectorComponent implements OnInit {
     this.service.setCurrentAlgorithmCode(value); // for child change
   }
 
-  showNodeParametersView(){
+  /*showNodeParametersView(){
     let view = document.getElementById("Nodes-Parameter-View");
     view.setAttribute("style", "visibility: visible");
     //document.getElementById("Nodes-Parameter-View").style.transform = "visibility: visible;";
@@ -71,7 +63,7 @@ export class AlgorithmSelectorComponent implements OnInit {
     let view = document.getElementById("Nodes-Parameter-View");
     view.setAttribute("style", "visibility: hidden;");
     //document.getElementById("Nodes-Parameter-View").style.transform = "visibility: hidden;";
-  }
+  }*/
 
   setCurrentAlgorithmTypeSelected(type: string){
     this.service.setCurrentAlgorithmType(type);

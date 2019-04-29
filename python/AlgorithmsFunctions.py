@@ -10,7 +10,7 @@ def createOneCompoundGraph(imagesFolderPath, tempUploadsFolderPath, XMLFileName1
     pathwayCompoundsGraph1 = simpleKGML1.getCompoundsGraph()
     try:
         generateGraph(imagesFolderPath, XMLFileName1.replace(".xml", ""), pathwayCompoundsGraph1)
-        output["Graph1"] = pathwayCompoundsGraph1
+        output["Compound Graph 1"] = pathwayCompoundsGraph1
     except Exception as e: print(e)
 
     return json.dumps(output)
@@ -121,6 +121,9 @@ def alg1_1GraphTraversal_AnyNodeToAnyNode(pathwayGraph1, pathwayGraph2, newMatch
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
+    #delete this
+    output["params"] = [pathwayGraph1, pathwayGraph2, newMatch, newMismatch, newGap]
+
     return json.dumps(output)
 
 # Code: A1T2
@@ -150,6 +153,9 @@ def alg1_2GraphTraversal_GivenNodeToAnyNode(pathwayGraph1, pathwayGraph2, startN
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
+    #delete this
+    output["params"] = [pathwayGraph1, pathwayGraph2, startNodeGraph1, startNodeGraph2, newMatch, newMismatch, newGap]
+
     return json.dumps(output)
 
 # Code: A1T3
@@ -178,6 +184,9 @@ def alg1_3GraphTraversal_GivenNodeToGivenNode(pathwayGraph1, pathwayGraph2, star
     output["SemiLocal DFT"] = semiglobal_alignment(renamedPath(dft1), renamedPath(dft2), newMatch, newMismatch, newGap)
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
+
+    #delete this
+    output["params"] = [pathwayGraph1, pathwayGraph2, startNodeGraph1, startNodeGraph2, endNodeGraph1, endNodeGraph2, newMatch, newMismatch, newGap]
 
     return json.dumps(output)
 
@@ -209,6 +218,9 @@ def alg1_4EvalPossiblePaths_GivenNodeToGivenNode(pathwayGraph1, pathwayGraph2, s
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
+    #delete this
+    output["params"] = [pathwayGraph1, pathwayGraph2, selectedPath1, selectedPath2, newMatch, newMismatch, newGap]
+
     return json.dumps(output)
 
 # Code: A1T5
@@ -238,6 +250,9 @@ def alg1_5GraphTraversal_AnyNodeToGivenNode(pathwayGraph1, pathwayGraph2, endNod
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
 
+    #delete this
+    output["params"] = [pathwayGraph1, pathwayGraph2, endNodeGraph1, endNodeGraph2, newMatch, newMismatch, newGap]
+
     return json.dumps(output)
 
 # Code: A2
@@ -248,6 +263,9 @@ def alg2_DifferentiationByPairs(pathwayGraph1, pathwayGraph2):
 
     output["Differences 1-2"] = identify_differences(graph1, graph2, FULL)
     output["Differences 2-1"] = identify_differences(graph2, graph1, FULL)
+
+    #delete this
+    output["params"] = [pathwayGraph1, pathwayGraph2]
 
     return json.dumps(output)
 

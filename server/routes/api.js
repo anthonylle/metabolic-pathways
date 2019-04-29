@@ -161,8 +161,8 @@ router.post('/python', (req, res) => {
       case "A1T4":
         args.push(req.body.startNodeGraph1);
         args.push(req.body.startNodeGraph2);
-        args.push(req.body.endNodeGraph1);
-        args.push(req.body.endNodeGraph2);
+        //args.push(req.body.endNodeGraph1);
+        //args.push(req.body.endNodeGraph2);
         break;
       case "A1T5":
         args.push(req.body.endNodeGraph1);

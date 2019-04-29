@@ -10,7 +10,7 @@
   </ul>
 </div>
 
-<select class="form-control algorithm-selector" id="final-algorithm-selector" [(ngModel)]="defaultValueOption" (ngModelChange)="displayCurrentValue($event)">
+<select class="form-control algorithm-selector" id="final-algorithm-selector" ngModel="options" (ngModelChange)="displayCurrentValue($event)">
   <option *ngFor="let opt of options" [value]="opt['value']" class="selector-value-holder">
     {{opt['label']}}
   </option>

@@ -14,7 +14,7 @@ if __name__ == '__main__':
         elif requestCode == "S2": print(createTwoCentralNodeGraphs(imagesFolderPath, tempUploadsFolderPath, sys.argv[1], sys.argv[2]))
         elif requestCode == "NIndex": print(getGraphNodesIndexes(sys.argv[1]))
         elif requestCode == "GPaths": print(getGraphPathsIndexes(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]))
-        elif requestCode == "A1": print(alg1Transformation2DtoVector(sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5]))) #print("JSON RECEIVED: ", sys.argv[1], sys.argv[2])#
+        elif requestCode == "A1": print(alg1Transformation2DtoVector(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]))
         elif requestCode == "A1T1": print(alg1_1GraphTraversal_AnyNodeToAnyNode(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]))
         elif requestCode == "A1T2": print(alg1_2GraphTraversal_GivenNodeToAnyNode(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7]))
         elif requestCode == "A1T3": print(alg1_3GraphTraversal_GivenNodeToGivenNode(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9]))

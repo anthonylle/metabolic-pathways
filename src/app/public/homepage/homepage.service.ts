@@ -131,7 +131,6 @@ export class HomepageService {
 
     const data = this.http.request(req);
     console.log("HELLO FROM HOMEPAGE.SERVICE (PYTHON)");
-    console.log(formData);
     return data;
   }
 }

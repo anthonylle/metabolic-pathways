@@ -74,18 +74,18 @@
                       <div class="starting-node" *ngIf="currentAlgorithmCodeSelected == 'A1T2' || currentAlgorithmCodeSelected == 'A1T3' || currentAlgorithmCodeSelected == 'A1T4'">
                         Starting Node
                         <br>
-                        <select class="form-control">
-                          <option>
-                            Static Option
+                        <select class="form-control" (change)="setStartNodeGraph1($event)">
+                          <option *ngFor="let node of pathwayNodes1" [value]="node['index']">
+                            {{node['node']}}
                           </option>
                         </select>
                       </div>
 
                       <div class="finishing-node" *ngIf="currentAlgorithmCodeSelected == 'A1T3' || currentAlgorithmCodeSelected == 'A1T4' || currentAlgorithmCodeSelected == 'A1T5'">
                         Finishing Node
-                        <select class="form-control">
-                          <option>
-                            Static Option
+                        <select class="form-control" (change)="setEndNodeGraph1($event)">
+                          <option *ngFor="let index of pathwayNodes1" [value]="index['index']">
+                            {{index['node']}}
                           </option>
                         </select>
                       </div>
@@ -101,18 +101,18 @@
                       <div class="starting-node" *ngIf="currentAlgorithmCodeSelected == 'A1T2' || currentAlgorithmCodeSelected == 'A1T3' || currentAlgorithmCodeSelected == 'A1T4'">
                         Starting Node
                         <br>
-                        <select class="form-control">
-                          <option>
-                            Static Option
+                        <select class="form-control" (change)="setStartNodeGraph2($event)">
+                          <option *ngFor="let index of pathwayNodes2" [value]="index['index']">
+                            {{index['node']}}
                           </option>
                         </select>
                       </div>
 
                       <div class="finishing-node" *ngIf="currentAlgorithmCodeSelected == 'A1T3' || currentAlgorithmCodeSelected == 'A1T4' || currentAlgorithmCodeSelected == 'A1T5'">
                         Finishing Node
-                        <select class="form-control">
-                          <option>
-                            Static Option
+                        <select class="form-control" (change)="setEndNodeGraph2($event)">
+                          <option *ngFor="let index of pathwayNodes2" [value]="index['index']">
+                            {{index['node']}}
                           </option>
                         </select>
                       </div>

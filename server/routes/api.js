@@ -139,9 +139,8 @@ router.get('/python/', (req, res) => {
 });
 
 router.post('/python', (req, res) => {
-  //const args = ['./python/Main.py', req.body.file, req.body.tipo];
   const args = ['./python/Main.py'];
-  const algorithmCodes = ["A1", "A1T1", "A1T2", "A1T3", "A1T4", "A1T5"];//, "A2"];
+  const algorithmCodes = ["A1", "A1T1", "A1T2", "A1T3", "A1T4", "A1T5"];
   if(algorithmCodes.includes(req.body.code)){
     args.push(req.body.pathwayGraph1);
     args.push(req.body.pathwayGraph2);
@@ -163,24 +162,33 @@ router.post('/python', (req, res) => {
       case "A1T4":
         args.push(req.body.startNodeGraph1);
         args.push(req.body.startNodeGraph2);
-        args.push(req.body.endNodeGraph1);
-        args.push(req.body.endNodeGraph2);
+        //args.push(req.body.endNodeGraph1);
+        //args.push(req.body.endNodeGraph2);
         break;
       case "A1T5":
         args.push(req.body.endNodeGraph1);
         args.push(req.body.endNodeGraph2);
         break;
-      /*case "A2":
-        break;*/
     }
     args.push(req.body.match);
     args.push(req.body.missmatch);
     args.push(req.body.gap);
+    args.push(req.body.code);
   }
-  if(["C1"].includes(req.body.code))
+  if(["A2"].includes(req.body.code)){
+    args.push(req.body.pathwayGraph1);
+    args.push(req.body.pathwayGraph2);
+    args.push(req.body.code);
+  }
+  if(["C1"].includes(req.body.code)){
     args.push(req.body.filename);
+    args.push(req.body.code);
+  }
+  if(["NIndex"].includes(req.body.code)){
+    args.push(req.body.pathwayGraph);
+    args.push(req.body.code);
+  }
 
-  args.push(req.body.code);
   console.log("Args: ");
   console.log(args);
 

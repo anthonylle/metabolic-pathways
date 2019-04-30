@@ -58,36 +58,37 @@
 						<app-pathway-image-view [imagepathway1] = "imagepathway1" [imagepathway2] = "imagepathway2"></app-pathway-image-view>
 				</div>
         <div class="container"> <!-- <app-algorithm-selector></app-algorithm-selector> -->
-          <div class="row">
-            <div class="col-md-5">
-              <app-alignment-values-table></app-alignment-values-table>
-            </div>
-					</div>
 					<div class="row">
 						<div class="col-md-5">
-							<app-algorithm-selector></app-algorithm-selector>
+							<app-algorithm-selector *ngIf="pathwayGraph1 && pathwayGraph2"></app-algorithm-selector>
 						</div>
-						<div class="row" id="Nodes-Parameter-View">
+						<div class="row" id="Nodes-Parameter-View" *ngIf="currentAlgorithmTypeSelected === 'Extended' && currentAlgorithmCodeSelected !== 'A1T1'">
 								<div class="col-md-4">
-									<h3 style="text-align: center;">Nodes Parameters</h3>
+									<h4 style="text-align: center;">Nodes Parameters</h4>
 									<div class="col-md-6 container-fluid">
 										<div class="pathway1-nodes">
 											Pathway 1
 											<br>
-											Starting Node
-											<br>
-											<select class="form-control">
-												<option>
-													Static Option
-												</option>
-											</select>
-											<br>
-											Finishing Node
-											<select class="form-control">
-												<option>
-													Static Option
-												</option>
-											</select>
+
+                      <div class="starting-node" *ngIf="currentAlgorithmCodeSelected == 'A1T2' || currentAlgorithmCodeSelected == 'A1T3' || currentAlgorithmCodeSelected == 'A1T4'">
+                        Starting Node
+                        <br>
+                        <select class="form-control" (change)="setStartNodeGraph1($event)">
+                          <option *ngFor="let node of pathwayNodes1" [value]="node['index']">
+                            {{node['node']}}
+                          </option>
+                        </select>
+                      </div>
+
+                      <div class="finishing-node" *ngIf="currentAlgorithmCodeSelected == 'A1T3' || currentAlgorithmCodeSelected == 'A1T4' || currentAlgorithmCodeSelected == 'A1T5'">
+                        Finishing Node
+                        <select class="form-control" (change)="setEndNodeGraph1($event)">
+                          <option *ngFor="let index of pathwayNodes1" [value]="index['index']">
+                            {{index['node']}}
+                          </option>
+                        </select>
+                      </div>
+
 										</div>
 									</div>
 									<!-- -->
@@ -95,25 +96,40 @@
 										<div class="pathway2-nodes">
 											Pathway 2
 											<br>
-											Starting Node
-											<br>
-											<select class="form-control">
-												<option>
-													Static Option
-												</option>
-											</select>
-											<br>
-											Finishing Node
-											<select class="form-control">
-												<option>
-													Static Option
-												</option>
-											</select>
+
+                      <div class="starting-node" *ngIf="currentAlgorithmCodeSelected == 'A1T2' || currentAlgorithmCodeSelected == 'A1T3' || currentAlgorithmCodeSelected == 'A1T4'">
+                        Starting Node
+                        <br>
+                        <select class="form-control" (change)="setStartNodeGraph2($event)">
+                          <option *ngFor="let index of pathwayNodes2" [value]="index['index']">
+                            {{index['node']}}
+                          </option>
+                        </select>
+                      </div>
+
+                      <div class="finishing-node" *ngIf="currentAlgorithmCodeSelected == 'A1T3' || currentAlgorithmCodeSelected == 'A1T4' || currentAlgorithmCodeSelected == 'A1T5'">
+                        Finishing Node
+                        <select class="form-control" (change)="setEndNodeGraph2($event)">
+                          <option *ngFor="let index of pathwayNodes2" [value]="index['index']">
+                            {{index['node']}}
+                          </option>
+                        </select>
+                      </div>
+
 										</div>
 									</div>
 								</div>
             </div> <!-- row 2 -->
 					</div>
+
+          <br>
+
+          <div class="row">
+            <div class="col-md-5">
+              <app-alignment-values-table *ngIf="pathwayGraph1 && pathwayGraph2 && currentAlgorithmCodeSelected !== 'A2'"></app-alignment-values-table>
+            </div>
+          </div>
+
 					<br>
 					<div class="col-md-5">
 						<div class="row">

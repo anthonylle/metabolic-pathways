@@ -29,13 +29,13 @@ export class HomepageComponent implements OnInit {
     this.subscriptionType = service.getCurrentAlgorithmType().subscribe(type =>
     {
       console.log("RECEIVING FROM SERVICE TYPE");
-      console.log(type);
+      console.log(type.text);
       this.currentAlgorithmTypeSelected = type.text;
 
     });
     this.subscriptionCode = service.getCurrentAlgorithmCode().subscribe(code =>{
       console.log("RECEIVING FROM SERVICE CODE");
-      console.log(code);
+      console.log(code.code);
       this.currentAlgorithmCodeSelected = code.code;
       }
     );
@@ -54,19 +54,29 @@ export class HomepageComponent implements OnInit {
   //imagepathway1:string =  require("../../../../images/cit00710-1556089914716.png");
   imagepathway1:string =  "../../../assets/images/negro.png";
   imagepathway2:string =  "../../../assets/images/negro.png";
+  
+  pathwayNodes1: any[];
+  pathwayNodes2: any[];
+  pathwayNodes1Model: any;
+  startingNodeGraph1:number;
+  startingNodeGraph2:number;
+  endingNodeGraph1:number;
+  endingNodeGraph2:number;
+
+  matchValue:number;
+  missmatchValue:number;
+  gapValue:number;
 
   isExtendedSelected: boolean;
 
-  /*
-  obtener valores de la tabla
-  var matchvalue = (<HTMLInputElement>document.getElementById("matchValue")).value;
+  //obtener valores de la tabla
+  /*var matchvalue = (<HTMLInputElement>document.getElementById("matchValue")).value;
   var matchvalue = (<HTMLInputElement>document.getElementById("mismatchValue")).value;
-  var matchvalue = (<HTMLInputElement>document.getElementById("gapValue")).value;
-  */
-  /*
-  obtener el algortimo a utilizar
-  var matchvalue = (<HTMLInputElement>document.getElementById("final-algorithm-selector")).value;
-  */
+  var matchvalue = (<HTMLInputElement>document.getElementById("gapValue")).value;*/
+
+  //obtener el algortimo a utilizar
+  //var matchvalue = (<HTMLInputElement>document.getElementById("final-algorithm-selector")).value;
+
 
   ngOnInit() {
     this.pathway1final = "";
@@ -96,14 +106,19 @@ export class HomepageComponent implements OnInit {
     switch(this.currentAlgorithmTypeSelected){
       case "Original":
         if(this.currentAlgorithmCodeSelected == 'A1'){
+
+          this.matchValue = Number((<HTMLInputElement>document.getElementById("matchValue")).value);
+          this.missmatchValue = Number((<HTMLInputElement>document.getElementById("mismatchValue")).value);
+          this.gapValue = Number((<HTMLInputElement>document.getElementById("gapValue")).value);
+
           console.log("EXECUTING ALGORITHM A1");
-          const args = {"code": this.currentAlgorithmCodeSelected,
+          const originalArgs = {"code": this.currentAlgorithmCodeSelected,
                         "pathwayGraph1": this.pathwayGraph1,
                         "pathwayGraph2": this.pathwayGraph2,
-                        "match": 1, //hard coded
-                        "missmatch": -1, //hard coded
-                        "gap": -2}; //hard coded
-          this.callPython(args, this.service).then(result =>{
+                        "match": this.matchValue,
+                        "missmatch": this.missmatchValue,
+                        "gap": this.gapValue};
+          this.callPython(originalArgs, this.service).then(result =>{
             console.log("RESULT FROM A1 ALGORITHM");
             this.currentAlgorithmExecutionResult = [];
             for (const key in result) {
@@ -119,22 +134,81 @@ export class HomepageComponent implements OnInit {
           });
         }else{
           if(this.currentAlgorithmCodeSelected == 'A2'){
-            alert("A2 execution to be implemented");
+            console.log("EXECUTING ALGORITHM A2");
+            const originalArgs = {"code": this.currentAlgorithmCodeSelected,
+                          "pathwayGraph1": this.pathwayGraph1,
+                          "pathwayGraph2": this.pathwayGraph2};
+            this.callPython(originalArgs, this.service).then(result =>{
+              console.log("RESULT FROM A2 ALGORITHM");
+              this.currentAlgorithmExecutionResult = [];
+              for (const key in result) {
+                if (result.hasOwnProperty(key)) {
+                  this.currentAlgorithmExecutionResult.push({"key": key, "value": result[key]});
+                }
+              }
+              console.log(this.currentAlgorithmExecutionResult);
+            }).catch(error =>{
+              console.log("ERROR IN A2 ALGORITHM EXECUTION");
+            });
           }else{
             alert("Unknown code");
           }
         }
-
-
-        //alert(this.currentAlgorithmCodeSelected);
         break;
       case "Extended":
-        alert(this.currentAlgorithmTypeSelected);
-        alert(this.currentAlgorithmCodeSelected);
+        this.matchValue = Number((<HTMLInputElement>document.getElementById("matchValue")).value);
+        this.missmatchValue = Number((<HTMLInputElement>document.getElementById("mismatchValue")).value);
+        this.gapValue = Number((<HTMLInputElement>document.getElementById("gapValue")).value);
+        const extendedArgs = {"code": this.currentAlgorithmCodeSelected,
+          "pathwayGraph1": this.pathwayGraph1,
+          "pathwayGraph2": this.pathwayGraph2,
+          "match": this.matchValue,
+          "missmatch": this.missmatchValue,
+          "gap": this.gapValue};
+        switch (this.currentAlgorithmCodeSelected) {
+          case 'A1T1':
+            break;
+          case 'A1T2':
+            extendedArgs['startNodeGraph1'] = this.startingNodeGraph1;
+            extendedArgs['startNodeGraph2'] = this.startingNodeGraph2;
+            alert(this.startingNodeGraph1);
+            break;
+          case 'A1T3':
+            extendedArgs['startNodeGraph1'] = this.startingNodeGraph1;
+            extendedArgs['startNodeGraph2'] = this.startingNodeGraph2;
+            extendedArgs['endNodeGraph1'] = this.endingNodeGraph1;
+            extendedArgs['endNodeGraph2'] = this.endingNodeGraph2;
+            break;
+          case 'A1T4':
+            extendedArgs['startNodeGraph1'] = this.startingNodeGraph1;
+            extendedArgs['startNodeGraph2'] = this.startingNodeGraph2;
+            extendedArgs['endNodeGraph1'] = this.endingNodeGraph1;
+            extendedArgs['endNodeGraph2'] = this.endingNodeGraph2;
+            break;
+          case 'A1T5':
+            extendedArgs['startNodeGraph1'] = this.startingNodeGraph1;
+            extendedArgs['startNodeGraph2'] = this.startingNodeGraph2;
+            extendedArgs['endNodeGraph1'] = this.endingNodeGraph1;
+            extendedArgs['endNodeGraph2'] = this.endingNodeGraph2;
+            break;
+        }
+        this.callPython(extendedArgs, this.service).then(result =>{
+          console.log("RESULT FROM EXTENDED ALGORITHM");
+          this.currentAlgorithmExecutionResult = [];
+          for (const key in result) {
+            if (result.hasOwnProperty(key)) {
+              this.currentAlgorithmExecutionResult.push({"key": key, "value": result[key]});
+            }
+          }
+          console.log(this.currentAlgorithmExecutionResult);
+          //this.currentAlgorithmExecutionResult = Array.of(JSON.stringify(result));
+
+        }).catch(error =>{
+          console.log("ERROR IN EXTENDED ALGORITHM EXECUTION");
+        });
         break;
       case "Weighted":
-        alert(this.currentAlgorithmTypeSelected);
-        alert(this.currentAlgorithmCodeSelected);
+        alert("Not supported yet");
         break;
     }
   }
@@ -151,8 +225,22 @@ export class HomepageComponent implements OnInit {
         let args = {"code": "C1", "filename": filename + ".xml"};
         this.callPython(args, this.service).then(data => {
           console.log("RESULT FROM PYTHON");
-          console.log(data["Graph1"]);
-          this.pathwayGraph1 = JSON.stringify(data["Graph1"]);
+          console.log(data["Compound Graph 1"]);
+          this.pathwayGraph1 = JSON.stringify(data["Compound Graph 1"]);
+          console.log("Calling NIndex Now for this Graph1");
+          let indexArgs = {"code": "NIndex", "pathwayGraph": this.pathwayGraph1};
+          this.callPython(indexArgs, this.service).then( indexes =>{
+            console.log("Indexes for this pathway1 are");
+            console.log(indexes);
+            this.pathwayNodes1 = [];
+            for (const key in indexes["Nodes indexes"]) {
+              if (indexes["Nodes indexes"].hasOwnProperty(key)) {
+                this.pathwayNodes1.push({"index": key, "node": indexes["Nodes indexes"][key]});
+              }
+            }
+            this.startingNodeGraph1 = 0;
+            this.endingNodeGraph1 = 0;
+          });
         });
       });
     }
@@ -169,13 +257,28 @@ export class HomepageComponent implements OnInit {
         let args = {"code": "C1", "filename": filename + ".xml"};
         this.callPython(args, this.service).then(data => {
           console.log("RESULT FROM PYTHON");
-          console.log(data["Graph1"]);
-          this.pathwayGraph2 = JSON.stringify(data["Graph1"]);
+          console.log(data["Compound Graph 1"]);
+          this.pathwayGraph2 = JSON.stringify(data["Compound Graph 1"]);
+          console.log("Calling NIndex Now for this Graph2");
+          let indexArgs = {"code": "NIndex", "pathwayGraph": this.pathwayGraph2};
+          this.callPython(indexArgs, this.service).then( indexes =>{
+            console.log("Indexes for this pathway2 are");
+            console.log(indexes);
+            this.pathwayNodes2 = [];
+            for (const key in indexes["Nodes indexes"]) {
+              if (indexes["Nodes indexes"].hasOwnProperty(key)) {
+                this.pathwayNodes2.push({"index": key, "node": indexes["Nodes indexes"][key]});
+              }
+            }
+            this.startingNodeGraph1 = 0;
+            this.endingNodeGraph1 = 0;
+          });
         });
       });
     }
     //this.imagepathway1 =  require("../../../../images/cit00710-1556089914716.png");
   }
+
 
   callPython  = function(args, providedService){
     return new Promise( (resolve, reject)=>{
@@ -206,22 +309,33 @@ export class HomepageComponent implements OnInit {
       );
     });
   };
+  
+  setStartNodeGraph1(node){
+    this.startingNodeGraph1 = Number(node.target.value);
+  }
+  setStartNodeGraph2(node){
+    this.startingNodeGraph2 = Number(node.target.value);
+  }
+  setEndNodeGraph1(node){
+    this.endingNodeGraph1 = Number(node.target.value);
+  }
+  setEndNodeGraph2(node){
+    this.endingNodeGraph2 = Number(node.target.value);
+  }
+  
+    downloadpdf(){
+      const doc = new jsPDF();
 
-  downloadpdf(){
-    const doc = new jsPDF();
+      //imagen estatica
+      var image = new Image();
+      var width;
+      var height;
 
-    
-    //imagen estatica
-    var image = new Image();
-    var width;
-    var height;
-
-    html2canvas(document.querySelector('#content')).then(canvas => {
+      html2canvas(document.querySelector('#content')).then(canvas => {
       //logo del tec
       var logo = new Image();
       logo.src = "../../../assets/images/logo-tec.png";
       doc.addImage(logo,"PNG",165, 0, 40, 20);
-
       //titulo
       doc.text('Metabolic Pathways Comparison',60,30);
   

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-alignment-values-table',
@@ -7,13 +7,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class AlignmentValuesTableComponent implements OnInit {
 
-  @Output() getMatch: EventEmitter<number> = new EventEmitter<number>()
-  matchvalue: any = (<HTMLInputElement>document.getElementById("matchValue"));
-
   constructor() { }
 
   ngOnInit() {
-
   }
 
 }

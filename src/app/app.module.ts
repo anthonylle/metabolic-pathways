@@ -22,6 +22,7 @@ import {
   MatInputModule
 } from '@angular/material';
 import { HomepageService } from './public/homepage/homepage.service';
+import { PathwayImageViewComponent } from './public/homepage/pathway-image-view/pathway-image-view.component';
 import { AlgorithmExecutionResultComponent } from './public/homepage/algorithm-execution-result/algorithm-execution-result.component';
 
 
@@ -34,6 +35,7 @@ import { AlgorithmExecutionResultComponent } from './public/homepage/algorithm-e
     KgmlDataTableComponent,
     KgmlFilesListComponent,
     AlgorithmSelectorComponent,
+    PathwayImageViewComponent,
     AlignmentValuesTableComponent,
     AlgorithmExecutionResultComponent
   ],

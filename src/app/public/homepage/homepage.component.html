@@ -55,8 +55,7 @@
 						<br>
 						<div id="output" class="col-md-7"></div>
 					</div>
-						<img src={{imagenpathway1}} class="imagepathway">
-						<img src={{imagenpathway2}} class="imagepathway">
+						<app-pathway-image-view [imagepathway1] = "imagepathway1" [imagepathway2] = "imagepathway2"></app-pathway-image-view>
 				</div>
         <div class="container"> <!-- <app-algorithm-selector></app-algorithm-selector> -->
 					<div class="row">
@@ -137,6 +136,9 @@
 							<div class="col-md-6">
 								<input type="submit" class="btn btn-success" value="Process Pathways" (click)="processPathways()">
 							</div>
+							<div class="col-md-6" *ngIf="currentAlgorithmExecutionResult">
+								<input type="submit" class="btn btn-success" value="Download pdf" (click)="downloadpdf()">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -145,7 +147,7 @@
       <br>
       <br>
 
-      <div class="row result-row" *ngIf="currentAlgorithmExecutionResult">
+      <div id="content" class="row result-row" *ngIf="currentAlgorithmExecutionResult" #content>
 
         <!-- adsoaubiuvaibnodiasda -->
 

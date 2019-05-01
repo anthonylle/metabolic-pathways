@@ -8,16 +8,13 @@ const Grid = require('gridfs-stream');
 const fs = require("fs");
 
 const mongoURI = 'mongodb://localhost:27017/MEAN';//
-const mainDB = 'MEAN'
-
 
 // connection from mongodb console
 //    mongo ds137291.mlab.com:37291/heroku_1lnxd10m -u heroku_1lnxd10m -p h16ioa5tul5q9ofvae2onnb00
 
-
 /*
 const mongoURI = 'mongodb://heroku_1lnxd10m:h16ioa5tul5q9ofvae2onnb00@ds137291.mlab.com:37291/heroku_1lnxd10m';
-const mainDB = 'heroku_1lnxd10m';
+//const mainDB = 'heroku_1lnxd10m';
 */
 
 
@@ -37,10 +34,23 @@ let response = {
 
 const conn = mongoose.createConnection(mongoURI);
 let gfs;
-
 conn.once('open', () => {
   gfs = Grid(conn.db, mongoose.mongo);
   gfs.collection('uploads')
+});
+
+require('./pathway/pathway.routes')(router);
+require('./translation/translation.routes')(router);
+mongoose.Promise = global.Promise;
+
+// Connecting to the database
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true
+}).then(() => {
+  console.log("Successfully connected to the database");
+}).catch(err => {
+  console.log('Could not connect to the database. Exiting now...', err);
+  process.exit();
 });
 
 const storage = new GridFsStorage({
@@ -117,7 +127,7 @@ const callPython = function(args){ //['path', args...]
   return new Promise(function(success, noSuccess) {
 
     const { spawn } = require('child_process');
-    const pyprog = spawn('python', args); //args [path]
+    const pyprog = spawn('python', args);
 
     pyprog.stdout.on('data', function(data) {
       success(data);
@@ -227,8 +237,6 @@ router.post('/copyKGMLToTempUploads', uploadLocal.single('file'),(req,res, next)
 
   res.send({filename});//(response);
 });
-
-
 
 // Export this module
 module.exports = router;

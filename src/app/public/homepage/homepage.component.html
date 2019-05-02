@@ -25,7 +25,7 @@
 										<h4>Pathway 1 <span class="h6" style="color:grey;">(KEGG KGML - .xml file)</span></h4>
 										<div class="input-group">
 											<span class="input-group-btn">
-                        <span class="btn btn-default" (click)="someAlert()"> New</span>
+                        <span class="btn btn-default" (click)="createGraph1()"> New</span>
                         <span class="btn btn-default"> Select</span>
 												<span type="button" class="btn btn-default btn-file">Browse..
 													<input type="file" (change)="onSelectedFile($event)">
@@ -40,6 +40,8 @@
 									</div>
 								</div>
 							</div>
+              <app-graph-maker *ngIf="creatingGraph1"></app-graph-maker>
+
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group">
@@ -159,8 +161,6 @@
 
       <div id="content" class="row result-row" *ngIf="currentAlgorithmExecutionResult" #content>
 
-        <!-- adsoaubiuvaibnodiasda -->
-
         <table>
           <thead>
           <tr>
@@ -176,27 +176,6 @@
           </tbody>
         </table>
 
-
-        <!--<div class="container">
-          <table class ="custom-table">
-            <thead>
-            <tr>
-              <th>Key</th>
-              <th>Value</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let data of currentAlgorithmExecutionResult">
-              <td class="key">{{data.key}} </td>
-              <td>{{data.value}} </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>-->
-
-        <!--div class="container">
-          <app-algorithm-execution-result></app-algorithm-execution-result>
-        </div-->
       </div>
 
 		</div>

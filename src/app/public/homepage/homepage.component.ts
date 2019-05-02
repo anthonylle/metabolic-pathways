@@ -15,16 +15,6 @@ import * as html2canvas from 'html2canvas';
 })
 export class HomepageComponent implements OnInit {
 
-  @ViewChild('content') content: ElementRef;
-
-  subscriptionType: Subscription;
-  subscriptionCode: Subscription;
-  anio: any;
-  month: any;
-  day: any;
-  currentAlgorithmTypeSelected: any;
-  currentAlgorithmCodeSelected: any;
-  currentAlgorithmExecutionResult: any[];
   constructor(private service: HomepageService) {
     this.subscriptionType = service.getCurrentAlgorithmType().subscribe(type =>
     {
@@ -41,6 +31,16 @@ export class HomepageComponent implements OnInit {
     );
   }
 
+  @ViewChild('content') content: ElementRef;
+
+  subscriptionType: Subscription;
+  subscriptionCode: Subscription;
+  anio: any;
+  month: any;
+  day: any;
+  currentAlgorithmTypeSelected: any;
+  currentAlgorithmCodeSelected: any;
+  currentAlgorithmExecutionResult: any[];
   pathway1: File;
   pathway2: File;
   pathwayName1:string;
@@ -69,6 +69,9 @@ export class HomepageComponent implements OnInit {
 
   isExtendedSelected: boolean;
 
+  creatingGraph1:boolean;
+  creatingGraph2: boolean;
+
   ngOnInit() {
     this.pathway1final = "";
     this.pathway2final = "";
@@ -76,6 +79,8 @@ export class HomepageComponent implements OnInit {
     this.currentAlgorithmTypeSelected = "Original";
     this.currentAlgorithmCodeSelected = "A1";
     this.isExtendedSelected = this.currentAlgorithmTypeSelected == "Extended";
+    this.creatingGraph1 = false;
+    this.creatingGraph2 = false;
 
     this.anio = new Date().getFullYear();
     this.month = new Date().getMonth() + 1;
@@ -87,6 +92,14 @@ export class HomepageComponent implements OnInit {
       this.month = '0' + this.month.toString();
     }
 
+  }
+
+  createGraph1(){
+    this.creatingGraph1 = true;
+  }
+
+  createGraph2(){
+    this.creatingGraph2 = false;
   }
 
   someAlert(){
@@ -212,7 +225,7 @@ export class HomepageComponent implements OnInit {
   }
 
   savePathway2(){
-    this.pathwaySaved(this.graph1Name, this.graph2Name, this.pathwayGraph2, this.graph2Name, this.service)
+    this.pathwaySaved(this.graph2Name, this.graph2Name, this.pathwayGraph2, this.graph2Name, this.service)
       .then(savedData => {
         console.log(savedData);
       });
@@ -220,6 +233,7 @@ export class HomepageComponent implements OnInit {
 
   async onSelectedFile(fileInput: any) {
     if (fileInput.target.files && fileInput.target.files[0]) {
+      this.creatingGraph1 = false;
       this.pathway1 = fileInput.target.files[0];
       this.pathwayName1 = this.pathway1.name;
       console.log("Pathway1 name:");
@@ -254,6 +268,7 @@ export class HomepageComponent implements OnInit {
 
   public onSelectedFile2(fileInput: any) {
     if (fileInput.target.files && fileInput.target.files[0]) {
+      this.creatingGraph2 = false;
       this.pathway2 = fileInput.target.files[0];
       this.pathwayName2 = this.pathway2.name;
       console.log("Pathway2 name:");

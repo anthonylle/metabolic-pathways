@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './public/homepage/homepage.component';
 import { LandingpageComponent } from './public/landingpage/landingpage.component';
-import { AdminbaseComponent } from './public/adminbase/adminbase.component';
+import { AdminbaseComponent } from './admin/adminbase/adminbase.component';
 import { KgmlDataTableComponent } from './admin/kgml-data-table/kgml-data-table.component';
 import { KgmlFilesListComponent } from './admin/kgml-files-list/kgml-files-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,6 +24,8 @@ import {
 import { HomepageService } from './public/homepage/homepage.service';
 import { PathwayImageViewComponent } from './public/homepage/pathway-image-view/pathway-image-view.component';
 import { AlgorithmExecutionResultComponent } from './public/homepage/algorithm-execution-result/algorithm-execution-result.component';
+import { MetaboliteDictionaryComponent } from './admin/metabolite-dictionary/metabolite-dictionary.component';
+import { GraphMakerComponent } from './public/homepage/graph-maker/graph-maker.component';
 
 
 @NgModule({
@@ -37,7 +39,9 @@ import { AlgorithmExecutionResultComponent } from './public/homepage/algorithm-e
     AlgorithmSelectorComponent,
     PathwayImageViewComponent,
     AlignmentValuesTableComponent,
-    AlgorithmExecutionResultComponent
+    AlgorithmExecutionResultComponent,
+    MetaboliteDictionaryComponent,
+    GraphMakerComponent
   ],
   imports: [
     BrowserModule,

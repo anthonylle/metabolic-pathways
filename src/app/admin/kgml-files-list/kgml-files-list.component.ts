@@ -17,17 +17,16 @@ export class KgmlFilesListComponent implements OnInit {
   file: any;
   files: any = [];
   filesData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['File Name', 'Upload Date', 'Actions'];
+  displayedColumns: string[] = ['File Name', 'Created At', 'Actions'];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   searchKey: string;
 
   ngOnInit() {
-    this.service.getAllKGMLFiles().subscribe(files => {
-      console.log("2");
+    this.service.getAllPathways().subscribe(files => {
       this.files = files;
       this.filesData = new MatTableDataSource<any>(files as
-      {_id: string, length: number, chunkSize: number, uploadDate: string, filename: string, md5: string, contentType: string}[]);
+      {_id: string, name: string, file: BinaryType, graph: Object, image: BinaryType, createdAt: Date, updatedAt: Date, __v: number}[]);
       this.filesData.sort = this.sort;
       this.filesData.paginator = this.paginator;
     });
@@ -46,17 +45,6 @@ export class KgmlFilesListComponent implements OnInit {
         console.log(data);
       }
     )
-  }
-
-  public onArchivoSeleccionado($event: { target: { files: any[]; }; }) {
-    
-    for (let i = 0; i < $event.target.files.length; i++) {
-      this.file = $event.target.files[i];
-      console.log(this.file.name);
-    }
-    this.postcargarxml();
-    //var FileSaver = require('file-saver');
-    //FileSaver.saveAs(pathway, "pathway.xml");
   }
 
 

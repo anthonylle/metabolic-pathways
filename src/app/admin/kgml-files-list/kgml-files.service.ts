@@ -10,9 +10,8 @@ export class KgmlFilesService {
 
   constructor(private http: HttpClient) { }
 
-  getAllKGMLFiles(){
-    return this.http.get('http://localhost:3000/api/files').pipe(map((files) => {
-      console.log("9");
+  getAllPathways(){ // TODO dynamic data using Observable type for return
+    return this.http.get('http://localhost:3000/api/pathways/').pipe(map((files) => {
       return files;
     }));
   }

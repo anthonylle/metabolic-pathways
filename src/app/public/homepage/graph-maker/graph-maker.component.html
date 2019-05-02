@@ -1,0 +1,52 @@
+<div class="row main-content">
+
+  <div class="node-creator">
+    <h4>Add Node to Graph</h4>
+    <div class="input-group">
+      <input type="text" class="form-control" id="node-input" placeholder="Node name">
+      <span class="input-group-btn">
+        <span type="button" class="btn btn-default" (click)="addNode()">Add
+      </span>
+    </span>
+    </div>
+    <div class="node-viewer-body">
+      <ul id="nodes">
+        <li *ngFor="let node of currentNodes">
+          {{node['name']}}
+          <span class="btn btn-default" (click)="deleteNode(node)"><i class="fa fa-trash"></i></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="relations-creator">
+    <h4>Add Nodes Relation</h4>
+    <h5>From Node</h5>
+    <select class="form-control">
+      <option disabled selected value> -- Select a Node -- </option>
+      <option *ngFor="let node of currentNodes">{{node['name']}}</option>
+    </select>
+    <h5>To Node</h5>
+    <select class="form-control">
+      <option disabled selected value> -- Select a Node -- </option>
+      <option *ngFor="let node of currentNodes">{{node['name']}}</option>
+    </select>
+    <br>
+    <div class="input-group">
+      <span class="input-group-btn">
+        <span type="button" class="btn btn-default">Add
+      </span>
+    </span>
+    </div>
+  </div>
+
+  <div class="nodes-viewer">
+    <h4>Current Nodes</h4>
+
+  </div>
+
+  <div class="relations-viewer">
+
+  </div>
+
+</div>

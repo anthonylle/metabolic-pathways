@@ -11,6 +11,7 @@ if __name__ == '__main__':
         elif requestCode == "C2": print(createTwoCompoundGraphs(imagesFolderPath, tempUploadsFolderPath, sys.argv[1], sys.argv[2]))
         elif requestCode == "S1": print(createOneCentralNodeGraph(imagesFolderPath, tempUploadsFolderPath, sys.argv[1]))
         elif requestCode == "S2": print(createTwoCentralNodeGraphs(imagesFolderPath, tempUploadsFolderPath, sys.argv[1], sys.argv[2]))
+        elif requestCode == "GImage": print(createImageFromGraph(imagesFolderPath, sys.argv[1], sys.argv[2]))
         elif requestCode == "NIndex": print(getGraphNodesIndexes(sys.argv[1]))
         elif requestCode == "GPaths": print(getGraphPathsIndexes(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]))
         elif requestCode == "A1": print(alg1Transformation2DtoVector(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]))

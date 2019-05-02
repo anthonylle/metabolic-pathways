@@ -62,6 +62,16 @@ def getGraphPathsIndexes(pathwayGraph, startNodeGraph, endNodeGraph, maximumCycl
         output["Graph paths"][n] = temporalPath
     return json.dumps(output)
 
+# Code: GImage
+def createImageFromGraph(imagesFolderPath, fileName, pathwayCompoundsGraph):
+    output = {"Algorithm": "GImage", "Status": "Error"}
+    try:
+        generateGraph(imagesFolderPath, fileName, eval(pathwayCompoundsGraph))
+        output["Status"] = "True"
+    except Exception as e: print(e)
+
+    return json.dumps(output)
+
 # Code: A1
 def alg1Transformation2DtoVector(pathwayGraph1, pathwayGraph2, newMatch, newMismatch, newGap):
     output = {"Algorithm": "A1"}

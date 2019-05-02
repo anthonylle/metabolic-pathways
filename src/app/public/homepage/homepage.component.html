@@ -48,7 +48,7 @@
 										<h4>Pathway 2 <span class="h6" style="color:grey;">(KEGG KGML - .xml file)</span></h4>
 										<div class="input-group">
 											<span class="input-group-btn">
-                        <span class="btn btn-default "> New</span> <!-- far fa-plus-square -->
+                        <span class="btn btn-default " (click)="createGraph2()"> New</span> <!-- far fa-plus-square -->
                         <span class="btn btn-default "> Select</span> <!-- far fa-hand-pointer -->
 												<span class="btn btn-default btn-file">Browse..
 													<input type="file" (change)="onSelectedFile2($event)">
@@ -57,12 +57,15 @@
 											<input value={{pathwayName2}} type="text" class="form-control pathway-name" readonly>
 										</div>
                     <!-- -->
-                    <button class="btn btn-default btn-save far fa-save" *ngIf="pathwayGraph2" (click)="savePathway2()"> Save</button>
+                    <button class="btn btn-default" *ngIf="pathwayGraph2" (click)="savePathway2()"> Save</button>
                     <!-- -->
 										<div class="help-block with-errors"></div>
 									</div>
 								</div>
 							</div>
+
+              <app-graph-maker *ngIf="creatingGraph2"></app-graph-maker>
+
 						</div>
 						<br>
 						<div id="output" class="col-md-7"></div>

@@ -29,12 +29,20 @@ export class HomepageComponent implements OnInit {
       this.currentAlgorithmCodeSelected = code.code;
       }
     );
+
+    this.subscriptionGraph1 = service.getCurrentGraph1().subscribe(data =>{
+      console.log("RECEIVING FROM SERVICE GRAPH1");
+      console.log(data);
+    });
+
+
   }
 
   @ViewChild('content') content: ElementRef;
 
   subscriptionType: Subscription;
   subscriptionCode: Subscription;
+  subscriptionGraph1: Subscription;
   anio: any;
   month: any;
   day: any;
@@ -45,12 +53,9 @@ export class HomepageComponent implements OnInit {
   pathway2: File;
   pathwayName1:string;
   pathwayName2:string;
-  pathway1final:string; //= "ko00010";
-  pathway2final:string; //= "ko00010";
 
   pathwayGraph1: any;
   pathwayGraph2: any;
-  //imagepathway1:string =  require("../../../../images/cit00710-1556089914716.png");
   imagepathway1:string =  "../../../assets/images/negro.png";
   imagepathway2:string =  "../../../assets/images/negro.png";
 
@@ -73,8 +78,6 @@ export class HomepageComponent implements OnInit {
   creatingGraph2: boolean;
 
   ngOnInit() {
-    this.pathway1final = "";
-    this.pathway2final = "";
     this.isExtendedSelected = false;
     this.currentAlgorithmTypeSelected = "Original";
     this.currentAlgorithmCodeSelected = "A1";
@@ -99,7 +102,7 @@ export class HomepageComponent implements OnInit {
   }
 
   createGraph2(){
-    this.creatingGraph2 = false;
+    this.creatingGraph2 = true;
   }
 
   someAlert(){

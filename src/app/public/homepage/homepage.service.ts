@@ -12,6 +12,15 @@ export class HomepageService {
 
   private typeSubject = new Subject<any>();
   private codeSubject = new Subject<any>();
+  private graph1Subject = new Subject<any>();
+
+  setCurrentGraph1(graph: Object){
+    this.graph1Subject.next({graph1: graph});
+  }
+
+  getCurrentGraph1(): Observable<any>{
+    return this.graph1Subject.asObservable();
+  }
 
   getCurrentAlgorithmCode(): Observable<any>{
     return this.codeSubject.asObservable();

@@ -2,19 +2,19 @@
   <h4>Insert new entry</h4>
   <div class="row">
     <div class="col-md-5">
-      <h5>Name: </h5> <input type="text" placeholder="Name">
+      <h5>Name: </h5> <input type="text" placeholder="Name" name="name">
     </div>
     <div class="col-md-5">
-      <h5>Code: </h5> <input type="text" placeholder="Code">
+      <h5>Code: </h5> <input type="text" placeholder="Code" name="code">
     </div>
     <div class="col-md-2">
       <h5>Add</h5>
-      <button class="btn btn-default">Add new</button>
+      <button class="btn btn-default" (click)="addNewEntry()">Add new</button>
     </div>
   </div>
 </div>
 
-<div class="mat-elevation-z8">
+<!-- div class="mat-elevation-z8">
   <mat-table [dataSource]="translationsData" matSort>
 
     <ng-container matColumnDef="Name">
@@ -52,4 +52,26 @@
     <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(translationsData!=null && translationsData.data.length==0)}"></mat-footer-row>
   </mat-table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons> </mat-paginator>
+</div -->
+<br>
+<br>
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Created At</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of translations">
+          <td>{{row.name}}</td>
+          <td>{{row.code}}</td>
+          <td>{{row.createdAt}}</td>
+          <td><button class="btn btn-default" (click)="deleteEntry(row._id)"><i class="fa fa-trash"></i></button></td>
+      </tr>
+    </tbody>
+  </table>
 </div>

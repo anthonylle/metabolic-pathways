@@ -97,7 +97,8 @@ exports.update = (req, res) => {
 
 // Delete a translation with the specified translationId in the request
 exports.delete = (req, res) => {
-    Translation.findOneAndDelete(req.params.translationId)
+    Translation.findByIdAndRemove(req.params.translationId)
+    //Translation.remove({"_id": req.params.translationId})
     .then(pathway => {
         if(!pathway) {
             return res.status(404).send({

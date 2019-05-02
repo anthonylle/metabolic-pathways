@@ -366,6 +366,7 @@ export class HomepageComponent implements OnInit {
 
     //imagen estatica
     var image = new Image();
+    var image2 = new Image();
     var width;
     var height;
 
@@ -381,20 +382,26 @@ export class HomepageComponent implements OnInit {
     doc.text("Date: " + this.anio+"-"+this.month+"-"+this.day,10,50);
 
     image.onload = function() {
+      image2.onload = function() {
+        width = image.width;
+        height = image.height;
+        console.log(width);
+        console.log(height);
+        doc.text("Graph 1",5, 90);
+        doc.addImage(image,"PNG",5, 100, width/10, height/10);
+        width = image2.width;
+        height = image2.height;
+        doc.text("Graph 2",80, 90);
+        doc.addImage(image2,"PNG",80, 100, width/10, height/10);
+        doc.addPage();
+        doc.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
 
-      width = image.width;
-      height = image.height;
-      console.log(width);
-      console.log(height);
-      doc.addImage(image,"PNG",5, 100, width/10, height/10);
-
-      doc.addPage();
-      doc.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
-
-      doc.save('Resultado.pdf');
+        doc.save('Resultado.pdf');
+      };
+      image2.src = require("../../../../images/ko00010-1556587961812.png");
 
     };
-    image.src = require("../../../../images/cit00710-1556178748605.png");
+    image.src = require("../../../../images/cit00710-1556655778812.png");
       
     });
     

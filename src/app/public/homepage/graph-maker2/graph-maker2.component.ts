@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {HomepageService} from "../homepage.service";
 
 @Component({
-  selector: 'app-graph-maker',
-  templateUrl: './graph-maker.component.html',
-  styleUrls: ['./graph-maker.component.css']
+  selector: 'app-graph-maker2',
+  templateUrl: './graph-maker2.component.html',
+  styleUrls: ['./graph-maker2.component.css']
 })
-export class GraphMakerComponent implements OnInit {
+export class GraphMaker2Component implements OnInit {
 
   constructor(private service: HomepageService) { }
 
@@ -24,7 +24,7 @@ export class GraphMakerComponent implements OnInit {
   }
 
   addNode(){
-    const elem = (<HTMLInputElement>document.getElementById("node-input"));
+    const elem = (<HTMLInputElement>document.getElementById("node-input2"));
     const node = elem.value;
     elem.value = "";
     // TODO check for duplicated nodes in current array
@@ -97,7 +97,7 @@ export class GraphMakerComponent implements OnInit {
     this.graphName = elem.value;
     if(this.graphName !== ""){
       //alert("Now connect to service");
-      this.service.setCurrentGraph1(this.currentGraph, this.graphName, "Manual Definition");
+      this.service.setCurrentGraph2(this.currentGraph, this.graphName, "Manual Definition");
     }else{
       alert("Graph name cannot be empty");
     }

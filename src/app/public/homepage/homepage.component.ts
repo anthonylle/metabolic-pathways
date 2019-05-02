@@ -33,6 +33,52 @@ export class HomepageComponent implements OnInit {
     this.subscriptionGraph1 = service.getCurrentGraph1().subscribe(data =>{
       console.log("RECEIVING FROM SERVICE GRAPH1");
       console.log(data);
+      this.pathwayGraph1 = data.graph1;
+      this.graph1Name = data.name;
+      this.pathwayName1 = data.name;
+      this.creatingGraph1 = false;
+      this.startingNodeGraph1 = 0;
+      this.endingNodeGraph1 = 0;
+
+      let indexArgs = {"code": "NIndex", "pathwayGraph": this.pathwayGraph1};
+      this.callPython(indexArgs, this.service).then( indexes =>{
+        console.log("Indexes for this pathway1 are");
+        console.log(indexes);
+        this.pathwayNodes1 = [];
+        for (const key in indexes["Nodes indexes"]) {
+          if (indexes["Nodes indexes"].hasOwnProperty(key)) {
+            this.pathwayNodes1.push({"index": key, "node": indexes["Nodes indexes"][key]});
+          }
+        }
+        this.startingNodeGraph1 = 0;
+        this.endingNodeGraph1 = 0;
+      });
+
+    });
+
+    this.subscriptionGraph2 = service.getCurrentGraph2().subscribe(data =>{
+      console.log("RECEIVING FROM SERVICE GRAPH2");
+      console.log(data);
+      this.pathwayGraph2 = data.graph2;
+      this.graph2Name = data.name;
+      this.pathwayName2 = data.name;
+      this.creatingGraph2 = false;
+      this.startingNodeGraph2 = 0;
+      this.endingNodeGraph2 = 0;
+    });
+
+    let indexArgs = {"code": "NIndex", "pathwayGraph": this.pathwayGraph2};
+    this.callPython(indexArgs, this.service).then( indexes =>{
+      console.log("Indexes for this pathway2 are");
+      console.log(indexes);
+      this.pathwayNodes2 = [];
+      for (const key in indexes["Nodes indexes"]) {
+        if (indexes["Nodes indexes"].hasOwnProperty(key)) {
+          this.pathwayNodes2.push({"index": key, "node": indexes["Nodes indexes"][key]});
+        }
+      }
+      this.startingNodeGraph2 = 0;
+      this.endingNodeGraph2 = 0;
     });
 
 
@@ -43,6 +89,7 @@ export class HomepageComponent implements OnInit {
   subscriptionType: Subscription;
   subscriptionCode: Subscription;
   subscriptionGraph1: Subscription;
+  subscriptionGraph2: Subscription;
   anio: any;
   month: any;
   day: any;
@@ -295,8 +342,8 @@ export class HomepageComponent implements OnInit {
                 this.pathwayNodes2.push({"index": key, "node": indexes["Nodes indexes"][key]});
               }
             }
-            this.startingNodeGraph1 = 0;
-            this.endingNodeGraph1 = 0;
+            this.startingNodeGraph2 = 0;
+            this.endingNodeGraph2 = 0;
           });
         });
       });

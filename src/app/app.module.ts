@@ -26,6 +26,7 @@ import { PathwayImageViewComponent } from './public/homepage/pathway-image-view/
 import { AlgorithmExecutionResultComponent } from './public/homepage/algorithm-execution-result/algorithm-execution-result.component';
 import { MetaboliteDictionaryComponent } from './admin/metabolite-dictionary/metabolite-dictionary.component';
 import { GraphMakerComponent } from './public/homepage/graph-maker/graph-maker.component';
+import { GraphMaker2Component } from './public/homepage/graph-maker2/graph-maker2.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { GraphMakerComponent } from './public/homepage/graph-maker/graph-maker.c
     AlignmentValuesTableComponent,
     AlgorithmExecutionResultComponent,
     MetaboliteDictionaryComponent,
-    GraphMakerComponent
+    GraphMakerComponent,
+    GraphMaker2Component
   ],
   imports: [
     BrowserModule,

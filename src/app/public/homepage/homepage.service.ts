@@ -13,9 +13,18 @@ export class HomepageService {
   private typeSubject = new Subject<any>();
   private codeSubject = new Subject<any>();
   private graph1Subject = new Subject<any>();
+  private graph2Subject = new Subject<any>();
 
-  setCurrentGraph1(graph: Object){
-    this.graph1Subject.next({graph1: graph});
+  setCurrentGraph2(graph: Object, graphName: string, origin: string){
+    this.graph2Subject.next({graph2: graph, name: graphName, origin: origin});
+  }
+
+  getCurrentGraph2(): Observable<any>{
+    return this.graph2Subject.asObservable();
+  }
+
+  setCurrentGraph1(graph: Object, graphName: string, origin: string){
+    this.graph1Subject.next({graph1: graph, name: graphName, origin: origin});
   }
 
   getCurrentGraph1(): Observable<any>{

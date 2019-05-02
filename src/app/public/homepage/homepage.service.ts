@@ -30,6 +30,26 @@ export class HomepageService {
   }
 
 
+  savePathwayToDB(url: string, pathwayName: string, fileName: string, graph: Object, imageName: string):Observable<HttpEvent<any>>{
+    let formData = new FormData();
+    formData.append('name', pathwayName);
+    if(fileName)
+      formData.append('file', fileName +'.xml');
+    formData.append('graph', JSON.stringify(graph));
+    if(imageName)
+      formData.append('image', imageName+'.png');
+
+    let params = new HttpParams();
+
+    const options = {
+      params: params,
+      reportProgress: true,
+    };
+
+    const req = new HttpRequest('POST', url, formData, options);
+    return this.http.request(req);
+  }
+
   uploadXMLFile(url: string, file: File):Observable<HttpEvent<any>>{
     let formData = new FormData();
     formData.append('file', file);

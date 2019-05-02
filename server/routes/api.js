@@ -238,5 +238,16 @@ router.post('/copyKGMLToTempUploads', uploadLocal.single('file'),(req,res, next)
   res.send({filename});//(response);
 });
 
+router.post('/test', (req, res) => {
+  console.log(__dirname);
+  const imageData = fs.readFileSync( __dirname + '/../../images/XD.jpg'); //__dirname
+  try{
+    fs.writeFileSync(__dirname+'/../../images/XD_4.jpg', imageData);
+    process.exit(0);
+  }catch (e) {
+    console.log(e);
+  }
+});
+
 // Export this module
 module.exports = router;

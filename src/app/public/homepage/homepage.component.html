@@ -25,12 +25,17 @@
 										<h4>Pathway 1 <span class="h6" style="color:grey;">(KEGG KGML - .xml file)</span></h4>
 										<div class="input-group">
 											<span class="input-group-btn">
+                        <span class="btn btn-default" (click)="someAlert()"> New</span>
+                        <span class="btn btn-default"> Select</span>
 												<span type="button" class="btn btn-default btn-file">Browse..
 													<input type="file" (change)="onSelectedFile($event)">
 												</span>
 											</span>
 											<input value={{pathwayName1}} type="text" class="form-control pathway-name" readonly>
-										</div>
+                    </div>
+                    <!-- -->
+                    <button class="btn btn-default" *ngIf="pathwayGraph1" (click)="savePathway1()"> Save</button>
+                    <!-- -->
 										<div class="help-block with-errors"></div>
 									</div>
 								</div>
@@ -41,12 +46,17 @@
 										<h4>Pathway 2 <span class="h6" style="color:grey;">(KEGG KGML - .xml file)</span></h4>
 										<div class="input-group">
 											<span class="input-group-btn">
+                        <span class="btn btn-default "> New</span> <!-- far fa-plus-square -->
+                        <span class="btn btn-default "> Select</span> <!-- far fa-hand-pointer -->
 												<span class="btn btn-default btn-file">Browse..
 													<input type="file" (change)="onSelectedFile2($event)">
 												</span>
 											</span>
 											<input value={{pathwayName2}} type="text" class="form-control pathway-name" readonly>
 										</div>
+                    <!-- -->
+                    <button class="btn btn-default btn-save far fa-save" *ngIf="pathwayGraph2" (click)="savePathway2()"> Save</button>
+                    <!-- -->
 										<div class="help-block with-errors"></div>
 									</div>
 								</div>

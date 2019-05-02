@@ -41,7 +41,6 @@ export class HomepageComponent implements OnInit {
     );
   }
 
-
   pathway1: File;
   pathway2: File;
   pathwayName1:string;
@@ -54,29 +53,21 @@ export class HomepageComponent implements OnInit {
   //imagepathway1:string =  require("../../../../images/cit00710-1556089914716.png");
   imagepathway1:string =  "../../../assets/images/negro.png";
   imagepathway2:string =  "../../../assets/images/negro.png";
-  
+
+  graph1Name: string;
+  graph2Name: string;
+
   pathwayNodes1: any[];
   pathwayNodes2: any[];
-  pathwayNodes1Model: any;
   startingNodeGraph1:number;
   startingNodeGraph2:number;
   endingNodeGraph1:number;
   endingNodeGraph2:number;
-
   matchValue:number;
   missmatchValue:number;
   gapValue:number;
 
   isExtendedSelected: boolean;
-
-  //obtener valores de la tabla
-  /*var matchvalue = (<HTMLInputElement>document.getElementById("matchValue")).value;
-  var matchvalue = (<HTMLInputElement>document.getElementById("mismatchValue")).value;
-  var matchvalue = (<HTMLInputElement>document.getElementById("gapValue")).value;*/
-
-  //obtener el algortimo a utilizar
-  //var matchvalue = (<HTMLInputElement>document.getElementById("final-algorithm-selector")).value;
-
 
   ngOnInit() {
     this.pathway1final = "";
@@ -98,8 +89,8 @@ export class HomepageComponent implements OnInit {
 
   }
 
-  checkAlgorithmType(){
-    alert("Current Algorithm Type: " + this.currentAlgorithmTypeSelected);
+  someAlert(){
+    alert(this.graph1Name);
   }
 
   processPathways(){
@@ -212,7 +203,21 @@ export class HomepageComponent implements OnInit {
         break;
     }
   }
-  
+
+  savePathway1(){
+    this.pathwaySaved(this.graph1Name, this.graph1Name, this.pathwayGraph1, this.graph1Name, this.service)
+      .then(savedData => {
+        console.log(savedData);
+      });
+  }
+
+  savePathway2(){
+    this.pathwaySaved(this.graph1Name, this.graph2Name, this.pathwayGraph2, this.graph2Name, this.service)
+      .then(savedData => {
+        console.log(savedData);
+      });
+  }
+
   async onSelectedFile(fileInput: any) {
     if (fileInput.target.files && fileInput.target.files[0]) {
       this.pathway1 = fileInput.target.files[0];
@@ -220,6 +225,7 @@ export class HomepageComponent implements OnInit {
       console.log("Pathway1 name:");
       console.log(this.pathwayName1);
       this.fileUploaded(this.pathway1, this.service).then(filename => {
+        this.graph1Name = filename as string;
         console.log("filename");
         console.log(filename);
         let args = {"code": "C1", "filename": filename + ".xml"};
@@ -253,6 +259,7 @@ export class HomepageComponent implements OnInit {
       console.log("Pathway2 name:");
       console.log(this.pathwayName2);
       this.fileUploaded(this.pathway2, this.service).then(filename => {
+        this.graph2Name = filename as string;
         console.log(filename);
         let args = {"code": "C1", "filename": filename + ".xml"};
         this.callPython(args, this.service).then(data => {
@@ -279,6 +286,22 @@ export class HomepageComponent implements OnInit {
     //this.imagepathway1 =  require("../../../../images/cit00710-1556089914716.png");
   }
 
+  pathwaySaved = function(name, file, graph, image, providedService){
+    return new Promise( (resolve, reject) => {
+      providedService.savePathwayToDB('//localhost:3000/api/pathways/', name, file, graph, image).subscribe(
+        (data) => {
+          if(data.body){
+            let key;
+            for (key in data.body) {
+              if (data.body.hasOwnProperty(key)) {
+                resolve(data.body[key]);
+              }
+            }
+          }
+        }
+      );
+    });
+  };
 
   callPython  = function(args, providedService){
     return new Promise( (resolve, reject)=>{
@@ -323,40 +346,40 @@ export class HomepageComponent implements OnInit {
     this.endingNodeGraph2 = Number(node.target.value);
   }
   
-    downloadpdf(){
-      const doc = new jsPDF();
+  downloadpdf(){
+    const doc = new jsPDF();
 
-      //imagen estatica
-      var image = new Image();
-      var width;
-      var height;
+    //imagen estatica
+    var image = new Image();
+    var width;
+    var height;
 
-      html2canvas(document.querySelector('#content')).then(canvas => {
-      //logo del tec
-      var logo = new Image();
-      logo.src = "../../../assets/images/logo-tec.png";
-      doc.addImage(logo,"PNG",165, 0, 40, 20);
-      //titulo
-      doc.text('Metabolic Pathways Comparison',60,30);
-  
-      //fecha
-      doc.text("Date: " + this.anio+"-"+this.month+"-"+this.day,10,50);
+    html2canvas(document.querySelector('#content')).then(canvas => {
+    //logo del tec
+    var logo = new Image();
+    logo.src = "../../../assets/images/logo-tec.png";
+    doc.addImage(logo,"PNG",165, 0, 40, 20);
+    //titulo
+    doc.text('Metabolic Pathways Comparison',60,30);
 
-      image.onload = function() {
-      
-        width = image.width;
-        height = image.height;
-        console.log(width);
-        console.log(height);
-        doc.addImage(image,"PNG",5, 100, width/10, height/10);
+    //fecha
+    doc.text("Date: " + this.anio+"-"+this.month+"-"+this.day,10,50);
 
-        doc.addPage();
-        doc.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
+    image.onload = function() {
 
-        doc.save('Resultado.pdf');
-        
-      };
-      image.src = require("../../../../images/cit00710-1556178748605.png");
+      width = image.width;
+      height = image.height;
+      console.log(width);
+      console.log(height);
+      doc.addImage(image,"PNG",5, 100, width/10, height/10);
+
+      doc.addPage();
+      doc.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
+
+      doc.save('Resultado.pdf');
+
+    };
+    image.src = require("../../../../images/cit00710-1556178748605.png");
       
     });
     

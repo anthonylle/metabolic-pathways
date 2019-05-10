@@ -67,7 +67,7 @@
 						<br>
 						<div id="output" class="col-md-7"></div>
 					</div>
-						<app-pathway-image-view [imagepathway1] = "imagepathway1" [imagepathway2] = "imagepathway2"></app-pathway-image-view>
+						<app-pathway-image-view *ngIf="pathwayGraph1 && pathwayGraph2" [imagepathway1] = "imagepathway1" [imagepathway2] = "imagepathway2"></app-pathway-image-view>
 				</div>
         <div class="container"> <!-- <app-algorithm-selector></app-algorithm-selector> -->
 					<div class="row">
@@ -145,7 +145,7 @@
 					<br>
 					<div class="col-md-5">
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-6" *ngIf="pathwayGraph1 && pathwayGraph2">
 								<input type="submit" class="btn btn-success" value="Process Pathways" (click)="processPathways()">
 							</div>
 							<div class="col-md-6" *ngIf="currentAlgorithmExecutionResult">
